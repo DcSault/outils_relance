@@ -358,17 +358,17 @@ const reminderController = {
         // Recherche des informations associées
         const template = templatesData.templates.find(t => t.id === reminder.templateId);
         const item = inventoryData.items.find(i => i.id === reminder.itemId);
-        const user = usersData.users.find(u => u.id === reminder.userId);
-        const agency = user && user.agency ? agenciesData.agencies.find(a => a.id === user.agency) : null;
+        const recipient = usersData.users.find(u => u.id === reminder.userId);
+        const agency = recipient && recipient.agency ? agenciesData.agencies.find(a => a.id === recipient.agency) : null;
         
-        if (!template || !item || !user) {
+        if (!template || !item || !recipient) {
             req.session.error = 'Informations manquantes pour préparer le mail';
             return res.redirect('/reminders');
         }
         
         // Préparation des données pour le template
         const mailData = {
-            userName: user.username,
+            userName: recipient.username,
             itemName: item.name,
             borrowDate: item.borrowDate,
             reminderDate: reminder.reminderDate,
@@ -376,8 +376,12 @@ const reminderController = {
             customVariables: {} // Variables personnalisées supplémentaires si nécessaire
         };
         
+        // Vérifier si le destinataire a un email défini et non vide
+        const hasEmail = recipient.email && recipient.email.trim() !== '';
+        const recipientEmail = hasEmail ? recipient.email : '';
+        
         // Préparation du mail
-        const mailInfo = mailUtils.prepareMailFromTemplate(template, mailData, user.email || '');
+        const mailInfo = mailUtils.prepareMailFromTemplate(template, mailData, recipientEmail);
         
         // Rendu de la page de prévisualisation du mail
         res.render('reminders/prepare-email', {
@@ -385,11 +389,15 @@ const reminderController = {
             reminder,
             template,
             item,
-            user,
+            recipient: {
+                ...recipient,
+                email: recipientEmail // S'assurer que l'email est une chaîne vide si non défini
+            },
             agency,
             mailInfo,
             mailtoLink: mailInfo.mailtoLink,
-            user: req.session.user
+            hasEmail,
+            user: req.session.user // L'utilisateur connecté
         });
     },
     

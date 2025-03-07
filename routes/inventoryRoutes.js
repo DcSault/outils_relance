@@ -17,5 +17,6 @@ router.get('/delete/:id', isAuthenticated, isAdmin, inventoryController.deleteIt
 router.post('/lend/:id', isAuthenticated, isTechnicien, inventoryController.lendItem);
 router.post('/assign/:id', isAuthenticated, isTechnicien, inventoryController.assignItem);
 router.get('/return/:id', isAuthenticated, isTechnicien, inventoryController.returnItem);
+router.post('/repair/:id', isAuthenticated, isTechnicien, inventoryController.addRepairHistory);
 
 module.exports = router; 

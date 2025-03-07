@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 // Chemin vers les fichiers de données
 const usersFilePath = path.join(__dirname, '../data/users.json');
 const agenciesFilePath = path.join(__dirname, '../data/agencies.json');
+const rolesFilePath = path.join(__dirname, '../data/roles.json');
 
 // Fonction utilitaire pour lire les données des utilisateurs
 const getUsersData = () => {
@@ -39,8 +40,41 @@ const getAgenciesData = () => {
     }
 };
 
+// Fonction utilitaire pour lire les données des rôles
+const getRolesData = () => {
+    try {
+        const data = fs.readFileSync(rolesFilePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Erreur lors de la lecture du fichier roles.json:', error);
+        return { roles: [] };
+    }
+};
+
+// Fonction utilitaire pour écrire les données des rôles
+const saveRolesData = (data) => {
+    try {
+        fs.writeFileSync(rolesFilePath, JSON.stringify(data, null, 2));
+        return true;
+    } catch (error) {
+        console.error('Erreur lors de l\'écriture du fichier roles.json:', error);
+        return false;
+    }
+};
+
 // Contrôleur pour les utilisateurs
 const userController = {
+    // Afficher la page de gestion des rôles et droits
+    showRolesManagement: (req, res) => {
+        const rolesData = getRolesData();
+        
+        res.render('users/roles', {
+            title: 'Gestion des Rôles et Droits',
+            roles: rolesData.roles,
+            user: req.session.user
+        });
+    },
+    
     // Afficher tous les utilisateurs
     getAllUsers: (req, res) => {
         const usersData = getUsersData();
@@ -259,6 +293,133 @@ const userController = {
         // Redirection avec message de succès
         req.session.success = 'Utilisateur supprimé avec succès';
         res.redirect('/users');
+    },
+    
+    // Créer un nouveau rôle
+    createRole: (req, res) => {
+        const { name, description, baseRole } = req.body;
+        
+        // Validation de base
+        if (!name || name.trim() === '') {
+            return res.status(400).json({ success: false, message: 'Le nom du rôle est requis' });
+        }
+        
+        // Récupération des données des rôles
+        const rolesData = getRolesData();
+        
+        // Vérifier si le rôle existe déjà
+        if (rolesData.roles.some(r => r.name.toLowerCase() === name.toLowerCase())) {
+            return res.status(400).json({ success: false, message: 'Un rôle avec ce nom existe déjà' });
+        }
+        
+        // Récupérer les permissions du rôle de base
+        const baseRoleData = rolesData.roles.find(r => r.id === baseRole);
+        if (!baseRoleData) {
+            return res.status(400).json({ success: false, message: 'Rôle de base invalide' });
+        }
+        
+        // Générer un ID unique pour le nouveau rôle
+        const roleId = 'role_' + uuidv4().substring(0, 8);
+        
+        // Créer le nouveau rôle
+        const newRole = {
+            id: roleId,
+            name: name.trim(),
+            description: description || '',
+            isSystem: false,
+            permissions: { ...baseRoleData.permissions }
+        };
+        
+        // Ajouter le rôle à la liste
+        rolesData.roles.push(newRole);
+        
+        // Sauvegarder les données
+        if (!saveRolesData(rolesData)) {
+            return res.status(500).json({ success: false, message: 'Erreur lors de la sauvegarde du rôle' });
+        }
+        
+        // Retourner le succès
+        return res.status(200).json({ success: true, role: newRole });
+    },
+    
+    // Mettre à jour les permissions d'un rôle
+    updateRolePermissions: (req, res) => {
+        const { roleId, permissions } = req.body;
+        
+        // Récupération des données des rôles
+        const rolesData = getRolesData();
+        
+        // Trouver le rôle à mettre à jour
+        const roleIndex = rolesData.roles.findIndex(r => r.id === roleId);
+        if (roleIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Rôle non trouvé' });
+        }
+        
+        // Vérifier si c'est un rôle système
+        if (rolesData.roles[roleIndex].isSystem) {
+            return res.status(403).json({ success: false, message: 'Les rôles système ne peuvent pas être modifiés' });
+        }
+        
+        // Mettre à jour les permissions
+        rolesData.roles[roleIndex].permissions = permissions;
+        
+        // Sauvegarder les données
+        if (!saveRolesData(rolesData)) {
+            return res.status(500).json({ success: false, message: 'Erreur lors de la sauvegarde des permissions' });
+        }
+        
+        // Retourner le succès
+        return res.status(200).json({ success: true });
+    },
+    
+    // Supprimer un rôle
+    deleteRole: (req, res) => {
+        const { roleId } = req.params;
+        
+        // Récupération des données des rôles
+        const rolesData = getRolesData();
+        
+        // Trouver le rôle à supprimer
+        const roleIndex = rolesData.roles.findIndex(r => r.id === roleId);
+        if (roleIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Rôle non trouvé' });
+        }
+        
+        // Vérifier si c'est un rôle système
+        if (rolesData.roles[roleIndex].isSystem) {
+            return res.status(403).json({ success: false, message: 'Les rôles système ne peuvent pas être supprimés' });
+        }
+        
+        // Récupérer les données des utilisateurs
+        const usersData = getUsersData();
+        
+        // Mettre à jour les utilisateurs qui avaient ce rôle
+        let usersUpdated = false;
+        usersData.users.forEach(user => {
+            if (user.role === roleId) {
+                user.role = 'user'; // Réaffecter au rôle utilisateur par défaut
+                user.updatedAt = new Date().toISOString();
+                usersUpdated = true;
+            }
+        });
+        
+        // Sauvegarder les données des utilisateurs si nécessaire
+        if (usersUpdated) {
+            if (!saveUsersData(usersData)) {
+                return res.status(500).json({ success: false, message: 'Erreur lors de la mise à jour des utilisateurs' });
+            }
+        }
+        
+        // Supprimer le rôle
+        rolesData.roles.splice(roleIndex, 1);
+        
+        // Sauvegarder les données des rôles
+        if (!saveRolesData(rolesData)) {
+            return res.status(500).json({ success: false, message: 'Erreur lors de la suppression du rôle' });
+        }
+        
+        // Retourner le succès
+        return res.status(200).json({ success: true });
     }
 };
 

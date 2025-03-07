@@ -1,0 +1,76 @@
+{
+  "roles": [
+    {
+      "id": "admin",
+      "name": "Administrateur",
+      "description": "Accès complet à toutes les fonctionnalités",
+      "isSystem": true,
+      "permissions": {
+        "perm_inventory_view": true,
+        "perm_inventory_add": true,
+        "perm_inventory_edit": true,
+        "perm_inventory_delete": true,
+        "perm_reminders_view": true,
+        "perm_reminders_create": true,
+        "perm_reminders_send": true,
+        "perm_templates_manage": true,
+        "perm_agencies_view": true,
+        "perm_agencies_manage": true,
+        "perm_users_view": true,
+        "perm_users_create": true,
+        "perm_users_edit": true,
+        "perm_users_delete": true,
+        "perm_roles_manage": true,
+        "perm_system_settings": true
+      }
+    },
+    {
+      "id": "technicien",
+      "name": "Technicien DSI",
+      "description": "Gestion de l'inventaire et des relances",
+      "isSystem": true,
+      "permissions": {
+        "perm_inventory_view": true,
+        "perm_inventory_add": true,
+        "perm_inventory_edit": true,
+        "perm_inventory_delete": false,
+        "perm_reminders_view": true,
+        "perm_reminders_create": true,
+        "perm_reminders_send": true,
+        "perm_templates_manage": true,
+        "perm_agencies_view": true,
+        "perm_agencies_manage": false,
+        "perm_users_view": true,
+        "perm_users_create": false,
+        "perm_users_edit": false,
+        "perm_users_delete": false,
+        "perm_roles_manage": false,
+        "perm_system_settings": false
+      }
+    },
+    {
+      "id": "user",
+      "name": "Utilisateur",
+      "description": "Accès limité en lecture seule",
+      "isSystem": true,
+      "permissions": {
+        "perm_inventory_view": true,
+        "perm_inventory_add": false,
+        "perm_inventory_edit": false,
+        "perm_inventory_delete": false,
+        "perm_reminders_view": false,
+        "perm_reminders_create": false,
+        "perm_reminders_send": false,
+        "perm_templates_manage": false,
+        "perm_agencies_view": true,
+        "perm_agencies_manage": false,
+        "perm_users_view": false,
+        "perm_users_create": false,
+        "perm_users_edit": false,
+        "perm_users_delete": false,
+        "perm_roles_manage": false,
+        "perm_system_settings": false
+      }
+    }
+  ]
+}

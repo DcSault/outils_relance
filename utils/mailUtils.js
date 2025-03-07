@@ -64,8 +64,11 @@ const prepareMailFromTemplate = (template, data, recipientEmail) => {
     const subject = replaceTemplateVariables(template.subject, variables);
     let body = replaceTemplateVariables(template.content, variables);
     
-    // Supprimer les espaces au début du mail
-    body = body.trimStart();
+    // Nettoyer le corps du mail
+    body = body.trimStart().trim();
+    
+    // Normaliser les retours à la ligne (éviter les doubles retours à la ligne)
+    body = body.replace(/\n\s*\n/g, '\n\n');
     
     // Générer le lien mailto
     const mailtoLink = generateMailtoLink(recipientEmail, subject, body);
@@ -78,8 +81,21 @@ const prepareMailFromTemplate = (template, data, recipientEmail) => {
     };
 };
 
+/**
+ * Formate le contenu du mail pour la copie dans le presse-papiers
+ * @param {string} to - Adresse email du destinataire
+ * @param {string} subject - Sujet du mail
+ * @param {string} body - Corps du mail
+ * @returns {string} - Contenu formaté pour la copie
+ */
+const formatMailForClipboard = (to, subject, body) => {
+    // Retourner uniquement le contenu du mail sans les en-têtes
+    return body;
+};
+
 module.exports = {
     replaceTemplateVariables,
     generateMailtoLink,
-    prepareMailFromTemplate
+    prepareMailFromTemplate,
+    formatMailForClipboard
 }; 

@@ -1,0 +1,518 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-shield me-2 text-primary"></i>Gestion des Rôles et Droits</h2>
+    <div>
+        <a href="/users" class="btn btn-outline-secondary me-2">
+            <i class="fas fa-arrow-left me-1"></i>Retour aux utilisateurs
+        </a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRoleModal">
+            <i class="fas fa-plus-circle me-1"></i>Nouveau Rôle
+        </button>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-users-cog me-2"></i>Rôles disponibles</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group roles-list">
+                    <% roles.forEach(function(role) { %>
+                        <a href="#" class="list-group-item list-group-item-action <%= role.id === 'admin' ? 'active' : '' %>" data-role="<%= role.id %>">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1"><%= role.name %></h6>
+                                    <small><%= role.description %></small>
+                                </div>
+                                <% if (role.isSystem) { %>
+                                    <% if (role.id === 'admin') { %>
+                                        <span class="badge bg-danger rounded-pill">Admin</span>
+                                    <% } else if (role.id === 'technicien') { %>
+                                        <span class="badge bg-primary rounded-pill">Tech</span>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary rounded-pill">User</span>
+                                    <% } %>
+                                <% } else { %>
+                                    <span class="badge bg-info rounded-pill">Custom</span>
+                                <% } %>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            </div>
+            <div class="card-footer bg-white">
+                <small class="text-muted">Sélectionnez un rôle pour voir et modifier ses droits</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-key me-2"></i>Droits du rôle: <span id="currentRoleName">Administrateur</span></h5>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-outline-danger me-2" id="deleteRoleBtn" disabled>
+                            <i class="fas fa-trash me-1"></i>Supprimer
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="saveRoleBtn">
+                            <i class="fas fa-save me-1"></i>Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="rolePermissionsForm">
+                    <input type="hidden" id="roleId" name="roleId" value="admin">
+                    
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">Gestion de l'Inventaire</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_inventory_view" checked>
+                                    <label class="form-check-label" for="perm_inventory_view">Consulter l'inventaire</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_inventory_add" checked>
+                                    <label class="form-check-label" for="perm_inventory_add">Ajouter des éléments</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_inventory_edit" checked>
+                                    <label class="form-check-label" for="perm_inventory_edit">Modifier des éléments</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_inventory_delete" checked>
+                                    <label class="form-check-label" for="perm_inventory_delete">Supprimer des éléments</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">Gestion des Relances</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_reminders_view" checked>
+                                    <label class="form-check-label" for="perm_reminders_view">Consulter les relances</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_reminders_create" checked>
+                                    <label class="form-check-label" for="perm_reminders_create">Créer des relances</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_reminders_send" checked>
+                                    <label class="form-check-label" for="perm_reminders_send">Envoyer des relances</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_templates_manage" checked>
+                                    <label class="form-check-label" for="perm_templates_manage">Gérer les templates</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">Gestion des Agences</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_agencies_view" checked>
+                                    <label class="form-check-label" for="perm_agencies_view">Consulter les agences</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_agencies_manage" checked>
+                                    <label class="form-check-label" for="perm_agencies_manage">Gérer les agences</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">Gestion des Utilisateurs</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_users_view" checked>
+                                    <label class="form-check-label" for="perm_users_view">Consulter les utilisateurs</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_users_create" checked>
+                                    <label class="form-check-label" for="perm_users_create">Créer des utilisateurs</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_users_edit" checked>
+                                    <label class="form-check-label" for="perm_users_edit">Modifier des utilisateurs</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_users_delete" checked>
+                                    <label class="form-check-label" for="perm_users_delete">Supprimer des utilisateurs</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">Administration</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_roles_manage" checked>
+                                    <label class="form-check-label" for="perm_roles_manage">Gérer les rôles et droits</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="perm_system_settings" checked>
+                                    <label class="form-check-label" for="perm_system_settings">Paramètres système</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour créer un nouveau rôle -->
+<div class="modal fade" id="newRoleModal" tabindex="-1" aria-labelledby="newRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newRoleModalLabel">Créer un nouveau rôle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newRoleForm">
+                    <div class="mb-3">
+                        <label for="roleName" class="form-label">Nom du rôle</label>
+                        <input type="text" class="form-control" id="roleName" required>
+                        <div class="form-text">Donnez un nom descriptif au rôle (ex: "Responsable Agence")</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roleDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="roleDescription" rows="3"></textarea>
+                        <div class="form-text">Décrivez brièvement les responsabilités de ce rôle</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Basé sur le rôle</label>
+                        <select class="form-select" id="baseRole">
+                            <option value="user">Utilisateur (droits minimaux)</option>
+                            <option value="technicien">Technicien DSI</option>
+                            <option value="admin">Administrateur (tous les droits)</option>
+                        </select>
+                        <div class="form-text">Les droits du rôle sélectionné seront copiés comme point de départ</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="createRoleBtn">Créer le rôle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="deleteRoleModal" tabindex="-1" aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteRoleModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer le rôle <strong id="roleToDelete"></strong> ?</p>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Attention :</strong> Cette action est irréversible. Les utilisateurs ayant ce rôle seront réaffectés au rôle "Utilisateur".
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteRoleBtn">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des rôles prédéfinis
+        const predefinedRoles = {
+            <% roles.forEach(function(role, index) { %>
+                '<%= role.id %>': {
+                    name: '<%= role.name %>',
+                    isSystem: <%= role.isSystem %>,
+                    permissions: JSON.parse('<%- JSON.stringify(role.permissions) %>')
+                }<%= index < roles.length - 1 ? ',' : '' %>
+            <% }); %>
+        };
+        
+        // Fonction pour charger les permissions d'un rôle
+        function loadRolePermissions(roleId) {
+            const role = predefinedRoles[roleId];
+            if (!role) return;
+            
+            // Mettre à jour le titre
+            document.getElementById('currentRoleName').textContent = role.name;
+            document.getElementById('roleId').value = roleId;
+            
+            // Activer/désactiver le bouton de suppression
+            const deleteBtn = document.getElementById('deleteRoleBtn');
+            if (['admin', 'technicien', 'user'].includes(roleId)) {
+                deleteBtn.disabled = true; // Rôles prédéfinis non supprimables
+            } else {
+                deleteBtn.disabled = false;
+            }
+            
+            // Mettre à jour les checkboxes
+            Object.keys(role.permissions).forEach(permId => {
+                const checkbox = document.getElementById(permId);
+                if (checkbox) {
+                    checkbox.checked = role.permissions[permId];
+                    
+                    // Désactiver la modification pour les rôles prédéfinis
+                    if (['admin', 'technicien', 'user'].includes(roleId)) {
+                        checkbox.disabled = true;
+                    } else {
+                        checkbox.disabled = false;
+                    }
+                }
+            });
+        }
+        
+        // Charger le rôle par défaut (admin)
+        loadRolePermissions('admin');
+        
+        // Gestion des clics sur les rôles
+        document.querySelectorAll('.roles-list a').forEach(roleLink => {
+            roleLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Mettre à jour la classe active
+                document.querySelectorAll('.roles-list a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Charger les permissions du rôle
+                const roleId = this.dataset.role;
+                loadRolePermissions(roleId);
+            });
+        });
+        
+        // Gestion du bouton de suppression
+        document.getElementById('deleteRoleBtn').addEventListener('click', function() {
+            const roleId = document.getElementById('roleId').value;
+            const roleName = document.getElementById('currentRoleName').textContent;
+            
+            // Mettre à jour le modal de confirmation
+            document.getElementById('roleToDelete').textContent = roleName;
+            
+            // Afficher le modal
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteRoleModal'));
+            deleteModal.show();
+        });
+        
+        // Gestion du bouton de création de rôle
+        document.getElementById('createRoleBtn').addEventListener('click', function() {
+            const roleName = document.getElementById('roleName').value.trim();
+            const roleDescription = document.getElementById('roleDescription').value.trim();
+            const baseRole = document.getElementById('baseRole').value;
+            
+            if (!roleName) {
+                alert('Veuillez saisir un nom pour le rôle');
+                return;
+            }
+            
+            // Appel API pour créer le rôle
+            fetch('/users/roles/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: roleName,
+                    description: roleDescription,
+                    baseRole: baseRole
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Ajouter le nouveau rôle à la liste
+                    const rolesList = document.querySelector('.roles-list');
+                    const newRoleItem = document.createElement('a');
+                    newRoleItem.href = '#';
+                    newRoleItem.className = 'list-group-item list-group-item-action';
+                    newRoleItem.dataset.role = data.role.id;
+                    newRoleItem.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${data.role.name}</h6>
+                                <small>${data.role.description}</small>
+                            </div>
+                            <span class="badge bg-info rounded-pill">Custom</span>
+                        </div>
+                    `;
+                    
+                    // Ajouter l'événement de clic
+                    newRoleItem.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Mettre à jour la classe active
+                        document.querySelectorAll('.roles-list a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Charger les permissions du rôle
+                        loadRolePermissions(data.role.id);
+                    });
+                    
+                    rolesList.appendChild(newRoleItem);
+                    
+                    // Ajouter le rôle aux rôles prédéfinis
+                    predefinedRoles[data.role.id] = {
+                        name: data.role.name,
+                        isSystem: false,
+                        permissions: data.role.permissions
+                    };
+                    
+                    // Fermer le modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('newRoleModal'));
+                    modal.hide();
+                    
+                    // Réinitialiser le formulaire
+                    document.getElementById('newRoleForm').reset();
+                    
+                    // Afficher un message de succès
+                    alert(`Rôle "${data.role.name}" créé avec succès !`);
+                    
+                    // Sélectionner le nouveau rôle
+                    newRoleItem.click();
+                } else {
+                    alert(`Erreur: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la création du rôle');
+            });
+        });
+        
+        // Gestion du bouton de confirmation de suppression
+        document.getElementById('confirmDeleteRoleBtn').addEventListener('click', function() {
+            const roleId = document.getElementById('roleId').value;
+            
+            // Appel API pour supprimer le rôle
+            fetch(`/users/roles/${roleId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Supprimer le rôle de la liste
+                    const roleItem = document.querySelector(`.roles-list a[data-role="${roleId}"]`);
+                    if (roleItem) {
+                        roleItem.remove();
+                    }
+                    
+                    // Supprimer le rôle des rôles prédéfinis
+                    delete predefinedRoles[roleId];
+                    
+                    // Fermer le modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteRoleModal'));
+                    modal.hide();
+                    
+                    // Afficher un message de succès
+                    alert('Rôle supprimé avec succès !');
+                    
+                    // Rediriger vers le rôle utilisateur
+                    document.querySelector('.roles-list a[data-role="user"]').click();
+                } else {
+                    alert(`Erreur: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la suppression du rôle');
+            });
+        });
+        
+        // Gestion du bouton d'enregistrement
+        document.getElementById('saveRoleBtn').addEventListener('click', function() {
+            const roleId = document.getElementById('roleId').value;
+            
+            // Vérifier si c'est un rôle prédéfini
+            if (['admin', 'technicien', 'user'].includes(roleId)) {
+                alert('Les rôles prédéfinis ne peuvent pas être modifiés');
+                return;
+            }
+            
+            // Récupérer toutes les permissions
+            const permissions = {};
+            document.querySelectorAll('#rolePermissionsForm input[type="checkbox"]').forEach(checkbox => {
+                permissions[checkbox.id] = checkbox.checked;
+            });
+            
+            // Appel API pour mettre à jour les permissions
+            fetch('/users/roles/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    roleId: roleId,
+                    permissions: permissions
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mettre à jour les permissions dans les rôles prédéfinis
+                    if (predefinedRoles[roleId]) {
+                        predefinedRoles[roleId].permissions = permissions;
+                    }
+                    
+                    // Afficher un message de succès
+                    alert('Modifications enregistrées avec succès !');
+                } else {
+                    alert(`Erreur: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de l\'enregistrement des modifications');
+            });
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %> 

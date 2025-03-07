@@ -4,24 +4,89 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm">
             <div class="card-body">
-                <h2 class="card-title">
-                    <i class="fas fa-tachometer-alt me-2 text-primary"></i>Tableau de bord
-                </h2>
-                <p class="card-text">
-                    Bienvenue, <strong><%= user.username %></strong>. 
-                    <% if (user.role === 'admin') { %>
-                        <span class="badge bg-danger">Administrateur</span>
-                    <% } else if (user.role === 'technicien') { %>
-                        <span class="badge bg-primary">Technicien DSI</span>
-                    <% } else { %>
-                        <span class="badge bg-secondary">Employé</span>
-                    <% } %>
-                    Voici une vue d'ensemble de votre système.
-                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-tachometer-alt me-2 text-primary"></i>Tableau de bord
+                        </h2>
+                        <p class="card-text">
+                            Bienvenue, <strong><%= user.username %></strong>. 
+                            <% if (user.role === 'admin') { %>
+                                <span class="badge bg-danger">Administrateur</span>
+                            <% } else if (user.role === 'technicien') { %>
+                                <span class="badge bg-primary">Technicien DSI</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary">Employé</span>
+                            <% } %>
+                        </p>
+                    </div>
+                    <div class="text-end">
+                        <p class="mb-0 text-muted"><i class="fas fa-calendar-alt me-1"></i> <%= new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<% if (isTechnicien) { %>
+<!-- Résumé rapide pour les techniciens -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Résumé des tâches</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center p-3 border rounded bg-light">
+                            <div class="flex-shrink-0">
+                                <span class="badge rounded-pill bg-danger fs-5 px-3 py-2"><%= stats.pendingReminders %></span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Relances en attente</h6>
+                                <small class="text-muted">Nécessitent votre attention</small>
+                            </div>
+                            <a href="/reminders" class="btn btn-sm btn-outline-primary ms-2">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center p-3 border rounded bg-light">
+                            <div class="flex-shrink-0">
+                                <span class="badge rounded-pill bg-warning fs-5 px-3 py-2"><%= stats.itemsBorrowed %></span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Matériel emprunté</h6>
+                                <small class="text-muted">À surveiller</small>
+                            </div>
+                            <a href="/inventory?filter=borrowed" class="btn btn-sm btn-outline-primary ms-2">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center p-3 border rounded bg-light">
+                            <div class="flex-shrink-0">
+                                <span class="badge rounded-pill bg-success fs-5 px-3 py-2"><%= stats.itemsInStock %></span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Matériel disponible</h6>
+                                <small class="text-muted">Prêt à l'emploi</small>
+                            </div>
+                            <a href="/inventory?filter=available" class="btn btn-sm btn-outline-primary ms-2">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
 
 <div class="row g-4">
     <!-- Carte Inventaire - Visible par tous -->
@@ -117,81 +182,6 @@
         </div>
     </div>
     <% } %>
-</div>
-
-<!-- Statistiques - Affichage différent selon le rôle -->
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-light">
-                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Statistiques</h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-4">
-                    <!-- Statistiques de base - Visibles par tous -->
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body text-center">
-                                <h6 class="card-title">Matériel disponible</h6>
-                                <h2 class="display-4 text-primary"><%= stats.itemsInStock %></h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body text-center">
-                                <h6 class="card-title">Matériel emprunté</h6>
-                                <h2 class="display-4 text-warning"><%= stats.itemsBorrowed %></h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body text-center">
-                                <h6 class="card-title">Matériel assigné</h6>
-                                <h2 class="display-4 text-success"><%= stats.itemsAssigned %></h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <% if (isTechnicien) { %>
-                    <!-- Statistiques pour techniciens et admins -->
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body text-center">
-                                <h6 class="card-title">Relances en attente</h6>
-                                <h2 class="display-4 text-danger"><%= stats.pendingReminders %></h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body text-center">
-                                <h6 class="card-title">Agences actives</h6>
-                                <h2 class="display-4 text-info"><%= stats.activeAgencies %></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
-                    
-                    <% if (isAdmin) { %>
-                    <!-- Statistiques pour admins uniquement -->
-                    <div class="col-md-4">
-                        <div class="card bg-light">
-                            <div class="card-body text-center">
-                                <h6 class="card-title">Utilisateurs totaux</h6>
-                                <h2 class="display-4 text-secondary"><%= stats.totalUsers %></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <%- include('partials/footer') %> 

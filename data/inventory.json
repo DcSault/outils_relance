@@ -13,6 +13,7 @@
       "borrowedBy": null,
       "borrowDate": null,
       "expectedReturnDate": null,
+      "history": [],
       "createdAt": "2025-03-07T20:14:41.818Z",
       "updatedAt": "2025-03-07T20:14:41.818Z"
     },
@@ -22,17 +23,47 @@
       "description": "iPhone 13 Pro envoyé en SAV pour réparation d'écran",
       "serialNumber": "IMEI123456789",
       "quantity": 1,
-      "status": "borrowed",
+      "status": "available",
       "agencyId": "1",
-      "tags": ["iPhone", "SAV", "Réparation"],
-      "customFields": [
-        { "name": "Problème", "value": "Écran fissuré" }
+      "tags": [
+        "iPhone",
+        "SAV",
+        "Réparation"
       ],
-      "borrowedBy": "user1",
-      "borrowDate": "2025-02-15T10:00:00.000Z",
-      "expectedReturnDate": "2025-03-15T10:00:00.000Z",
+      "customFields": [
+        {
+          "name": "Problème",
+          "value": "Écran fissuré"
+        }
+      ],
+      "borrowedBy": null,
+      "borrowDate": null,
+      "expectedReturnDate": null,
+      "history": [
+        {
+          "id": "hist_1741388367011",
+          "date": "2025-03-07T22:59:27.011Z",
+          "action": "Retour",
+          "description": "Retourné par Sophie Martin (précédemment prêté)",
+          "userId": "7e300e3d-302a-46a3-9b07-1082c3d2ccb3"
+        },
+        {
+          "id": "hist_1",
+          "date": "2025-02-15T10:00:00.000Z",
+          "action": "Prêt",
+          "description": "Prêté à l'utilisateur user1",
+          "userId": "user1"
+        },
+        {
+          "id": "hist_2",
+          "date": "2025-02-10T09:30:00.000Z",
+          "action": "Réparation",
+          "description": "Envoyé en SAV pour réparation d'écran fissuré",
+          "userId": "admin"
+        }
+      ],
       "createdAt": "2025-02-15T10:00:00.000Z",
-      "updatedAt": "2025-02-15T10:00:00.000Z"
+      "updatedAt": "2025-03-07T22:59:27.011Z"
     },
     {
       "id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
@@ -42,9 +73,16 @@
       "quantity": 1,
       "status": "borrowed",
       "agencyId": "2",
-      "tags": ["Réseau", "Wifi", "Ubiquiti"],
+      "tags": [
+        "Réseau",
+        "Wifi",
+        "Ubiquiti"
+      ],
       "customFields": [
-        { "name": "Modèle", "value": "UniFi AP AC Pro" }
+        {
+          "name": "Modèle",
+          "value": "UniFi AP AC Pro"
+        }
       ],
       "borrowedBy": "user2",
       "borrowDate": "2025-01-20T14:30:00.000Z",
@@ -60,10 +98,20 @@
       "quantity": 1,
       "status": "borrowed",
       "agencyId": "3",
-      "tags": ["MacBook", "Apple", "Ordinateur portable"],
+      "tags": [
+        "MacBook",
+        "Apple",
+        "Ordinateur portable"
+      ],
       "customFields": [
-        { "name": "Modèle", "value": "MacBook Pro 16 pouces 2021" },
-        { "name": "Processeur", "value": "M1 Pro" }
+        {
+          "name": "Modèle",
+          "value": "MacBook Pro 16 pouces 2021"
+        },
+        {
+          "name": "Processeur",
+          "value": "M1 Pro"
+        }
       ],
       "borrowedBy": "user3",
       "borrowDate": "2024-11-10T09:15:00.000Z",
@@ -79,9 +127,16 @@
       "quantity": 1,
       "status": "borrowed",
       "agencyId": "1",
-      "tags": ["iPad", "Apple", "Tablette"],
+      "tags": [
+        "iPad",
+        "Apple",
+        "Tablette"
+      ],
       "customFields": [
-        { "name": "Capacité", "value": "256 Go" }
+        {
+          "name": "Capacité",
+          "value": "256 Go"
+        }
       ],
       "borrowedBy": "user4",
       "borrowDate": "2025-02-05T11:45:00.000Z",

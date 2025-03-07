@@ -1,0 +1,59 @@
+/* Styles pour la timeline d'historique */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-left: 2px solid #e9ecef;
+    padding-left: 20px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.timeline-content {
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-content h6 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.timeline-content p {
+    margin-bottom: 5px;
+}
+
+/* Couleurs pour les différents types d'actions */
+.timeline-marker .fa-plus-circle { color: #28a745; }
+.timeline-marker .fa-edit { color: #007bff; }
+.timeline-marker .fa-hand-holding { color: #ffc107; }
+.timeline-marker .fa-user-check { color: #17a2b8; }
+.timeline-marker .fa-undo { color: #28a745; }
+.timeline-marker .fa-tools, .timeline-marker .fa-wrench { color: #dc3545; }
+.timeline-marker .fa-exchange-alt { color: #007bff; }
+.timeline-marker .fa-robot { color: #17a2b8; }
+.timeline-marker .fa-circle { color: #6c757d; } 

@@ -115,6 +115,65 @@
             </div>
         </div>
         
+        <!-- Nouvelle section d'historique détaillé -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Historique détaillé</h5>
+                    <% if (user && (user.role === 'admin' || user.role === 'technicien')) { %>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addRepairModal">
+                            <i class="fas fa-tools me-1"></i>Ajouter une réparation
+                        </button>
+                    <% } %>
+                </div>
+            </div>
+            <div class="card-body">
+                <% if (history && history.length > 0) { %>
+                    <div class="timeline">
+                        <% history.forEach(function(entry) { %>
+                            <div class="timeline-item">
+                                <div class="timeline-marker">
+                                    <% if (entry.action === 'Création') { %>
+                                        <i class="fas fa-plus-circle text-success"></i>
+                                    <% } else if (entry.action === 'Modification') { %>
+                                        <i class="fas fa-edit text-primary"></i>
+                                    <% } else if (entry.action === 'Prêt') { %>
+                                        <i class="fas fa-hand-holding text-warning"></i>
+                                    <% } else if (entry.action === 'Attribution') { %>
+                                        <i class="fas fa-user-check text-info"></i>
+                                    <% } else if (entry.action === 'Retour') { %>
+                                        <i class="fas fa-undo text-success"></i>
+                                    <% } else if (entry.action === 'Réparation') { %>
+                                        <i class="fas fa-tools text-danger"></i>
+                                    <% } else if (entry.action === 'SAV') { %>
+                                        <i class="fas fa-wrench text-danger"></i>
+                                    <% } else if (entry.action === 'Attribution automatique') { %>
+                                        <i class="fas fa-robot text-info"></i>
+                                    <% } else if (entry.action === 'Disponibilité' || entry.action === 'Changement de statut') { %>
+                                        <i class="fas fa-exchange-alt text-primary"></i>
+                                    <% } else { %>
+                                        <i class="fas fa-circle text-secondary"></i>
+                                    <% } %>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1"><%= entry.action %></h6>
+                                        <small class="text-muted"><%= new Date(entry.date).toLocaleString('fr-FR') %></small>
+                                    </div>
+                                    <p class="mb-1"><%= entry.description %></p>
+                                    <small class="text-muted">Par <%= entry.username %></small>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>Aucun historique disponible pour cet élément.
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
         <% if ((item.status === 'borrowed' || item.status === 'assigned') && borrower) { %>
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header <%= item.status === 'borrowed' ? 'bg-warning text-dark' : 'bg-primary text-white' %>">
@@ -307,6 +366,42 @@
                     <li><span class="badge bg-danger">Introuvable</span> - L'élément est perdu ou introuvable</li>
                 </ul>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour ajouter une réparation -->
+<div class="modal fade" id="addRepairModal" tabindex="-1" aria-labelledby="addRepairModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRepairModalLabel">Ajouter une réparation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/inventory/repair/<%= item.id %>" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="repairDescription" class="form-label">Description de la réparation</label>
+                        <textarea class="form-control" id="repairDescription" name="repairDescription" rows="3" required placeholder="Décrivez la réparation effectuée..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="repairDate" class="form-label">Date de la réparation</label>
+                        <input type="date" class="form-control" id="repairDate" name="repairDate" value="<%= new Date().toISOString().split('T')[0] %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="repairStatus" class="form-label">Mettre à jour le statut</label>
+                        <select class="form-select" id="repairStatus" name="repairStatus">
+                            <option value="no_change">Ne pas changer le statut</option>
+                            <option value="available">Disponible (réparation terminée)</option>
+                            <option value="service">En SAV (envoyé en réparation)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
