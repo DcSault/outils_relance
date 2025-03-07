@@ -1,0 +1,174 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-plus-circle me-2 text-primary"></i>Créer un Template
+                        </h2>
+                        <p class="card-text">Créez un nouveau template de mail pour vos relances.</p>
+                    </div>
+                    <a href="/templates" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <% if (locals.error) { %>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i><%= error %>
+                        </div>
+                    <% } %>
+
+                    <form action="/templates/create" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Nom du template</label>
+                                <input type="text" class="form-control" id="name" name="name" 
+                                    value="<%= locals.formData ? formData.name : '' %>" required>
+                                <div class="form-text">Donnez un nom descriptif à votre template.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="subject" class="form-label">Objet du mail</label>
+                                <input type="text" class="form-control" id="subject" name="subject" 
+                                    value="<%= locals.formData ? formData.subject : '' %>" required>
+                                <div class="form-text">L'objet qui apparaîtra dans le mail.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Contenu du mail</label>
+                            <textarea class="form-control" id="content" name="content" rows="10" required><%= locals.formData ? formData.content : '' %></textarea>
+                            <div class="form-text">
+                                Rédigez le contenu de votre mail. Vous pouvez utiliser des variables entre accolades qui seront remplacées lors de l'envoi.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Variables disponibles</label>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <button type="button" class="btn btn-sm btn-outline-info variable-btn" data-variable="MailUser">
+                                    {MailUser}
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-info variable-btn" data-variable="Matériel">
+                                    {Matériel}
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-info variable-btn" data-variable="DateRelance">
+                                    {DateRelance}
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-info variable-btn" data-variable="DateEmprunt">
+                                    {DateEmprunt}
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-info variable-btn" data-variable="Agence">
+                                    {Agence}
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                Cliquez sur une variable pour l'insérer dans le contenu du mail.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="variables" class="form-label">Variables personnalisées</label>
+                            <input type="text" class="form-control" id="customVariable" placeholder="Nom de la variable">
+                            <div class="form-text">
+                                Ajoutez des variables personnalisées en les séparant par des virgules. Exemple: NomVariable1, NomVariable2
+                            </div>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" id="addVariableBtn">
+                                    <i class="fas fa-plus me-1"></i>Ajouter
+                                </button>
+                            </div>
+                            <div class="mt-2" id="variablesContainer">
+                                <% if (locals.formData && formData.variables) { %>
+                                    <% formData.variables.forEach(variable => { %>
+                                        <div class="badge bg-info me-1 mb-1 p-2">
+                                            {<%= variable %>}
+                                            <input type="hidden" name="variables[]" value="<%= variable %>">
+                                            <button type="button" class="btn-close btn-close-white ms-1 remove-variable" aria-label="Supprimer"></button>
+                                        </div>
+                                    <% }); %>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/templates" class="btn btn-outline-secondary me-md-2">Annuler</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Créer le template
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Insertion des variables prédéfinies
+        const variableBtns = document.querySelectorAll('.variable-btn');
+        const contentTextarea = document.getElementById('content');
+        
+        variableBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const variable = this.getAttribute('data-variable');
+                const cursorPos = contentTextarea.selectionStart;
+                const textBefore = contentTextarea.value.substring(0, cursorPos);
+                const textAfter = contentTextarea.value.substring(cursorPos);
+                
+                contentTextarea.value = textBefore + '{' + variable + '}' + textAfter;
+                contentTextarea.focus();
+                contentTextarea.selectionStart = cursorPos + variable.length + 2;
+                contentTextarea.selectionEnd = cursorPos + variable.length + 2;
+            });
+        });
+        
+        // Gestion des variables personnalisées
+        const addVariableBtn = document.getElementById('addVariableBtn');
+        const customVariableInput = document.getElementById('customVariable');
+        const variablesContainer = document.getElementById('variablesContainer');
+        
+        addVariableBtn.addEventListener('click', function() {
+            const variableName = customVariableInput.value.trim();
+            
+            if (variableName) {
+                const variableDiv = document.createElement('div');
+                variableDiv.className = 'badge bg-info me-1 mb-1 p-2';
+                variableDiv.innerHTML = `
+                    {${variableName}}
+                    <input type="hidden" name="variables[]" value="${variableName}">
+                    <button type="button" class="btn-close btn-close-white ms-1 remove-variable" aria-label="Supprimer"></button>
+                `;
+                
+                variablesContainer.appendChild(variableDiv);
+                customVariableInput.value = '';
+                
+                // Ajouter l'événement de suppression
+                const removeBtn = variableDiv.querySelector('.remove-variable');
+                removeBtn.addEventListener('click', function() {
+                    variableDiv.remove();
+                });
+            }
+        });
+        
+        // Suppression des variables existantes
+        document.querySelectorAll('.remove-variable').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.parentElement.remove();
+            });
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %> 

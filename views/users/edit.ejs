@@ -1,0 +1,130 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-edit me-2 text-primary"></i>Modifier l'Utilisateur</h2>
+    <a href="/users" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Informations de l'utilisateur</h5>
+            </div>
+            <div class="card-body">
+                <form action="/users/edit/<%= userData.id %>" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="username" name="username" value="<%= userData.username %>" required>
+                        </div>
+                        <div class="form-text">Le nom d'utilisateur doit être unique.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Rôle</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="user" <%= userData.role === 'user' ? 'selected' : '' %>>Utilisateur (Employé)</option>
+                            <option value="technicien" <%= userData.role === 'technicien' ? 'selected' : '' %>>Technicien DSI</option>
+                            <option value="admin" <%= userData.role === 'admin' ? 'selected' : '' %>>Administrateur</option>
+                        </select>
+                        <div class="form-text">
+                            Les techniciens peuvent gérer le matériel et les relances. Les administrateurs ont accès à toutes les fonctionnalités.
+                            <span class="text-info">Note : Les utilisateurs avec le rôle "Utilisateur" ne peuvent pas se connecter à l'application.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="agencyId" class="form-label">Agence</label>
+                        <select class="form-select" id="agencyId" name="agencyId">
+                            <option value="none">Aucune agence</option>
+                            <% if (agencies && agencies.length > 0) { %>
+                                <% agencies.forEach(agency => { %>
+                                    <option value="<%= agency.id %>" <%= userData.agency === agency.id ? 'selected' : '' %>>
+                                        <%= agency.name %>
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                        <div class="form-text">
+                            L'utilisateur sera associé à cette agence. 
+                            <span class="text-info">Note : Les techniciens sans agence seront automatiquement associés à l'agence "Services Informatique".</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" value="<%= userData.email %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Téléphone</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="<%= userData.phone %>">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/users" class="btn btn-outline-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Enregistrer les modifications
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Vous modifiez l'utilisateur <strong><%= userData.username %></strong>.
+                </p>
+                <div class="alert alert-info">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Conseil :</strong> Si vous changez l'agence de l'utilisateur, cela affectera ses accès aux fonctionnalités.
+                </div>
+                <p>
+                    <strong>Dernière mise à jour :</strong><br>
+                    <span class="text-muted"><%= new Date(userData.updatedAt).toLocaleString('fr-FR') %></span>
+                </p>
+            </div>
+        </div>
+        
+        <% if (userData.id !== locals.user.id) { %>
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-trash me-2 text-danger"></i>Suppression</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Si vous souhaitez supprimer cet utilisateur, cliquez sur le bouton ci-dessous.
+                    </p>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Attention :</strong> Cette action est irréversible.
+                    </div>
+                    <div class="d-grid">
+                        <a href="/users/delete/<%= userData.id %>" class="btn btn-danger confirm-delete">
+                            <i class="fas fa-trash me-1"></i>Supprimer l'utilisateur
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 

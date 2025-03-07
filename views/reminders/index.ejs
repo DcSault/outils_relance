@@ -1,0 +1,102 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-bell me-2 text-warning"></i>Gestion des Relances
+                        </h2>
+                        <p class="card-text">Gérez les relances pour le matériel prêté.</p>
+                    </div>
+                    <a href="/reminders/create" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>Nouvelle Relance
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Liste des Relances</h5>
+                        <div class="d-flex">
+                            <a href="/reminders/calendar" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-calendar-alt me-1"></i>Vue Calendrier
+                            </a>
+                            <div class="input-group" style="width: 250px;">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" id="tableFilter" placeholder="Rechercher...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <% if (reminders && reminders.length > 0) { %>
+                        <div class="table-responsive">
+                            <table class="table table-hover filterable-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Matériel</th>
+                                        <th>Utilisateur</th>
+                                        <th>Template</th>
+                                        <th>Date de relance</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% reminders.forEach(reminder => { %>
+                                        <tr>
+                                            <td><%= reminder.itemName %></td>
+                                            <td><%= reminder.userName %></td>
+                                            <td><%= reminder.templateName %></td>
+                                            <td><%= new Date(reminder.reminderDate).toLocaleDateString('fr-FR') %></td>
+                                            <td>
+                                                <% if (reminder.status === 'pending') { %>
+                                                    <span class="badge bg-warning">En attente</span>
+                                                <% } else if (reminder.status === 'sent') { %>
+                                                    <span class="badge bg-success">Envoyée</span>
+                                                <% } else if (reminder.status === 'cancelled') { %>
+                                                    <span class="badge bg-danger">Annulée</span>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/reminders/edit/<%= reminder.id %>" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Modifier">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <% if (reminder.status === 'pending') { %>
+                                                        <a href="/reminders/prepare-email/<%= reminder.id %>" class="btn btn-outline-info" data-bs-toggle="tooltip" title="Envoyer un mail">
+                                                            <i class="fas fa-envelope"></i>
+                                                        </a>
+                                                        <a href="/reminders/mark-as-sent/<%= reminder.id %>" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Marquer comme envoyée">
+                                                            <i class="fas fa-paper-plane"></i>
+                                                        </a>
+                                                    <% } %>
+                                                    <a href="/reminders/delete/<%= reminder.id %>" class="btn btn-outline-danger confirm-delete" data-bs-toggle="tooltip" title="Supprimer">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Aucune relance n'a été créée pour le moment.
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 

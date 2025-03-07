@@ -1,0 +1,90 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header bg-primary text-white">
+                <h3 class="text-center font-weight-light my-2">
+                    <i class="fas fa-tools me-2"></i>Bienvenue sur Outils DSI
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <p class="lead">
+                        Application de gestion du matériel informatique, des relances et de l'inventaire pour les DSI.
+                    </p>
+                </div>
+                
+                <% if (!locals.user) { %>
+                
+                <% if (locals.error) { %>
+                <div class="alert alert-danger">
+                    <p class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <%= error %>
+                    </p>
+                </div>
+                <% } %>
+                
+                <div class="alert alert-info">
+                    <p class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Pour accéder à l'application, veuillez vous connecter en utilisant simplement votre nom d'utilisateur.
+                    </p>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <p class="mb-0">
+                        <i class="fas fa-user-shield me-2"></i>
+                        <strong>Note :</strong> Cette application est réservée aux techniciens et administrateurs DSI. Les employés ne peuvent pas se connecter.
+                    </p>
+                </div>
+                
+                <form action="/login" method="POST" class="mt-4">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Entrez votre nom d'utilisateur" required>
+                        </div>
+                        <div class="form-text">Un compte technicien sera créé automatiquement si vous vous connectez pour la première fois.</div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                        </button>
+                    </div>
+                </form>
+                <% } else { %>
+                <div class="alert alert-success">
+                    <p class="mb-0">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Vous êtes connecté en tant que <strong><%= user.username %></strong>.
+                        <% if (user.role === 'admin') { %>
+                            <span class="badge bg-danger">Administrateur</span>
+                        <% } else if (user.role === 'technicien') { %>
+                            <span class="badge bg-primary">Technicien DSI</span>
+                        <% } %>
+                    </p>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/dashboard" class="btn btn-primary btn-lg">
+                        <i class="fas fa-tachometer-alt me-2"></i>Accéder au tableau de bord
+                    </a>
+                    <a href="/logout" class="btn btn-outline-secondary">
+                        <i class="fas fa-sign-out-alt me-2"></i>Se déconnecter
+                    </a>
+                </div>
+                <% } %>
+            </div>
+            <div class="card-footer text-center py-3">
+                <div class="small">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    Application développée pour la gestion multi-agences
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %> 

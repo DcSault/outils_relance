@@ -1,0 +1,292 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-boxes me-2 text-primary"></i>Modifier l'Élément</h2>
+    <div>
+        <a href="/inventory/details/<%= item.id %>" class="btn btn-outline-primary me-2">
+            <i class="fas fa-eye me-1"></i>Voir les détails
+        </a>
+        <a href="/inventory" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Retour à l'inventaire
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Informations de l'élément</h5>
+            </div>
+            <div class="card-body">
+                <form action="/inventory/edit/<%= item.id %>" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nom de l'élément <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" value="<%= item.name %>" required>
+                        <div class="form-text">Le nom doit être identifiable.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="2"><%= item.description %></textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="serialNumber" class="form-label">Numéro de série</label>
+                            <input type="text" class="form-control" id="serialNumber" name="serialNumber" value="<%= item.serialNumber %>">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="quantity" class="form-label">Quantité</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="<%= item.quantity || 1 %>" min="1">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Statut</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="available" <%= item.status === 'available' ? 'selected' : '' %>>Disponible</option>
+                                <option value="assigned" <%= item.status === 'assigned' ? 'selected' : '' %>>Attribué</option>
+                                <option value="borrowed" <%= item.status === 'borrowed' ? 'selected' : '' %>>Prêté</option>
+                                <option value="service" <%= item.status === 'service' ? 'selected' : '' %>>En SAV</option>
+                                <option value="missing" <%= item.status === 'missing' ? 'selected' : '' %>>Introuvable</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="agencyId" class="form-label">Agence</label>
+                            <select class="form-select" id="agencyId" name="agencyId">
+                                <option value="none">Aucune agence</option>
+                                <% if (agencies && agencies.length > 0) { %>
+                                    <% agencies.forEach(agency => { %>
+                                        <option value="<%= agency.id %>" <%= item.agencyId === agency.id ? 'selected' : '' %>>
+                                            <%= agency.name %>
+                                        </option>
+                                    <% }); %>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="userAssignmentSection">
+                        <label for="borrowedBy" class="form-label">Attribué/Prêté à</label>
+                        <select class="form-select" id="borrowedBy" name="borrowedBy">
+                            <option value="none">Aucun utilisateur</option>
+                            <% if (users && users.length > 0) { %>
+                                <% users.forEach(user => { %>
+                                    <option value="<%= user.id %>" <%= item.borrowedBy === user.id ? 'selected' : '' %>>
+                                        <%= user.username %>
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                        <div class="form-text">Sélectionnez l'utilisateur à qui cet élément est attribué ou prêté.</div>
+                    </div>
+                    
+                    <div class="mb-3" id="returnDateSection" style="<%= (item.status === 'borrowed') ? '' : 'display: none;' %>">
+                        <label for="expectedReturnDate" class="form-label">Date de retour prévue</label>
+                        <input type="date" class="form-control" id="expectedReturnDate" name="expectedReturnDate" 
+                               value="<%= item.expectedReturnDate ? new Date(item.expectedReturnDate).toISOString().split('T')[0] : '' %>">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <div class="tag-container">
+                            <input type="text" class="form-control tag-input" id="tagInput" placeholder="Ajouter un tag (appuyez sur Entrée)">
+                            <div class="tag-list mt-2"></div>
+                            <input type="hidden" id="tags" name="tags" class="tag-hidden-input" value="<%= item.tags ? item.tags.join(',') : '' %>">
+                        </div>
+                        <div class="form-text">Les tags vous permettent de catégoriser vos éléments.</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Champs personnalisés</label>
+                        <div id="customFields">
+                            <% if (item.customFields && item.customFields.length > 0) { %>
+                                <% item.customFields.forEach((field, index) => { %>
+                                    <div class="row custom-field mb-2">
+                                        <div class="col-5">
+                                            <input type="text" class="form-control form-control-sm" value="<%= field.name %>" placeholder="Nom du champ" required>
+                                        </div>
+                                        <div class="col-5">
+                                            <input type="text" class="form-control form-control-sm" value="<%= field.value %>" placeholder="Valeur" required>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-danger btn-sm remove-field">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            <% } %>
+                        </div>
+                        <button type="button" id="addCustomField" class="btn btn-outline-secondary btn-sm mt-2">
+                            <i class="fas fa-plus me-1"></i>Ajouter un champ personnalisé
+                        </button>
+                        <input type="hidden" id="customFields" name="customFields" value="<%= JSON.stringify(item.customFields || []) %>">
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/inventory" class="btn btn-outline-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Enregistrer les modifications
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Vous modifiez l'élément <strong><%= item.name %></strong>.
+                </p>
+                <div class="alert alert-info">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Conseil :</strong> Si vous changez le statut d'un élément prêté à "Disponible", cela annulera automatiquement le prêt.
+                </div>
+                <p>
+                    <strong>Statuts disponibles :</strong>
+                </p>
+                <ul>
+                    <li><span class="badge bg-success">Disponible</span> - L'élément est disponible pour être prêté</li>
+                    <li><span class="badge bg-primary">Attribué</span> - L'élément est attribué à un utilisateur ou service</li>
+                    <li><span class="badge bg-warning">Prêté</span> - L'élément est prêté temporairement</li>
+                    <li><span class="badge bg-info">En SAV</span> - L'élément est en réparation ou en maintenance</li>
+                    <li><span class="badge bg-danger">Introuvable</span> - L'élément est perdu ou introuvable</li>
+                </ul>
+                <p>
+                    <strong>Dernière mise à jour :</strong><br>
+                    <span class="text-muted"><%= new Date(item.updatedAt).toLocaleString('fr-FR') %></span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-trash me-2 text-danger"></i>Suppression</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Si vous souhaitez supprimer cet élément, cliquez sur le bouton ci-dessous.
+                </p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Attention :</strong> Cette action est irréversible.
+                </div>
+                <div class="d-grid">
+                    <a href="/inventory/delete/<%= item.id %>" class="btn btn-danger confirm-delete">
+                        <i class="fas fa-trash me-1"></i>Supprimer l'élément
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des champs personnalisés
+        const addFieldButton = document.getElementById('addCustomField');
+        const customFieldsContainer = document.getElementById('customFields');
+        const customFieldsInput = document.querySelector('input[name="customFields"]');
+        let customFields = JSON.parse('<%= JSON.stringify(item.customFields || []) %>');
+        
+        // Gestion de l'affichage du champ de date de retour en fonction du statut
+        const statusSelect = document.getElementById('status');
+        const returnDateSection = document.getElementById('returnDateSection');
+        const userAssignmentSection = document.getElementById('userAssignmentSection');
+        
+        statusSelect.addEventListener('change', function() {
+            if (this.value === 'borrowed') {
+                returnDateSection.style.display = '';
+                userAssignmentSection.style.display = '';
+            } else if (this.value === 'assigned') {
+                returnDateSection.style.display = 'none';
+                userAssignmentSection.style.display = '';
+            } else {
+                returnDateSection.style.display = 'none';
+                if (this.value === 'available' || this.value === 'service' || this.value === 'missing') {
+                    document.getElementById('borrowedBy').value = 'none';
+                    userAssignmentSection.style.display = 'none';
+                }
+            }
+        });
+        
+        addFieldButton.addEventListener('click', function() {
+            const fieldRow = document.createElement('div');
+            fieldRow.className = 'row custom-field mb-2';
+            fieldRow.innerHTML = `
+                <div class="col-5">
+                    <input type="text" class="form-control form-control-sm" placeholder="Nom du champ" required>
+                </div>
+                <div class="col-5">
+                    <input type="text" class="form-control form-control-sm" placeholder="Valeur" required>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-danger btn-sm remove-field">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            customFieldsContainer.appendChild(fieldRow);
+            
+            // Ajouter l'événement de suppression
+            fieldRow.querySelector('.remove-field').addEventListener('click', function() {
+                fieldRow.remove();
+                updateCustomFields();
+            });
+            
+            // Ajouter les événements de mise à jour
+            const inputs = fieldRow.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateCustomFields);
+            });
+        });
+        
+        // Initialiser les événements pour les champs existants
+        const existingFields = customFieldsContainer.querySelectorAll('.custom-field');
+        existingFields.forEach(row => {
+            row.querySelector('.remove-field').addEventListener('click', function() {
+                row.remove();
+                updateCustomFields();
+            });
+            
+            const inputs = row.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateCustomFields);
+            });
+        });
+        
+        function updateCustomFields() {
+            customFields = [];
+            const fieldRows = customFieldsContainer.querySelectorAll('.custom-field');
+            
+            fieldRows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs[0].value && inputs[1].value) {
+                    customFields.push({
+                        name: inputs[0].value,
+                        value: inputs[1].value
+                    });
+                }
+            });
+            
+            customFieldsInput.value = JSON.stringify(customFields);
+        }
+        
+        // Mettre à jour les champs personnalisés au chargement
+        updateCustomFields();
+        
+        // Initialiser l'affichage des sections en fonction du statut actuel
+        statusSelect.dispatchEvent(new Event('change'));
+    });
+</script>
+
+<%- include('../partials/footer') %> 

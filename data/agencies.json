@@ -1,0 +1,49 @@
+{
+  "agencies": [
+    {
+      "id": "4514788f-8719-47bc-84fc-127f7fd708ce",
+      "name": "Marseille",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "createdAt": "2025-03-07T20:13:39.641Z",
+      "updatedAt": "2025-03-07T20:13:39.641Z"
+    },
+    {
+      "id": "c4ad54b0-6b8c-47c8-91e4-892c105f03ce",
+      "name": "Services Informatique",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "createdAt": "2025-03-07T20:17:22.014Z",
+      "updatedAt": "2025-03-07T20:27:12.515Z"
+    },
+    {
+      "id": "1",
+      "name": "Paris",
+      "address": "123 Avenue des Champs-Élysées, 75008 Paris",
+      "phone": "01 23 45 67 89",
+      "email": "paris@example.com",
+      "createdAt": "2025-01-01T10:00:00.000Z",
+      "updatedAt": "2025-01-01T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Lyon",
+      "address": "456 Rue de la République, 69002 Lyon",
+      "phone": "04 56 78 90 12",
+      "email": "lyon@example.com",
+      "createdAt": "2025-01-01T11:00:00.000Z",
+      "updatedAt": "2025-01-01T11:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "Bordeaux",
+      "address": "789 Cours de l'Intendance, 33000 Bordeaux",
+      "phone": "05 67 89 01 23",
+      "email": "bordeaux@example.com",
+      "createdAt": "2025-01-01T12:00:00.000Z",
+      "updatedAt": "2025-01-01T12:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-plus-circle me-2 text-primary"></i>Créer une Relance
+                        </h2>
+                        <p class="card-text">Créez une nouvelle relance pour un matériel prêté.</p>
+                    </div>
+                    <a href="/reminders" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <% if (locals.error) { %>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i><%= error %>
+                        </div>
+                    <% } %>
+
+                    <form action="/reminders/create" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="itemId" class="form-label">Matériel</label>
+                                <select class="form-select" id="itemId" name="itemId" required>
+                                    <option value="">Sélectionnez un matériel...</option>
+                                    <% items.forEach(item => { %>
+                                        <option value="<%= item.id %>" <%= locals.formData && formData.itemId === item.id ? 'selected' : '' %>>
+                                            <%= item.name %> (<%= item.serialNumber || 'Sans numéro de série' %>)
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <div class="form-text">Sélectionnez le matériel pour lequel vous souhaitez créer une relance.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="userId" class="form-label">Utilisateur</label>
+                                <select class="form-select" id="userId" name="userId" required>
+                                    <option value="">Sélectionnez un utilisateur...</option>
+                                    <% users.forEach(user => { %>
+                                        <option value="<%= user.id %>" <%= locals.formData && formData.userId === user.id ? 'selected' : '' %>>
+                                            <%= user.username %> <%= user.agency ? `(${user.agency})` : '' %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <div class="form-text">Sélectionnez l'utilisateur à qui envoyer la relance.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="templateId" class="form-label">Template</label>
+                                <select class="form-select" id="templateId" name="templateId" required>
+                                    <option value="">Sélectionnez un template...</option>
+                                    <% templates.forEach(template => { %>
+                                        <option value="<%= template.id %>" <%= locals.formData && formData.templateId === template.id ? 'selected' : '' %>>
+                                            <%= template.name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <div class="form-text">Sélectionnez le template de mail à utiliser pour cette relance.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="reminderDate" class="form-label">Date de relance</label>
+                                <input type="date" class="form-control" id="reminderDate" name="reminderDate" 
+                                    value="<%= locals.formData ? formData.reminderDate : new Date().toISOString().split('T')[0] %>" required>
+                                <div class="form-text">Sélectionnez la date à laquelle la relance doit être envoyée.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes (optionnel)</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3"><%= locals.formData ? formData.notes : '' %></textarea>
+                            <div class="form-text">Ajoutez des notes ou commentaires supplémentaires pour cette relance.</div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/reminders" class="btn btn-outline-secondary me-md-2">Annuler</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Créer la relance
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 

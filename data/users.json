@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": "7e300e3d-302a-46a3-9b07-1082c3d2ccb3",
+      "username": "victor",
+      "createdAt": "2025-03-07T20:06:58.480Z",
+      "agency": "c4ad54b0-6b8c-47c8-91e4-892c105f03ce",
+      "role": "admin",
+      "email": "",
+      "phone": "",
+      "updatedAt": "2025-03-07T20:27:25.030Z"
+    },
+    {
+      "id": "user1",
+      "username": "Sophie Martin",
+      "agency": "1",
+      "role": "user",
+      "email": "sophie.martin@example.com",
+      "phone": "0123456789",
+      "createdAt": "2025-02-15T10:00:00.000Z",
+      "updatedAt": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": "user2",
+      "username": "Thomas Dubois",
+      "agency": "2",
+      "role": "user",
+      "email": "thomas.dubois@example.com",
+      "phone": "0234567890",
+      "createdAt": "2025-01-20T14:30:00.000Z",
+      "updatedAt": "2025-01-20T14:30:00.000Z"
+    },
+    {
+      "id": "user3",
+      "username": "Julie Leroy",
+      "agency": "3",
+      "role": "user",
+      "email": "julie.leroy@example.com",
+      "phone": "0345678901",
+      "createdAt": "2024-11-10T09:15:00.000Z",
+      "updatedAt": "2024-11-10T09:15:00.000Z"
+    },
+    {
+      "id": "user4",
+      "username": "Nicolas Petit",
+      "agency": "1",
+      "role": "user",
+      "email": "nicolas.petit@example.com",
+      "phone": "0456789012",
+      "createdAt": "2025-02-05T11:45:00.000Z",
+      "updatedAt": "2025-02-05T11:45:00.000Z"
+    }
+  ]
+}

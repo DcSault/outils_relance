@@ -1,0 +1,234 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-boxes me-2 text-primary"></i>Gestion de l'Inventaire</h2>
+    <a href="/inventory/create" class="btn btn-primary">
+        <i class="fas fa-plus-circle me-1"></i>Ajouter un élément
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-light">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0">Filtres</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="statusFilter" class="form-label">Statut</label>
+                <select id="statusFilter" class="form-select">
+                    <option value="all">Tous les statuts</option>
+                    <option value="available">Disponible</option>
+                    <option value="assigned">Attribué</option>
+                    <option value="borrowed">Prêté</option>
+                    <option value="service">En SAV</option>
+                    <option value="missing">Introuvable</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="agencyFilter" class="form-label">Agence</label>
+                <select id="agencyFilter" class="form-select">
+                    <option value="all">Toutes les agences</option>
+                    <option value="none">Sans agence</option>
+                    <!-- Les options des agences seront ajoutées dynamiquement -->
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="tableFilter" class="form-label">Recherche</label>
+                <input type="text" id="tableFilter" class="form-control" placeholder="Rechercher...">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-light">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0">Liste des Éléments</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <% if (items && items.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-hover filterable-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Numéro de série</th>
+                            <th>Statut</th>
+                            <th>Agence</th>
+                            <th>Utilisateur</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% items.forEach(item => { %>
+                            <tr data-status="<%= item.status %>" data-agency="<%= item.agencyId || 'none' %>">
+                                <td><strong><%= item.name %></strong></td>
+                                <td><%= item.serialNumber || 'N/A' %></td>
+                                <td>
+                                    <% if (item.status === 'available') { %>
+                                        <span class="badge bg-success">Disponible</span>
+                                    <% } else if (item.status === 'assigned') { %>
+                                        <span class="badge bg-primary">Attribué</span>
+                                    <% } else if (item.status === 'borrowed') { %>
+                                        <span class="badge bg-warning">Prêté</span>
+                                    <% } else if (item.status === 'service') { %>
+                                        <span class="badge bg-info">En SAV</span>
+                                    <% } else if (item.status === 'missing') { %>
+                                        <span class="badge bg-danger">Introuvable</span>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary"><%= item.status %></span>
+                                    <% } %>
+                                </td>
+                                <td><%= item.agency || 'Non assigné' %></td>
+                                <td>
+                                    <% if (item.borrower) { %>
+                                        <span class="badge <%= item.status === 'assigned' ? 'bg-primary' : 'bg-warning text-dark' %>">
+                                            <i class="fas fa-user me-1"></i><%= item.borrower %>
+                                        </span>
+                                    <% } else { %>
+                                        <span class="text-muted">-</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/inventory/details/<%= item.id %>" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/inventory/edit/<%= item.id %>" class="btn btn-outline-secondary" data-bs-toggle="tooltip" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="/inventory/delete/<%= item.id %>" class="btn btn-outline-danger confirm-delete" data-bs-toggle="tooltip" title="Supprimer">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>Aucun élément n'a été ajouté à l'inventaire pour le moment.
+            </div>
+            <div class="text-center mt-3">
+                <a href="/inventory/create" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-1"></i>Ajouter votre premier élément
+                </a>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations</h5>
+    </div>
+    <div class="card-body">
+        <p>
+            L'inventaire vous permet de gérer votre matériel informatique et de suivre les prêts.
+            Vous pouvez ajouter, modifier et supprimer des éléments, ainsi que les prêter ou les attribuer à des utilisateurs.
+        </p>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="border rounded p-3 text-center">
+                    <h6 class="text-muted">Disponibles</h6>
+                    <h3 class="mb-0 text-success">
+                        <%= items ? items.filter(item => item.status === 'available').length : 0 %>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="border rounded p-3 text-center">
+                    <h6 class="text-muted">Attribués</h6>
+                    <h3 class="mb-0 text-primary">
+                        <%= items ? items.filter(item => item.status === 'assigned').length : 0 %>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="border rounded p-3 text-center">
+                    <h6 class="text-muted">Prêtés</h6>
+                    <h3 class="mb-0 text-warning">
+                        <%= items ? items.filter(item => item.status === 'borrowed').length : 0 %>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="border rounded p-3 text-center">
+                    <h6 class="text-muted">En SAV</h6>
+                    <h3 class="mb-0 text-info">
+                        <%= items ? items.filter(item => item.status === 'service').length : 0 %>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="border rounded p-3 text-center">
+                    <h6 class="text-muted">Introuvables</h6>
+                    <h3 class="mb-0 text-danger">
+                        <%= items ? items.filter(item => item.status === 'missing').length : 0 %>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="border rounded p-3 text-center">
+                    <h6 class="text-muted">Total</h6>
+                    <h3 class="mb-0 text-secondary">
+                        <%= items ? items.length : 0 %>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Filtrage par statut
+        const statusFilter = document.getElementById('statusFilter');
+        if (statusFilter) {
+            statusFilter.addEventListener('change', filterItems);
+        }
+        
+        // Filtrage par agence
+        const agencyFilter = document.getElementById('agencyFilter');
+        if (agencyFilter) {
+            agencyFilter.addEventListener('change', filterItems);
+        }
+        
+        // Filtrage par texte
+        const tableFilter = document.getElementById('tableFilter');
+        if (tableFilter) {
+            tableFilter.addEventListener('keyup', filterItems);
+        }
+        
+        function filterItems() {
+            const status = statusFilter.value;
+            const agency = agencyFilter.value;
+            const searchText = tableFilter.value.toLowerCase();
+            
+            const rows = document.querySelectorAll('.filterable-table tbody tr');
+            
+            rows.forEach(function(row) {
+                const rowStatus = row.dataset.status;
+                const rowAgency = row.dataset.agency;
+                const rowText = row.textContent.toLowerCase();
+                
+                const statusMatch = status === 'all' || rowStatus === status;
+                const agencyMatch = agency === 'all' || (agency === 'none' && rowAgency === 'none') || (agency !== 'none' && rowAgency === agency);
+                const textMatch = rowText.includes(searchText);
+                
+                row.style.display = statusMatch && agencyMatch && textMatch ? '' : 'none';
+            });
+        }
+    });
+</script>
+
+<%- include('../partials/footer') %> 

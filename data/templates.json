@@ -1,0 +1,47 @@
+{
+  "templates": [
+    {
+      "id": "a1b2c3d4-e5f6-4a5b-9c8d-7e6f5a4b3c2d",
+      "name": "iPhone de SAV à retourner",
+      "subject": "Retour d'iPhone après SAV - Action requise",
+      "content": "Bonjour {MailUser},\n\nNous vous informons que l'iPhone qui était en SAV est maintenant disponible et prêt à être récupéré.\n\nDétails du matériel :\n- Appareil : {Matériel}\n- Date d'envoi en SAV : {DateEmprunt}\n- Agence : {Agence}\n\nMerci de bien vouloir venir récupérer cet appareil dans les plus brefs délais.\n\nSi vous avez des questions ou besoin d'informations supplémentaires, n'hésitez pas à nous contacter.\n\nCordialement,\nLe service informatique",
+      "variables": [
+        "MailUser",
+        "Matériel",
+        "DateEmprunt",
+        "Agence"
+      ],
+      "createdAt": "2025-03-07T21:00:00.000Z",
+      "updatedAt": "2025-03-07T21:00:00.000Z"
+    },
+    {
+      "id": "b2c3d4e5-f6a7-5b6c-0d1e-8f7g6h5i4j3k",
+      "name": "Borne Wifi Introuvable",
+      "subject": "Borne Wifi introuvable - Demande de vérification",
+      "content": "Bonjour {MailUser},\n\nNous avons constaté qu'une borne Wifi est actuellement introuvable lors de notre dernier inventaire.\n\nDétails du matériel :\n- Équipement : {Matériel}\n- Dernière localisation connue : {Agence}\n- Date du dernier inventaire : {DateEmprunt}\n\nPourriez-vous vérifier si cet équipement se trouve dans votre service ou si vous avez des informations sur sa localisation actuelle ?\n\nCette vérification est importante pour maintenir notre inventaire à jour et assurer la sécurité de notre réseau.\n\nMerci de nous faire un retour avant le {DateRelance}.\n\nCordialement,\nLe service informatique",
+      "variables": [
+        "MailUser",
+        "Matériel",
+        "DateEmprunt",
+        "DateRelance",
+        "Agence"
+      ],
+      "createdAt": "2025-03-07T21:05:00.000Z",
+      "updatedAt": "2025-03-07T21:05:00.000Z"
+    },
+    {
+      "id": "c3d4e5f6-g7h8-6c7d-1e2f-9g8h7i6j5k4l",
+      "name": "Récupération de matériel d'ancien utilisateur",
+      "subject": "Récupération de matériel informatique - Départ d'utilisateur",
+      "content": "Bonjour {MailUser},\n\nSuite au départ d'un collaborateur de votre agence, nous devons procéder à la récupération du matériel informatique qui lui était attribué.\n\nDétails du matériel à récupérer :\n- Équipement : {Matériel}\n- Agence : {Agence}\n- Date limite de retour : {DateRelance}\n\nMerci de bien vouloir nous confirmer que ce matériel a été récupéré et qu'il est disponible pour être réattribué ou renvoyé au service informatique.\n\nSi vous rencontrez des difficultés pour localiser cet équipement, veuillez nous en informer dès que possible.\n\nCordialement,\nLe service informatique",
+      "variables": [
+        "MailUser",
+        "Matériel",
+        "DateRelance",
+        "Agence"
+      ],
+      "createdAt": "2025-03-07T21:10:00.000Z",
+      "updatedAt": "2025-03-07T21:10:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-plus me-2 text-primary"></i>Créer un Utilisateur</h2>
+    <a href="/users" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Informations de l'utilisateur</h5>
+            </div>
+            <div class="card-body">
+                <form action="/users/create" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="username" name="username" value="<%= locals.formData ? formData.username : '' %>" required>
+                        </div>
+                        <div class="form-text">Le nom d'utilisateur doit être unique.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Rôle</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="user" <%= locals.formData && formData.role === 'user' ? 'selected' : '' %>>Utilisateur (Employé)</option>
+                            <option value="technicien" <%= locals.formData && formData.role === 'technicien' ? 'selected' : '' %>>Technicien DSI</option>
+                            <option value="admin" <%= locals.formData && formData.role === 'admin' ? 'selected' : '' %>>Administrateur</option>
+                        </select>
+                        <div class="form-text">
+                            Les techniciens peuvent gérer le matériel et les relances. Les administrateurs ont accès à toutes les fonctionnalités.
+                            <span class="text-info">Note : Les utilisateurs avec le rôle "Utilisateur" ne peuvent pas se connecter à l'application.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="agencyId" class="form-label">Agence</label>
+                        <select class="form-select" id="agencyId" name="agencyId">
+                            <option value="none">Aucune agence</option>
+                            <% if (agencies && agencies.length > 0) { %>
+                                <% agencies.forEach(agency => { %>
+                                    <option value="<%= agency.id %>" <%= locals.formData && formData.agencyId === agency.id ? 'selected' : '' %>>
+                                        <%= agency.name %>
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                        <div class="form-text">
+                            L'utilisateur sera associé à cette agence. 
+                            <span class="text-info">Note : Les techniciens sans agence seront automatiquement associés à l'agence "Services Informatique".</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" value="<%= locals.formData ? formData.email : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Téléphone</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="<%= locals.formData ? formData.phone : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/users" class="btn btn-outline-secondary">Annuler</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Enregistrer l'utilisateur
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Aide</h5>
+            </div>
+            <div class="card-body">
+                <p>
+                    Créez un nouvel utilisateur en remplissant le formulaire ci-contre.
+                </p>
+                <div class="alert alert-info">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Conseil :</strong> Vous pouvez associer un utilisateur à une agence maintenant ou le faire plus tard.
+                </div>
+                <p>
+                    <strong>Champs obligatoires :</strong>
+                </p>
+                <ul>
+                    <li>Nom d'utilisateur</li>
+                </ul>
+                <p>
+                    <strong>Rôles disponibles :</strong>
+                </p>
+                <ul>
+                    <li><span class="badge bg-secondary">Utilisateur</span> - Accès limité aux fonctionnalités de base</li>
+                    <li><span class="badge bg-danger">Administrateur</span> - Accès complet à toutes les fonctionnalités</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 
