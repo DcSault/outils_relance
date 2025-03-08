@@ -296,6 +296,10 @@
                         <a href="/inventory/return/<%= item.id %>" class="btn btn-outline-success">
                             <i class="fas fa-undo me-1"></i>Marquer comme retourné
                         </a>
+                        
+                        <a href="/reminders/from-item/<%= item.id %>" class="btn btn-outline-warning mt-2">
+                            <i class="fas fa-bell me-1"></i>Relancer l'emprunteur
+                        </a>
                     <% } %>
                     
                     <a href="/inventory/delete/<%= item.id %>" class="btn btn-outline-danger confirm-delete">

@@ -172,9 +172,9 @@ const reminderController = {
             });
         }
         
-        // Redirection avec message de succès
+        // Redirection vers la page de préparation d'email
         req.session.success = 'Relance créée avec succès';
-        res.redirect('/reminders');
+        res.redirect(`/reminders/prepare-email/${newReminder.id}`);
     },
     
     // Afficher le formulaire de modification d'une relance
@@ -418,6 +418,50 @@ const reminderController = {
             title: 'Confirmer l\'envoi du mail',
             reminder,
             user: req.session.user
+        });
+    },
+    
+    // Afficher le formulaire de préparation d'une relance depuis un élément
+    showReminderFromItem: (req, res) => {
+        const { itemId } = req.params;
+        
+        // Récupérer les données nécessaires
+        const inventoryData = getInventoryData();
+        const usersData = getUsersData();
+        const templatesData = getTemplatesData();
+        
+        // Trouver l'élément concerné
+        const item = inventoryData.items.find(i => i.id === itemId);
+        
+        if (!item) {
+            req.session.error = 'Élément non trouvé';
+            return res.redirect('/inventory');
+        }
+        
+        // Vérifier si l'élément est prêté ou attribué
+        if (item.status !== 'borrowed' && item.status !== 'assigned') {
+            req.session.error = 'Cet élément n\'est pas actuellement prêté ou attribué';
+            return res.redirect(`/inventory/details/${itemId}`);
+        }
+        
+        // Trouver l'utilisateur qui a emprunté l'élément
+        const borrower = usersData.users.find(u => u.id === item.borrowedBy);
+        
+        if (!borrower) {
+            req.session.error = 'Utilisateur emprunteur non trouvé';
+            return res.redirect(`/inventory/details/${itemId}`);
+        }
+        
+        // Préparer les données pour le formulaire
+        res.render('reminders/create', {
+            title: 'Créer une Relance',
+            items: [item], // Uniquement l'élément concerné
+            selectedItemId: item.id,
+            users: usersData.users,
+            selectedUserId: borrower.id,
+            templates: templatesData.templates,
+            user: req.session.user,
+            fromInventory: true // Indique que nous venons de la page d'inventaire
         });
     }
 };

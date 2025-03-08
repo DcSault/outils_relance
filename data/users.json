@@ -49,6 +49,16 @@
       "phone": "0456789012",
       "createdAt": "2025-02-05T11:45:00.000Z",
       "updatedAt": "2025-02-05T11:45:00.000Z"
+    },
+    {
+      "id": "b7a4eed2-55a8-47b7-863f-3e14fbf5b058",
+      "username": "Users",
+      "agency": "c4ad54b0-6b8c-47c8-91e4-892c105f03ce",
+      "role": "user",
+      "email": "",
+      "phone": "",
+      "createdAt": "2025-03-08T09:48:53.646Z",
+      "updatedAt": "2025-03-08T09:49:25.079Z"
     }
   ]
 }

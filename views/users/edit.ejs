@@ -94,11 +94,24 @@
                 </p>
                 <div class="alert alert-info">
                     <i class="fas fa-lightbulb me-2"></i>
-                    <strong>Conseil :</strong> Si vous changez l'agence de l'utilisateur, cela affectera ses accès aux fonctionnalités.
+                    <strong>Conseil :</strong> Les techniciens sans agence seront automatiquement associés à l'agence "Services Informatique".
                 </div>
+                <p>
+                    <strong>Rôles disponibles :</strong>
+                </p>
+                <ul>
+                    <li><span class="badge bg-secondary">Utilisateur (Employé)</span> - Accès limité en lecture seule</li>
+                    <li><span class="badge bg-primary">Technicien DSI</span> - Gestion de l'inventaire et des relances</li>
+                    <li><span class="badge bg-danger">Administrateur</span> - Accès complet à toutes les fonctionnalités</li>
+                </ul>
                 <p>
                     <strong>Dernière mise à jour :</strong><br>
                     <span class="text-muted"><%= new Date(userData.updatedAt).toLocaleString('fr-FR') %></span>
+                </p>
+                <p>
+                    <a href="/users/details/<%= userData.id %>" class="btn btn-sm btn-outline-info w-100">
+                        <i class="fas fa-eye me-1"></i>Voir les détails complets
+                    </a>
                 </p>
             </div>
         </div>

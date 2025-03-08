@@ -6,6 +6,8 @@ const { v4: uuidv4 } = require('uuid');
 const usersFilePath = path.join(__dirname, '../data/users.json');
 const agenciesFilePath = path.join(__dirname, '../data/agencies.json');
 const rolesFilePath = path.join(__dirname, '../data/roles.json');
+const inventoryFilePath = path.join(__dirname, '../data/inventory.json');
+const remindersFilePath = path.join(__dirname, '../data/reminders.json');
 
 // Fonction utilitaire pour lire les données des utilisateurs
 const getUsersData = () => {
@@ -59,6 +61,28 @@ const saveRolesData = (data) => {
     } catch (error) {
         console.error('Erreur lors de l\'écriture du fichier roles.json:', error);
         return false;
+    }
+};
+
+// Fonction utilitaire pour lire les données de l'inventaire
+const getInventoryData = () => {
+    try {
+        const data = fs.readFileSync(inventoryFilePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Erreur lors de la lecture du fichier inventory.json:', error);
+        return { items: [] };
+    }
+};
+
+// Fonction utilitaire pour lire les données des relances
+const getRemindersData = () => {
+    try {
+        const data = fs.readFileSync(remindersFilePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Erreur lors de la lecture du fichier reminders.json:', error);
+        return { reminders: [] };
     }
 };
 
@@ -295,6 +319,105 @@ const userController = {
         res.redirect('/users');
     },
     
+    // Afficher les détails d'un utilisateur
+    showUserDetails: (req, res) => {
+        const { id } = req.params;
+        
+        // Récupération des données
+        const usersData = getUsersData();
+        const user = usersData.users.find(u => u.id === id);
+        
+        if (!user) {
+            req.session.error = 'Utilisateur non trouvé';
+            return res.redirect('/users');
+        }
+        
+        // Récupération des données des agences
+        const agenciesData = getAgenciesData();
+        const agency = user.agency ? agenciesData.agencies.find(a => a.id === user.agency) : null;
+        
+        // Récupération des données de l'inventaire
+        const inventoryData = getInventoryData();
+        
+        // Éléments actuellement empruntés par l'utilisateur
+        const borrowedItems = inventoryData.items.filter(item => 
+            item.borrowedBy === user.id && 
+            (item.status === 'borrowed' || item.status === 'assigned')
+        );
+        
+        // Historique des éléments retournés
+        const returnedItems = [];
+        
+        // Parcourir tous les éléments pour trouver ceux qui ont un historique de retour pour cet utilisateur
+        inventoryData.items.forEach(item => {
+            if (item.history) {
+                const returnEntries = item.history.filter(entry => 
+                    entry.action === 'Retour' && 
+                    entry.description.toLowerCase().includes(user.username.toLowerCase())
+                );
+                
+                returnEntries.forEach(entry => {
+                    returnedItems.push({
+                        ...entry,
+                        itemId: item.id,
+                        itemName: item.name
+                    });
+                });
+            }
+        });
+        
+        // Récupération des données des relances
+        const remindersData = getRemindersData();
+        
+        // Relances pour cet utilisateur
+        const reminders = remindersData.reminders
+            .filter(reminder => reminder.userId === user.id)
+            .map(reminder => {
+                const item = inventoryData.items.find(i => i.id === reminder.itemId);
+                return {
+                    ...reminder,
+                    itemName: item ? item.name : 'Élément inconnu'
+                };
+            });
+        
+        // Historique des réparations
+        const repairs = [];
+        
+        // Parcourir tous les éléments pour trouver les réparations sur le matériel de l'utilisateur
+        inventoryData.items.forEach(item => {
+            if (item.history) {
+                const repairEntries = item.history.filter(entry => 
+                    entry.action === 'Réparation' && 
+                    (item.borrowedBy === user.id || 
+                     returnedItems.some(ri => ri.itemId === item.id))
+                );
+                
+                repairEntries.forEach(entry => {
+                    const technician = usersData.users.find(u => u.id === entry.userId);
+                    
+                    repairs.push({
+                        ...entry,
+                        itemId: item.id,
+                        itemName: item.name,
+                        technicianName: technician ? technician.username : 'Utilisateur inconnu'
+                    });
+                });
+            }
+        });
+        
+        // Rendu de la page de détails
+        res.render('users/details', {
+            title: `Détails de l'utilisateur ${user.username}`,
+            userData: user,
+            agency,
+            borrowedItems,
+            returnedItems,
+            reminders,
+            repairs,
+            user: req.session.user
+        });
+    },
+    
     // Créer un nouveau rôle
     createRole: (req, res) => {
         const { name, description, baseRole } = req.body;
@@ -355,9 +478,19 @@ const userController = {
             return res.status(404).json({ success: false, message: 'Rôle non trouvé' });
         }
         
-        // Vérifier si c'est un rôle système
+        // Vérifier les permissions critiques pour les rôles système
         if (rolesData.roles[roleIndex].isSystem) {
-            return res.status(403).json({ success: false, message: 'Les rôles système ne peuvent pas être modifiés' });
+            // Pour le rôle admin, on s'assure que certaines permissions restent activées
+            if (roleId === 'admin') {
+                permissions.perm_roles_manage = true; // L'admin doit toujours pouvoir gérer les rôles
+                permissions.perm_users_view = true; // L'admin doit toujours pouvoir voir les utilisateurs
+                permissions.perm_users_edit = true; // L'admin doit toujours pouvoir modifier les utilisateurs
+            }
+            
+            // Pour le rôle technicien, on s'assure qu'il garde certaines permissions minimales
+            if (roleId === 'technicien') {
+                permissions.perm_inventory_view = true; // Le technicien doit toujours pouvoir voir l'inventaire
+            }
         }
         
         // Mettre à jour les permissions

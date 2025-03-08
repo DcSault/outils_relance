@@ -8,6 +8,9 @@ const { isAuthenticated, isTechnicien, isAdmin } = require('../middleware/authMi
 router.get('/', isAuthenticated, isTechnicien, reminderController.getAllReminders);
 router.get('/calendar', isAuthenticated, isTechnicien, reminderController.showCalendar);
 
+// Route pour créer une relance depuis un élément d'inventaire
+router.get('/from-item/:itemId', isAuthenticated, isTechnicien, reminderController.showReminderFromItem);
+
 // Seuls les techniciens et administrateurs peuvent créer et gérer des relances
 router.get('/create', isAuthenticated, isTechnicien, reminderController.showCreateForm);
 router.post('/create', isAuthenticated, isTechnicien, reminderController.createReminder);

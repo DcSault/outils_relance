@@ -297,11 +297,13 @@
                 if (checkbox) {
                     checkbox.checked = role.permissions[permId];
                     
-                    // Désactiver la modification pour les rôles prédéfinis
-                    if (['admin', 'technicien', 'user'].includes(roleId)) {
-                        checkbox.disabled = true;
+                    // Désactiver certaines permissions critiques pour les rôles système
+                    if (roleId === 'admin' && (permId === 'perm_roles_manage' || permId === 'perm_users_view' || permId === 'perm_users_edit')) {
+                        checkbox.disabled = true; // Ces permissions sont obligatoires pour l'admin
+                    } else if (roleId === 'technicien' && permId === 'perm_inventory_view') {
+                        checkbox.disabled = true; // Cette permission est obligatoire pour le technicien
                     } else {
-                        checkbox.disabled = false;
+                        checkbox.disabled = false; // Toutes les autres permissions sont modifiables
                     }
                 }
             });
@@ -470,17 +472,20 @@
         document.getElementById('saveRoleBtn').addEventListener('click', function() {
             const roleId = document.getElementById('roleId').value;
             
-            // Vérifier si c'est un rôle prédéfini
-            if (['admin', 'technicien', 'user'].includes(roleId)) {
-                alert('Les rôles prédéfinis ne peuvent pas être modifiés');
-                return;
-            }
-            
             // Récupérer toutes les permissions
             const permissions = {};
             document.querySelectorAll('#rolePermissionsForm input[type="checkbox"]').forEach(checkbox => {
                 permissions[checkbox.id] = checkbox.checked;
             });
+            
+            // S'assurer que les permissions critiques sont toujours activées pour les rôles système
+            if (roleId === 'admin') {
+                permissions.perm_roles_manage = true;
+                permissions.perm_users_view = true;
+                permissions.perm_users_edit = true;
+            } else if (roleId === 'technicien') {
+                permissions.perm_inventory_view = true;
+            }
             
             // Appel API pour mettre à jour les permissions
             fetch('/users/roles/update', {

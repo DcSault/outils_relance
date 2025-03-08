@@ -95,6 +95,9 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
+                                        <a href="/users/details/<%= user.id %>" class="btn btn-outline-info" data-bs-toggle="tooltip" title="Détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         <a href="/users/edit/<%= user.id %>" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Modifier">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -141,6 +144,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser les tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
         // Filtrage par agence
         const agencyFilter = document.getElementById('agencyFilter');
         if (agencyFilter) {
