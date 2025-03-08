@@ -22,6 +22,12 @@ router.get('/mark-as-sent/:id', isAuthenticated, isTechnicien, reminderControlle
 router.get('/prepare-email/:id', isAuthenticated, isTechnicien, reminderController.prepareEmail);
 router.get('/confirm-sent/:id', isAuthenticated, isTechnicien, reminderController.showConfirmSent);
 
+// Routes pour l'archivage des relances
+router.get('/archive/:id', isAuthenticated, isTechnicien, reminderController.archiveReminder);
+router.get('/archives', isAuthenticated, isTechnicien, reminderController.getArchivedReminders);
+router.get('/archives/restore/:id', isAuthenticated, isTechnicien, reminderController.restoreArchivedReminder);
+router.get('/archives/delete/:id', isAuthenticated, isAdmin, reminderController.deleteArchivedReminder);
+
 // Seuls les administrateurs peuvent supprimer des relances
 router.get('/delete/:id', isAuthenticated, isAdmin, reminderController.deleteReminder);
 

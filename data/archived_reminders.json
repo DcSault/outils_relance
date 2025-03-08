@@ -1,0 +1,30 @@
+{
+  "archivedReminders": [
+    {
+      "id": "cd45c31c-8b10-46bc-9d96-5a5884ca6829",
+      "itemId": "b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e",
+      "userId": "user4",
+      "templateId": "c3d4e5f6-g7h8-6c7d-1e2f-9g8h7i6j5k4l",
+      "reminderDate": "2025-03-08T00:00:00.000Z",
+      "notes": "",
+      "status": "sent",
+      "sentDate": "2025-03-08T10:30:48.013Z",
+      "createdAt": "2025-03-08T10:29:09.413Z",
+      "updatedAt": "2025-03-08T10:30:48.013Z",
+      "archivedAt": "2025-03-08T10:30:48.013Z"
+    },
+    {
+      "id": "3ab44509-b8a7-4f58-8266-dcd5cac5d31b",
+      "itemId": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+      "userId": "user2",
+      "templateId": "a1b2c3d4-e5f6-4a5b-9c8d-7e6f5a4b3c2d",
+      "reminderDate": "2025-03-08T00:00:00.000Z",
+      "notes": "",
+      "status": "sent",
+      "sentDate": "2025-03-08T10:28:09.214Z",
+      "createdAt": "2025-03-08T10:17:52.633Z",
+      "updatedAt": "2025-03-08T10:28:09.214Z",
+      "archivedAt": "2025-03-08T10:38:55.771Z"
+    }
+  ]
+}

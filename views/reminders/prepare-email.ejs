@@ -140,9 +140,14 @@
                                 <div class="card-body">
                                     <h6 class="card-subtitle mb-2">Confirmer l'envoi</h6>
                                     <p class="card-text">Après avoir envoyé le mail, confirmez l'envoi pour mettre à jour le statut de la relance.</p>
-                                    <a href="/reminders/confirm-sent/<%= reminder.id %>" class="btn btn-outline-success btn-sm" id="confirmSentBtn">
-                                        <i class="fas fa-check me-1"></i>Confirmer l'envoi
-                                    </a>
+                                    <div class="d-flex gap-2">
+                                        <a href="/reminders/confirm-sent/<%= reminder.id %>" class="btn btn-outline-success btn-sm" id="confirmSentBtn">
+                                            <i class="fas fa-check me-1"></i>Confirmer l'envoi
+                                        </a>
+                                        <a href="/reminders/mark-as-sent/<%= reminder.id %>" class="btn btn-outline-secondary btn-sm" id="markAsSentBtn">
+                                            <i class="fas fa-archive me-1"></i>Marquer comme envoyé et archiver
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

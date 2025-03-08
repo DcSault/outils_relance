@@ -33,6 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Gestion des confirmations d'archivage
+    document.querySelectorAll('.confirm-archive').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Êtes-vous sûr de vouloir archiver cette relance ? Elle sera déplacée dans les archives.')) {
+                e.preventDefault();
+            }
+        });
+    });
+
     // Gestion des filtres de tableau
     const tableFilter = document.getElementById('tableFilter');
     if (tableFilter) {

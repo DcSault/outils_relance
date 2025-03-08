@@ -99,6 +99,38 @@ const getITServiceAgencyId = () => {
     return itServiceAgency ? itServiceAgency.id : null;
 };
 
+// Fonction utilitaire pour calculer la durée de prêt en jours
+const calculateBorrowDuration = (borrowDate) => {
+    if (!borrowDate) return null;
+    
+    const today = new Date();
+    const bDate = new Date(borrowDate);
+    const diffTime = Math.abs(today - bDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays;
+};
+
+// Fonction pour déterminer si une relance est nécessaire
+const isReminderNeeded = (borrowDuration) => {
+    // Seuils de relance (en jours)
+    const reminderThresholds = {
+        first: 14,  // Première relance après 14 jours
+        second: 30, // Deuxième relance après 30 jours
+        urgent: 45  // Relance urgente après 45 jours
+    };
+    
+    if (borrowDuration >= reminderThresholds.urgent) {
+        return { needed: true, level: 'urgent', threshold: reminderThresholds.urgent };
+    } else if (borrowDuration >= reminderThresholds.second) {
+        return { needed: true, level: 'second', threshold: reminderThresholds.second };
+    } else if (borrowDuration >= reminderThresholds.first) {
+        return { needed: true, level: 'first', threshold: reminderThresholds.first };
+    }
+    
+    return { needed: false };
+};
+
 // Contrôleur pour l'inventaire
 const inventoryController = {
     // Afficher tous les éléments de l'inventaire
@@ -107,15 +139,27 @@ const inventoryController = {
         const agenciesData = getAgenciesData();
         const usersData = getUsersData();
         
-        // Ajouter les informations des agences et des utilisateurs aux éléments
+        // Enrichir les données des éléments avec les informations utilisateur et agence
         const itemsWithDetails = inventoryData.items.map(item => {
-            const agency = item.agencyId ? agenciesData.agencies.find(a => a.id === item.agencyId) : null;
+            // Trouver l'utilisateur associé à l'élément
             const user = item.borrowedBy ? usersData.users.find(u => u.id === item.borrowedBy) : null;
+            
+            // Calculer la durée de prêt si l'élément est emprunté
+            let borrowDuration = null;
+            let reminderStatus = null;
+            
+            if (item.status === 'borrowed' && item.borrowDate) {
+                borrowDuration = calculateBorrowDuration(item.borrowDate);
+                reminderStatus = isReminderNeeded(borrowDuration);
+            }
             
             return {
                 ...item,
-                agency: agency ? agency.name : null,
-                borrower: user ? user.username : null
+                borrowedByUser: user ? user.username : null,
+                borrowedByAgency: user && user.agency ? 
+                    (agenciesData.agencies.find(a => a.id === user.agency)?.name || 'Agence inconnue') : null,
+                borrowDuration,
+                reminderStatus
             };
         });
         
@@ -435,6 +479,15 @@ const inventoryController = {
             };
         });
         
+        // Calculer la durée de prêt si l'élément est emprunté
+        let borrowDuration = null;
+        let reminderStatus = null;
+        
+        if (item.status === 'borrowed' && item.borrowDate) {
+            borrowDuration = calculateBorrowDuration(item.borrowDate);
+            reminderStatus = isReminderNeeded(borrowDuration);
+        }
+        
         res.render('inventory/details', {
             title: 'Détails de l\'Élément',
             item,
@@ -442,7 +495,9 @@ const inventoryController = {
             borrower,
             history: historyWithUsernames,
             users: usersData.users,
-            user: req.session.user
+            user: req.session.user,
+            borrowDuration,
+            reminderStatus
         });
     },
     

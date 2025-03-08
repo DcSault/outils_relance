@@ -30,7 +30,7 @@ app.use(session({
 
 // Middleware pour vérifier si les dossiers de données existent
 const dataDir = path.join(__dirname, 'data');
-const requiredDataFiles = ['users.json', 'agencies.json', 'inventory.json', 'templates.json', 'reminders.json'];
+const requiredDataFiles = ['users.json', 'agencies.json', 'inventory.json', 'templates.json', 'reminders.json', 'notifications.json'];
 
 // Création du dossier data s'il n'existe pas
 if (!fs.existsSync(dataDir)) {
@@ -45,7 +45,8 @@ requiredDataFiles.forEach(file => {
                        file === 'agencies.json' ? { agencies: [] } :
                        file === 'inventory.json' ? { items: [] } :
                        file === 'templates.json' ? { templates: [] } :
-                       file === 'reminders.json' ? { reminders: [] } : {};
+                       file === 'reminders.json' ? { reminders: [] } :
+                       file === 'notifications.json' ? { notifications: [] } : {};
     
     fs.writeFileSync(filePath, JSON.stringify(defaultData, null, 2));
     console.log(`Fichier ${file} créé avec succès.`);
@@ -67,6 +68,19 @@ const inventoryRoutes = require('./routes/inventoryRoutes');
 const templateRoutes = require('./routes/templateRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
 const userRoutes = require('./routes/userRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+
+// Importation du contrôleur de notifications
+const notificationController = require('./controllers/notificationController');
+
+// Middleware pour générer les notifications à chaque requête pour les utilisateurs authentifiés
+app.use((req, res, next) => {
+  if (req.session.user && (req.session.user.role === 'admin' || req.session.user.role === 'technicien')) {
+    // Générer les notifications pour les relances nécessaires
+    notificationController.generateReminderNotifications();
+  }
+  next();
+});
 
 // Utilisation des routes
 app.use('/agencies', agencyRoutes);
@@ -74,6 +88,7 @@ app.use('/inventory', inventoryRoutes);
 app.use('/templates', templateRoutes);
 app.use('/reminders', reminderRoutes);
 app.use('/users', userRoutes);
+app.use('/notifications', notificationRoutes);
 
 // Routes
 app.get('/', (req, res) => {

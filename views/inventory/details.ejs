@@ -56,6 +56,39 @@
                             <% } %>
                         </div>
                         
+                        <% if (item.status === 'borrowed' && borrowDuration) { %>
+                            <div class="mb-3">
+                                <strong>Durée du prêt:</strong>
+                                <div class="mt-1">
+                                    <% if (reminderStatus && reminderStatus.needed) { %>
+                                        <% if (reminderStatus.level === 'urgent') { %>
+                                            <div class="alert alert-danger p-2">
+                                                <i class="fas fa-exclamation-triangle me-1"></i>
+                                                <strong><%= borrowDuration %> jours</strong> - Relance urgente nécessaire!
+                                            </div>
+                                        <% } else if (reminderStatus.level === 'second') { %>
+                                            <div class="alert alert-warning p-2">
+                                                <i class="fas fa-exclamation-circle me-1"></i>
+                                                <strong><%= borrowDuration %> jours</strong> - Seconde relance recommandée
+                                            </div>
+                                        <% } else { %>
+                                            <div class="alert alert-info p-2">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                <strong><%= borrowDuration %> jours</strong> - Première relance recommandée
+                                            </div>
+                                        <% } %>
+                                        <div class="mt-2">
+                                            <a href="/reminders/from-item/<%= item.id %>" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-bell me-1"></i>Créer une relance
+                                            </a>
+                                        </div>
+                                    <% } else { %>
+                                        <span class="badge bg-success p-2"><%= borrowDuration %> jours</span>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                        
                         <% if (item.tags && item.tags.length > 0) { %>
                             <div class="mb-3">
                                 <strong>Tags:</strong>

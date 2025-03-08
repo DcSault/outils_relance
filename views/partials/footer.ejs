@@ -37,5 +37,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- JavaScript personnalisé -->
     <script src="/js/main.js"></script>
+    
+    <% if (locals.user && (user.role === 'admin' || user.role === 'technicien')) { %>
+    <!-- Script de gestion des notifications -->
+    <script src="/js/notifications.js"></script>
+    <% } %>
 </body>
 </html> 

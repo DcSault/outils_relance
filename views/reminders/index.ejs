@@ -11,9 +11,14 @@
                         </h2>
                         <p class="card-text">Gérez les relances pour le matériel prêté.</p>
                     </div>
-                    <a href="/reminders/create" class="btn btn-primary">
-                        <i class="fas fa-plus me-1"></i>Nouvelle Relance
-                    </a>
+                    <div>
+                        <a href="/reminders/archives" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-archive me-1"></i>Archives
+                        </a>
+                        <a href="/reminders/create" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>Nouvelle Relance
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,6 +81,11 @@
                                                         </a>
                                                         <a href="/reminders/mark-as-sent/<%= reminder.id %>" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Marquer comme envoyée">
                                                             <i class="fas fa-paper-plane"></i>
+                                                        </a>
+                                                    <% } %>
+                                                    <% if (reminder.status === 'sent') { %>
+                                                        <a href="/reminders/archive/<%= reminder.id %>" class="btn btn-outline-secondary confirm-archive" data-bs-toggle="tooltip" title="Archiver">
+                                                            <i class="fas fa-archive"></i>
                                                         </a>
                                                     <% } %>
                                                     <a href="/reminders/delete/<%= reminder.id %>" class="btn btn-outline-danger confirm-delete" data-bs-toggle="tooltip" title="Supprimer">

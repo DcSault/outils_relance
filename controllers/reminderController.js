@@ -9,6 +9,7 @@ const templatesFilePath = path.join(__dirname, '../data/templates.json');
 const inventoryFilePath = path.join(__dirname, '../data/inventory.json');
 const usersFilePath = path.join(__dirname, '../data/users.json');
 const agenciesFilePath = path.join(__dirname, '../data/agencies.json');
+const archivedRemindersFilePath = path.join(__dirname, '../data/archived_reminders.json');
 
 // Fonction utilitaire pour lire les données des relances
 const getRemindersData = () => {
@@ -73,6 +74,33 @@ const getAgenciesData = () => {
     } catch (error) {
         console.error('Erreur lors de la lecture du fichier agencies.json:', error);
         return { agencies: [] };
+    }
+};
+
+// Fonction utilitaire pour lire les données des relances archivées
+const getArchivedRemindersData = () => {
+    try {
+        if (!fs.existsSync(archivedRemindersFilePath)) {
+            // Créer le fichier s'il n'existe pas
+            fs.writeFileSync(archivedRemindersFilePath, JSON.stringify({ archivedReminders: [] }, null, 2));
+            return { archivedReminders: [] };
+        }
+        const data = fs.readFileSync(archivedRemindersFilePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Erreur lors de la lecture du fichier archived_reminders.json:', error);
+        return { archivedReminders: [] };
+    }
+};
+
+// Fonction utilitaire pour écrire les données des relances archivées
+const saveArchivedRemindersData = (data) => {
+    try {
+        fs.writeFileSync(archivedRemindersFilePath, JSON.stringify(data, null, 2));
+        return true;
+    } catch (error) {
+        console.error('Erreur lors de l\'écriture du fichier archived_reminders.json:', error);
+        return false;
     }
 };
 
@@ -285,6 +313,7 @@ const reminderController = {
         
         // Récupération des données
         const remindersData = getRemindersData();
+        const archivedRemindersData = getArchivedRemindersData();
         const reminderIndex = remindersData.reminders.findIndex(r => r.id === id);
         
         if (reminderIndex === -1) {
@@ -293,21 +322,36 @@ const reminderController = {
         }
         
         // Mise à jour de la relance
-        remindersData.reminders[reminderIndex] = {
+        const updatedReminder = {
             ...remindersData.reminders[reminderIndex],
             status: 'sent',
             sentDate: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         };
         
-        // Sauvegarde des données
-        if (!saveRemindersData(remindersData)) {
-            req.session.error = 'Erreur lors de la mise à jour de la relance';
+        // Ajouter la relance aux archives avec la date d'archivage
+        const reminderToArchive = {
+            ...updatedReminder,
+            archivedAt: new Date().toISOString()
+        };
+        
+        // Ajouter aux archives
+        archivedRemindersData.archivedReminders.push(reminderToArchive);
+        
+        // Supprimer de la liste active
+        remindersData.reminders.splice(reminderIndex, 1);
+        
+        // Sauvegarder les deux fichiers
+        const archiveSaved = saveArchivedRemindersData(archivedRemindersData);
+        const remindersSaved = saveRemindersData(remindersData);
+        
+        if (!archiveSaved || !remindersSaved) {
+            req.session.error = 'Erreur lors de la mise à jour et de l\'archivage de la relance';
             return res.redirect('/reminders');
         }
         
         // Redirection avec message de succès
-        req.session.success = 'Relance marquée comme envoyée';
+        req.session.success = 'Relance marquée comme envoyée et archivée';
         res.redirect('/reminders');
     },
     
@@ -463,6 +507,144 @@ const reminderController = {
             user: req.session.user,
             fromInventory: true // Indique que nous venons de la page d'inventaire
         });
+    },
+    
+    // Archiver une relance
+    archiveReminder: (req, res) => {
+        const { id } = req.params;
+        
+        // Récupération des données
+        const remindersData = getRemindersData();
+        const archivedRemindersData = getArchivedRemindersData();
+        const reminderIndex = remindersData.reminders.findIndex(r => r.id === id);
+        
+        if (reminderIndex === -1) {
+            req.session.error = 'Relance non trouvée';
+            return res.redirect('/reminders');
+        }
+        
+        // Récupérer la relance à archiver
+        const reminderToArchive = remindersData.reminders[reminderIndex];
+        
+        // Ajouter la date d'archivage
+        reminderToArchive.archivedAt = new Date().toISOString();
+        
+        // Ajouter la relance aux archives
+        archivedRemindersData.archivedReminders.push(reminderToArchive);
+        
+        // Supprimer la relance de la liste active
+        remindersData.reminders.splice(reminderIndex, 1);
+        
+        // Sauvegarder les deux fichiers
+        const archiveSaved = saveArchivedRemindersData(archivedRemindersData);
+        const remindersSaved = saveRemindersData(remindersData);
+        
+        if (!archiveSaved || !remindersSaved) {
+            req.session.error = 'Erreur lors de l\'archivage de la relance';
+            return res.redirect('/reminders');
+        }
+        
+        // Redirection avec message de succès
+        req.session.success = 'Relance archivée avec succès';
+        res.redirect('/reminders');
+    },
+    
+    // Afficher les relances archivées
+    getArchivedReminders: (req, res) => {
+        const archivedRemindersData = getArchivedRemindersData();
+        const inventoryData = getInventoryData();
+        const usersData = getUsersData();
+        const templatesData = getTemplatesData();
+        
+        // Ajouter les informations des éléments, utilisateurs et templates aux relances archivées
+        const archivedRemindersWithDetails = archivedRemindersData.archivedReminders.map(reminder => {
+            const item = inventoryData.items.find(i => i.id === reminder.itemId);
+            const user = usersData.users.find(u => u.id === reminder.userId);
+            const template = templatesData.templates.find(t => t.id === reminder.templateId);
+            
+            return {
+                ...reminder,
+                itemName: item ? item.name : 'Élément inconnu',
+                userName: user ? user.username : 'Utilisateur inconnu',
+                templateName: template ? template.name : 'Template inconnu'
+            };
+        });
+        
+        // Trier par date d'archivage (plus récent en premier)
+        archivedRemindersWithDetails.sort((a, b) => new Date(b.archivedAt) - new Date(a.archivedAt));
+        
+        res.render('reminders/archives', {
+            title: 'Archives des Relances',
+            archivedReminders: archivedRemindersWithDetails,
+            user: req.session.user
+        });
+    },
+    
+    // Restaurer une relance archivée
+    restoreArchivedReminder: (req, res) => {
+        const { id } = req.params;
+        
+        // Récupération des données
+        const remindersData = getRemindersData();
+        const archivedRemindersData = getArchivedRemindersData();
+        const archivedReminderIndex = archivedRemindersData.archivedReminders.findIndex(r => r.id === id);
+        
+        if (archivedReminderIndex === -1) {
+            req.session.error = 'Relance archivée non trouvée';
+            return res.redirect('/reminders/archives');
+        }
+        
+        // Récupérer la relance à restaurer
+        const reminderToRestore = archivedRemindersData.archivedReminders[archivedReminderIndex];
+        
+        // Supprimer la propriété archivedAt
+        delete reminderToRestore.archivedAt;
+        
+        // Ajouter la relance à la liste active
+        remindersData.reminders.push(reminderToRestore);
+        
+        // Supprimer la relance des archives
+        archivedRemindersData.archivedReminders.splice(archivedReminderIndex, 1);
+        
+        // Sauvegarder les deux fichiers
+        const archiveSaved = saveArchivedRemindersData(archivedRemindersData);
+        const remindersSaved = saveRemindersData(remindersData);
+        
+        if (!archiveSaved || !remindersSaved) {
+            req.session.error = 'Erreur lors de la restauration de la relance';
+            return res.redirect('/reminders/archives');
+        }
+        
+        // Redirection avec message de succès
+        req.session.success = 'Relance restaurée avec succès';
+        res.redirect('/reminders/archives');
+    },
+    
+    // Supprimer définitivement une relance archivée
+    deleteArchivedReminder: (req, res) => {
+        const { id } = req.params;
+        
+        // Récupération des données
+        const archivedRemindersData = getArchivedRemindersData();
+        const archivedReminderIndex = archivedRemindersData.archivedReminders.findIndex(r => r.id === id);
+        
+        if (archivedReminderIndex === -1) {
+            req.session.error = 'Relance archivée non trouvée';
+            return res.redirect('/reminders/archives');
+        }
+        
+        // Supprimer la relance des archives
+        archivedRemindersData.archivedReminders.splice(archivedReminderIndex, 1);
+        
+        // Sauvegarder les données
+        if (!saveArchivedRemindersData(archivedRemindersData)) {
+            req.session.error = 'Erreur lors de la suppression de la relance archivée';
+            return res.redirect('/reminders/archives');
+        }
+        
+        // Redirection avec message de succès
+        req.session.success = 'Relance archivée supprimée définitivement';
+        res.redirect('/reminders/archives');
     }
 };
 

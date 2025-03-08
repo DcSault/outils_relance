@@ -126,6 +126,9 @@
                             <th>Statut</th>
                             <th>Agence</th>
                             <th>Utilisateur</th>
+                            <% if (user && (user.role === 'admin' || user.role === 'technicien')) { %>
+                            <th>Durée de prêt</th>
+                            <% } %>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -159,6 +162,28 @@
                                         <span class="text-muted">-</span>
                                     <% } %>
                                 </td>
+                                <% if (user && (user.role === 'admin' || user.role === 'technicien')) { %>
+                                <td>
+                                    <% if (item.status === 'borrowed' && item.borrowDuration) { %>
+                                        <% if (item.reminderStatus && item.reminderStatus.needed) { %>
+                                            <% if (item.reminderStatus.level === 'urgent') { %>
+                                                <span class="badge bg-danger"><%= item.borrowDuration %> jours</span>
+                                                <i class="fas fa-exclamation-triangle text-danger ms-1" data-bs-toggle="tooltip" title="Relance urgente nécessaire!"></i>
+                                            <% } else if (item.reminderStatus.level === 'second') { %>
+                                                <span class="badge bg-warning"><%= item.borrowDuration %> jours</span>
+                                                <i class="fas fa-exclamation-circle text-warning ms-1" data-bs-toggle="tooltip" title="Seconde relance recommandée"></i>
+                                            <% } else { %>
+                                                <span class="badge bg-info"><%= item.borrowDuration %> jours</span>
+                                                <i class="fas fa-info-circle text-info ms-1" data-bs-toggle="tooltip" title="Première relance recommandée"></i>
+                                            <% } %>
+                                        <% } else { %>
+                                            <span class="badge bg-success"><%= item.borrowDuration %> jours</span>
+                                        <% } %>
+                                    <% } else { %>
+                                        -
+                                    <% } %>
+                                </td>
+                                <% } %>
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         <a href="/inventory/details/<%= item.id %>" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Détails">

@@ -1,0 +1,117 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-archive me-2 text-secondary"></i>Archives des Relances
+                        </h2>
+                        <p class="card-text">Consultez l'historique des relances archivées.</p>
+                    </div>
+                    <a href="/reminders" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour aux Relances
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Relances Archivées</h5>
+                        <div class="input-group" style="width: 250px;">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="tableFilter" placeholder="Rechercher...">
+                        </div>
+                    </div>
+
+                    <% if (archivedReminders && archivedReminders.length > 0) { %>
+                        <div class="table-responsive">
+                            <table class="table table-hover filterable-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Matériel</th>
+                                        <th>Utilisateur</th>
+                                        <th>Template</th>
+                                        <th>Date de relance</th>
+                                        <th>Date d'envoi</th>
+                                        <th>Date d'archivage</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% archivedReminders.forEach(reminder => { %>
+                                        <tr>
+                                            <td><%= reminder.itemName %></td>
+                                            <td><%= reminder.userName %></td>
+                                            <td><%= reminder.templateName %></td>
+                                            <td><%= new Date(reminder.reminderDate).toLocaleDateString('fr-FR') %></td>
+                                            <td><%= reminder.sentDate ? new Date(reminder.sentDate).toLocaleDateString('fr-FR') : 'Non envoyée' %></td>
+                                            <td><%= new Date(reminder.archivedAt).toLocaleDateString('fr-FR') %></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/reminders/archives/restore/<%= reminder.id %>" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Restaurer">
+                                                        <i class="fas fa-undo"></i>
+                                                    </a>
+                                                    <a href="/reminders/archives/delete/<%= reminder.id %>" class="btn btn-outline-danger confirm-delete" data-bs-toggle="tooltip" title="Supprimer définitivement">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Aucune relance archivée pour le moment.
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2 text-info"></i>À propos des archives
+                    </h5>
+                    <p class="card-text">
+                        Les relances archivées sont des relances qui ont été envoyées et qui ne sont plus actives. 
+                        Elles sont conservées à des fins d'historique et de référence.
+                    </p>
+                    <p class="card-text">
+                        Vous pouvez restaurer une relance archivée si vous souhaitez la réutiliser ou la modifier.
+                        Les relances supprimées définitivement ne pourront pas être récupérées.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Confirmation pour la suppression définitive
+        const confirmDeleteLinks = document.querySelectorAll('.confirm-delete');
+        confirmDeleteLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!confirm('Êtes-vous sûr de vouloir supprimer définitivement cette relance archivée ? Cette action est irréversible.')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %> 
