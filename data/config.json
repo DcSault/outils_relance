@@ -38,17 +38,17 @@
     }
   },
   "domain": {
-    "useCustomDomain": true,
+    "useCustomDomain": false,
     "domainName": "dsi.sault.fr",
-    "useSSL": true,
-    "sslMethod": "selfSigned",
+    "useSSL": false,
+    "sslMethod": "",
     "letsencryptEmail": "",
-    "port": 443,
-    "accessMode": "domain",
-    "securityMode": "selfSigned",
+    "port": 3005,
+    "accessMode": "localhost",
+    "securityMode": "none",
     "selfSignedCommonName": "dsi.sault.fr",
     "selfSignedOrganization": "Sault",
-    "sslCertPath": "ssl/dsi.sault.fr.crt",
-    "sslKeyPath": "ssl/dsi.sault.fr.key"
+    "sslCertPath": "",
+    "sslKeyPath": ""
   }
 }
