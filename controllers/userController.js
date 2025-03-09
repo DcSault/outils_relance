@@ -1,6 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const winston = require('winston');
+
+// Référence aux loggers
+const serverLogger = global.serverLogger || winston.loggers.get('server') || winston.createLogger();
+const appLogger = global.appLogger || winston.loggers.get('app') || winston.createLogger();
 
 // Chemin vers les fichiers de données
 const usersFilePath = path.join(__dirname, '../data/users.json');
@@ -15,7 +20,7 @@ const getUsersData = () => {
         const data = fs.readFileSync(usersFilePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error('Erreur lors de la lecture du fichier users.json:', error);
+        serverLogger.error(`Erreur lors de la lecture du fichier users.json: ${error.message}`);
         return { users: [] };
     }
 };
@@ -26,7 +31,7 @@ const saveUsersData = (data) => {
         fs.writeFileSync(usersFilePath, JSON.stringify(data, null, 2));
         return true;
     } catch (error) {
-        console.error('Erreur lors de l\'écriture du fichier users.json:', error);
+        serverLogger.error(`Erreur lors de l'écriture du fichier users.json: ${error.message}`);
         return false;
     }
 };
@@ -37,7 +42,7 @@ const getAgenciesData = () => {
         const data = fs.readFileSync(agenciesFilePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error('Erreur lors de la lecture du fichier agencies.json:', error);
+        serverLogger.error(`Erreur lors de la lecture du fichier agencies.json: ${error.message}`);
         return { agencies: [] };
     }
 };
@@ -48,7 +53,7 @@ const getRolesData = () => {
         const data = fs.readFileSync(rolesFilePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error('Erreur lors de la lecture du fichier roles.json:', error);
+        serverLogger.error(`Erreur lors de la lecture du fichier roles.json: ${error.message}`);
         return { roles: [] };
     }
 };
@@ -138,6 +143,7 @@ const userController = {
         
         // Validation de base
         if (!username || username.trim() === '') {
+            appLogger.warn(`Tentative de création d'utilisateur échouée: nom d'utilisateur vide - Utilisateur: ${req.session.user.username}`);
             return res.render('users/create', {
                 title: 'Créer un Utilisateur',
                 error: 'Le nom d\'utilisateur est requis',
@@ -150,6 +156,7 @@ const userController = {
         // Vérifier si l'utilisateur existe déjà
         const usersData = getUsersData();
         if (usersData.users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+            appLogger.warn(`Tentative de création d'utilisateur échouée: nom d'utilisateur "${username}" déjà existant - Utilisateur: ${req.session.user.username}`);
             return res.render('users/create', {
                 title: 'Créer un Utilisateur',
                 error: 'Ce nom d\'utilisateur existe déjà',
@@ -180,6 +187,7 @@ const userController = {
             
             if (itServiceAgency) {
                 newUser.agency = itServiceAgency.id;
+                appLogger.info(`Utilisateur "${username}" (${newUser.id}) associé automatiquement à l'agence Services Informatique`);
             }
         }
         
@@ -188,6 +196,7 @@ const userController = {
         
         // Sauvegarde des données
         if (!saveUsersData(usersData)) {
+            appLogger.error(`Erreur lors de la sauvegarde de l'utilisateur "${username}" - Utilisateur: ${req.session.user.username}`);
             return res.render('users/create', {
                 title: 'Créer un Utilisateur',
                 error: 'Erreur lors de la sauvegarde de l\'utilisateur',
@@ -196,6 +205,8 @@ const userController = {
                 user: req.session.user
             });
         }
+        
+        appLogger.info(`Nouvel utilisateur créé: "${username}" (${newUser.id}) - Rôle: ${newUser.role} - Par: ${req.session.user.username}`);
         
         // Redirection avec message de succès
         req.session.success = 'Utilisateur créé avec succès';
@@ -230,6 +241,7 @@ const userController = {
         
         // Validation de base
         if (!username || username.trim() === '') {
+            appLogger.warn(`Tentative de mise à jour d'utilisateur échouée: nom d'utilisateur vide - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Le nom d\'utilisateur est requis';
             return res.redirect(`/users/edit/${id}`);
         }
@@ -239,12 +251,16 @@ const userController = {
         const userIndex = usersData.users.findIndex(u => u.id === id);
         
         if (userIndex === -1) {
+            appLogger.warn(`Tentative de mise à jour d'utilisateur échouée: utilisateur non trouvé - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Utilisateur non trouvé';
             return res.redirect('/users');
         }
         
+        const originalUser = { ...usersData.users[userIndex] };
+        
         // Vérifier si le nom d'utilisateur existe déjà (sauf pour l'utilisateur actuel)
         if (usersData.users.some(u => u.id !== id && u.username.toLowerCase() === username.toLowerCase())) {
+            appLogger.warn(`Tentative de mise à jour d'utilisateur échouée: nom d'utilisateur "${username}" déjà existant - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Ce nom d\'utilisateur existe déjà';
             return res.redirect(`/users/edit/${id}`);
         }
@@ -269,6 +285,7 @@ const userController = {
             
             if (itServiceAgency) {
                 updatedUser.agency = itServiceAgency.id;
+                appLogger.info(`Utilisateur "${username}" (${id}) associé automatiquement à l'agence Services Informatique`);
             }
         }
         
@@ -277,9 +294,20 @@ const userController = {
         
         // Sauvegarde des données
         if (!saveUsersData(usersData)) {
+            appLogger.error(`Erreur lors de la mise à jour de l'utilisateur "${username}" (${id}) - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Erreur lors de la sauvegarde de l\'utilisateur';
             return res.redirect(`/users/edit/${id}`);
         }
+        
+        // Journaliser les modifications
+        const changes = [];
+        if (originalUser.username !== updatedUser.username) changes.push(`Nom: ${originalUser.username} -> ${updatedUser.username}`);
+        if (originalUser.role !== updatedUser.role) changes.push(`Rôle: ${originalUser.role} -> ${updatedUser.role}`);
+        if (originalUser.agency !== updatedUser.agency) changes.push(`Agence: ${originalUser.agency} -> ${updatedUser.agency}`);
+        if (originalUser.email !== updatedUser.email) changes.push(`Email: ${originalUser.email} -> ${updatedUser.email}`);
+        if (originalUser.phone !== updatedUser.phone) changes.push(`Téléphone: ${originalUser.phone} -> ${updatedUser.phone}`);
+        
+        appLogger.info(`Utilisateur mis à jour: "${username}" (${id}) - Par: ${req.session.user.username} - Modifications: ${changes.join(', ')}`);
         
         // Redirection avec message de succès
         req.session.success = 'Utilisateur mis à jour avec succès';
@@ -295,12 +323,16 @@ const userController = {
         const userIndex = usersData.users.findIndex(u => u.id === id);
         
         if (userIndex === -1) {
+            appLogger.warn(`Tentative de suppression d'utilisateur échouée: utilisateur non trouvé - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Utilisateur non trouvé';
             return res.redirect('/users');
         }
         
+        const userToDelete = usersData.users[userIndex];
+        
         // Vérifier si l'utilisateur est l'utilisateur connecté
         if (req.session.user && req.session.user.id === id) {
+            appLogger.warn(`Tentative de suppression de son propre compte par ${req.session.user.username} (${id})`);
             req.session.error = 'Vous ne pouvez pas supprimer votre propre compte';
             return res.redirect('/users');
         }
@@ -310,9 +342,12 @@ const userController = {
         
         // Sauvegarde des données
         if (!saveUsersData(usersData)) {
+            appLogger.error(`Erreur lors de la suppression de l'utilisateur "${userToDelete.username}" (${id}) - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Erreur lors de la suppression de l\'utilisateur';
             return res.redirect('/users');
         }
+        
+        appLogger.info(`Utilisateur supprimé: "${userToDelete.username}" (${id}) - Rôle: ${userToDelete.role} - Par: ${req.session.user.username}`);
         
         // Redirection avec message de succès
         req.session.success = 'Utilisateur supprimé avec succès';

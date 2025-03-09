@@ -4,6 +4,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const winston = require('winston');
+
+// Référence aux loggers
+const appLogger = global.appLogger || winston.loggers.get('app') || winston.createLogger();
 
 // Chemin vers le fichier des rôles
 const rolesFilePath = path.join(__dirname, '../data/roles.json');
@@ -40,17 +44,21 @@ const hasPermission = (user, permissionKey) => {
 // Middleware pour vérifier si l'utilisateur est connecté
 const isAuthenticated = (req, res, next) => {
     if (req.session.user) {
+        appLogger.info(`Accès authentifié: ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
         return next();
     }
+    appLogger.warn(`Accès refusé (non authentifié): ${req.method} ${req.path} - IP: ${req.ip}`);
     req.session.error = 'Vous devez être connecté pour accéder à cette page';
     res.redirect('/');
 };
 
-// Middleware pour vérifier si l'utilisateur est un technicien (membre de la DSI)
+// Middleware pour vérifier si l'utilisateur est un technicien ou un administrateur
 const isTechnicien = (req, res, next) => {
-    if (req.session.user && (req.session.user.role === 'technicien' || req.session.user.role === 'admin' || hasPermission(req.session.user, 'perm_inventory_view'))) {
+    if (req.session.user && (req.session.user.role === 'technicien' || req.session.user.role === 'admin')) {
+        appLogger.info(`Accès technicien: ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
         return next();
     }
+    appLogger.warn(`Accès refusé (non technicien): ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
     req.session.error = 'Vous n\'avez pas les droits nécessaires pour accéder à cette page';
     res.redirect('/dashboard');
 };
@@ -58,8 +66,10 @@ const isTechnicien = (req, res, next) => {
 // Middleware pour vérifier si l'utilisateur est un administrateur
 const isAdmin = (req, res, next) => {
     if (req.session.user && req.session.user.role === 'admin') {
+        appLogger.info(`Accès administrateur: ${req.method} ${req.path} - Utilisateur: ${req.session.user.username}`);
         return next();
     }
+    appLogger.warn(`Accès refusé (non admin): ${req.method} ${req.path} - Utilisateur: ${req.session.user ? req.session.user.username : 'Anonyme'} (${req.session.user ? req.session.user.role : 'non connecté'})`);
     req.session.error = 'Vous n\'avez pas les droits nécessaires pour accéder à cette page';
     res.redirect('/dashboard');
 };
@@ -68,9 +78,11 @@ const isAdmin = (req, res, next) => {
 const hasPermissionMiddleware = (permissionKey) => {
     return (req, res, next) => {
         if (req.session.user && hasPermission(req.session.user, permissionKey)) {
+            appLogger.info(`Permission accordée (${permissionKey}): ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
             return next();
         }
-        req.session.error = 'Vous n\'avez pas les droits nécessaires pour accéder à cette page';
+        appLogger.warn(`Permission refusée (${permissionKey}): ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
+        req.session.error = 'Vous n\'avez pas les permissions nécessaires pour effectuer cette action';
         res.redirect('/dashboard');
     };
 };
@@ -79,8 +91,10 @@ const hasPermissionMiddleware = (permissionKey) => {
 const isOwnerOrAdmin = (resourceUserId) => {
     return (req, res, next) => {
         if (req.session.user && (req.session.user.id === resourceUserId || req.session.user.role === 'admin')) {
+            appLogger.info(`Accès propriétaire/admin: ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
             return next();
         }
+        appLogger.warn(`Accès refusé (non propriétaire/admin): ${req.method} ${req.path} - Utilisateur: ${req.session.user.username} (${req.session.user.role})`);
         req.session.error = 'Vous n\'avez pas les droits nécessaires pour accéder à cette ressource';
         res.redirect('/dashboard');
     };

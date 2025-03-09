@@ -1,0 +1,36 @@
+2025-03-08 23:02:53 [ERROR] [SERVER]: 500 - Erreur serveur: C:\Users\victor.rosique\Documents\Dev\Outils_Relance\views\index.ejs:60
+    58|                 
+    59|                 <!-- Méthodes d'authentification externes -->
+ >> 60|                 <% if (locals.config && Object.values(locals.config.auth.methods || {}).some(method => method.enabled && method.name !== 'local')) { %>
+    61|                     <hr class="my-4">
+    62|                     <h5 class="text-center mb-3">Ou se connecter avec</h5>
+    63|                     <div class="d-grid gap-2">
+
+Cannot read properties of undefined (reading 'methods') - Utilisateur: Anonyme - IP: ::1
+2025-03-08 23:02:56 [ERROR] [SERVER]: 500 - Erreur serveur: C:\Users\victor.rosique\Documents\Dev\Outils_Relance\views\index.ejs:60
+    58|                 
+    59|                 <!-- Méthodes d'authentification externes -->
+ >> 60|                 <% if (locals.config && Object.values(locals.config.auth.methods || {}).some(method => method.enabled && method.name !== 'local')) { %>
+    61|                     <hr class="my-4">
+    62|                     <h5 class="text-center mb-3">Ou se connecter avec</h5>
+    63|                     <div class="d-grid gap-2">
+
+Cannot read properties of undefined (reading 'methods') - Utilisateur: Anonyme - IP: ::1
+2025-03-08 23:02:57 [ERROR] [SERVER]: 500 - Erreur serveur: C:\Users\victor.rosique\Documents\Dev\Outils_Relance\views\index.ejs:60
+    58|                 
+    59|                 <!-- Méthodes d'authentification externes -->
+ >> 60|                 <% if (locals.config && Object.values(locals.config.auth.methods || {}).some(method => method.enabled && method.name !== 'local')) { %>
+    61|                     <hr class="my-4">
+    62|                     <h5 class="text-center mb-3">Ou se connecter avec</h5>
+    63|                     <div class="d-grid gap-2">
+
+Cannot read properties of undefined (reading 'methods') - Utilisateur: Anonyme - IP: ::1
+2025-03-08 23:03:03 [ERROR] [SERVER]: 500 - Erreur serveur: C:\Users\victor.rosique\Documents\Dev\Outils_Relance\views\index.ejs:60
+    58|                 
+    59|                 <!-- Méthodes d'authentification externes -->
+ >> 60|                 <% if (locals.config && Object.values(locals.config.auth.methods || {}).some(method => method.enabled && method.name !== 'local')) { %>
+    61|                     <hr class="my-4">
+    62|                     <h5 class="text-center mb-3">Ou se connecter avec</h5>
+    63|                     <div class="d-grid gap-2">
+
+Cannot read properties of undefined (reading 'methods') - Utilisateur: Anonyme - IP: ::1

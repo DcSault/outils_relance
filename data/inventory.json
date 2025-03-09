@@ -151,6 +151,70 @@
       "expectedReturnDate": "2025-04-05T11:45:00.000Z",
       "createdAt": "2025-02-05T11:45:00.000Z",
       "updatedAt": "2025-02-05T11:45:00.000Z"
+    },
+    {
+      "id": "5197c806-3fcb-4fed-8827-cbcc5e5e79e9",
+      "name": "Test",
+      "description": "",
+      "serialNumber": "",
+      "quantity": 1,
+      "status": "available",
+      "agencyId": "c4ad54b0-6b8c-47c8-91e4-892c105f03ce",
+      "tags": [],
+      "customFields": [],
+      "borrowedBy": null,
+      "borrowDate": null,
+      "expectedReturnDate": null,
+      "createdAt": "2025-03-08T19:06:16.151Z",
+      "updatedAt": "2025-03-08T19:06:16.155Z",
+      "history": [
+        {
+          "id": "hist_1741460776155",
+          "date": "2025-03-08T19:06:16.155Z",
+          "action": "Attribution automatique",
+          "description": "Attribué automatiquement à l'agence Services Informatique",
+          "userId": "7e300e3d-302a-46a3-9b07-1082c3d2ccb3"
+        },
+        {
+          "id": "hist_1741460776153",
+          "date": "2025-03-08T19:06:16.154Z",
+          "action": "Création",
+          "description": "Élément créé par victor",
+          "userId": "7e300e3d-302a-46a3-9b07-1082c3d2ccb3"
+        }
+      ]
+    },
+    {
+      "id": "e54e34e2-7fc6-4160-b287-a8a96b0e6bfd",
+      "name": "test",
+      "description": "",
+      "serialNumber": "",
+      "quantity": 1,
+      "status": "available",
+      "agencyId": "c4ad54b0-6b8c-47c8-91e4-892c105f03ce",
+      "tags": [],
+      "customFields": [],
+      "borrowedBy": null,
+      "borrowDate": null,
+      "expectedReturnDate": null,
+      "createdAt": "2025-03-08T20:59:07.048Z",
+      "updatedAt": "2025-03-08T20:59:07.051Z",
+      "history": [
+        {
+          "id": "hist_1741467547051",
+          "date": "2025-03-08T20:59:07.051Z",
+          "action": "Attribution automatique",
+          "description": "Attribué automatiquement à l'agence Services Informatique",
+          "userId": "7e300e3d-302a-46a3-9b07-1082c3d2ccb3"
+        },
+        {
+          "id": "hist_1741467547050",
+          "date": "2025-03-08T20:59:07.050Z",
+          "action": "Création",
+          "description": "Élément créé par victor",
+          "userId": "7e300e3d-302a-46a3-9b07-1082c3d2ccb3"
+        }
+      ]
     }
   ]
 }

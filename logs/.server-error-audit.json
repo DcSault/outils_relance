@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\.server-error-audit.json",
+    "files": [
+        {
+            "date": 1741526275586,
+            "name": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\server-error-2025-03-09.log",
+            "hash": "210612912a0101f8b6235afb77accab868d6c027232b423ff832234dc93c3d03"
+        }
+    ],
+    "hashType": "sha256"
+}

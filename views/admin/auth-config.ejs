@@ -1,0 +1,363 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-key me-2 text-primary"></i>Configuration de l'Authentification
+                        </h2>
+                        <p class="card-text">Configurez les méthodes d'authentification externes pour votre application.</p>
+                    </div>
+                    <a href="/admin/dashboard" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour au tableau de bord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>À propos de l'authentification externe</h5>
+                </div>
+                <div class="card-body">
+                    <p>L'authentification externe permet aux utilisateurs de se connecter à l'application en utilisant leurs comptes existants sur d'autres plateformes. Cela simplifie le processus de connexion et améliore la sécurité.</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Conseil :</strong> Pour configurer une méthode d'authentification externe, vous devez d'abord créer une application sur la plateforme correspondante et obtenir les identifiants nécessaires (Client ID, Client Secret, etc.).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentification locale -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Authentification Locale</h5>
+                    <div class="form-check form-switch">
+                        <form action="/admin/auth-config/local" method="POST" id="localAuthForm">
+                            <input class="form-check-input" type="checkbox" id="localAuthEnabled" name="enabled" <%= config.auth.methods.local.enabled ? 'checked' : '' %> onchange="document.getElementById('localAuthForm').submit()">
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>L'authentification locale permet aux utilisateurs de se connecter en utilisant un nom d'utilisateur sans mot de passe. Cette méthode est simple mais moins sécurisée que les méthodes d'authentification externes.</p>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Attention :</strong> Il est recommandé de garder l'authentification locale activée comme méthode de secours, même si vous utilisez des méthodes d'authentification externes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discord -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fab fa-discord me-2 text-primary"></i>Discord
+                    </h5>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="discordAuthToggle" <%= config.auth.methods.discord.enabled ? 'checked' : '' %> onchange="toggleAuthSection('discord')">
+                    </div>
+                </div>
+                <div class="card-body" id="discordAuthSection" style="<%= config.auth.methods.discord.enabled ? '' : 'display: none;' %>">
+                    <form action="/admin/auth-config/discord" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="discordClientId" class="form-label">Client ID</label>
+                                <input type="text" class="form-control" id="discordClientId" name="clientId" value="<%= config.auth.methods.discord.clientId %>">
+                                <div class="form-text">L'identifiant client de votre application Discord.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="discordClientSecret" class="form-label">Client Secret</label>
+                                <input type="password" class="form-control" id="discordClientSecret" name="clientSecret" value="<%= config.auth.methods.discord.clientSecret %>">
+                                <div class="form-text">Le secret client de votre application Discord.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="discordRedirectUri" class="form-label">URI de redirection</label>
+                            <input type="text" class="form-control" id="discordRedirectUri" name="redirectUri" value="<%= config.auth.methods.discord.redirectUri || 'http://localhost:3000/auth/discord/callback' %>">
+                            <div class="form-text">L'URI de redirection après l'authentification Discord.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Enregistrer
+                            </button>
+                            <a href="https://discord.com/developers/applications" target="_blank" class="btn btn-outline-secondary">
+                                <i class="fas fa-external-link-alt me-1"></i>Portail développeur Discord
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body" id="discordAuthDisabled" style="<%= config.auth.methods.discord.enabled ? 'display: none;' : '' %>">
+                    <p>L'authentification Discord est actuellement désactivée. Activez-la pour permettre aux utilisateurs de se connecter avec leur compte Discord.</p>
+                    <form action="/admin/auth-config/discord" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-toggle-on me-1"></i>Activer Discord
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Azure AD -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fab fa-microsoft me-2 text-info"></i>Microsoft Azure AD
+                    </h5>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="azureAuthToggle" <%= config.auth.methods.azure.enabled ? 'checked' : '' %> onchange="toggleAuthSection('azure')">
+                    </div>
+                </div>
+                <div class="card-body" id="azureAuthSection" style="<%= config.auth.methods.azure.enabled ? '' : 'display: none;' %>">
+                    <form action="/admin/auth-config/azure" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="azureClientId" class="form-label">Client ID</label>
+                                <input type="text" class="form-control" id="azureClientId" name="clientId" value="<%= config.auth.methods.azure.clientId %>">
+                                <div class="form-text">L'identifiant client de votre application Azure.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="azureClientSecret" class="form-label">Client Secret</label>
+                                <input type="password" class="form-control" id="azureClientSecret" name="clientSecret" value="<%= config.auth.methods.azure.clientSecret %>">
+                                <div class="form-text">Le secret client de votre application Azure.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="azureTenantId" class="form-label">Tenant ID</label>
+                            <input type="text" class="form-control" id="azureTenantId" name="tenantId" value="<%= config.auth.methods.azure.tenantId %>">
+                            <div class="form-text">L'identifiant de votre locataire Azure AD.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="azureRedirectUri" class="form-label">URI de redirection</label>
+                            <input type="text" class="form-control" id="azureRedirectUri" name="redirectUri" value="<%= config.auth.methods.azure.redirectUri || 'http://localhost:3000/auth/azure/callback' %>">
+                            <div class="form-text">L'URI de redirection après l'authentification Azure.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Enregistrer
+                            </button>
+                            <a href="https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" class="btn btn-outline-secondary">
+                                <i class="fas fa-external-link-alt me-1"></i>Portail Azure
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body" id="azureAuthDisabled" style="<%= config.auth.methods.azure.enabled ? 'display: none;' : '' %>">
+                    <p>L'authentification Azure AD est actuellement désactivée. Activez-la pour permettre aux utilisateurs de se connecter avec leur compte Microsoft.</p>
+                    <form action="/admin/auth-config/azure" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-toggle-on me-1"></i>Activer Azure AD
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GitHub -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fab fa-github me-2 text-dark"></i>GitHub
+                    </h5>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="githubAuthToggle" <%= config.auth.methods.github.enabled ? 'checked' : '' %> onchange="toggleAuthSection('github')">
+                    </div>
+                </div>
+                <div class="card-body" id="githubAuthSection" style="<%= config.auth.methods.github.enabled ? '' : 'display: none;' %>">
+                    <form action="/admin/auth-config/github" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="githubClientId" class="form-label">Client ID</label>
+                                <input type="text" class="form-control" id="githubClientId" name="clientId" value="<%= config.auth.methods.github.clientId %>">
+                                <div class="form-text">L'identifiant client de votre application GitHub.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="githubClientSecret" class="form-label">Client Secret</label>
+                                <input type="password" class="form-control" id="githubClientSecret" name="clientSecret" value="<%= config.auth.methods.github.clientSecret %>">
+                                <div class="form-text">Le secret client de votre application GitHub.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="githubRedirectUri" class="form-label">URI de redirection</label>
+                            <input type="text" class="form-control" id="githubRedirectUri" name="redirectUri" value="<%= config.auth.methods.github.redirectUri || 'http://localhost:3000/auth/github/callback' %>">
+                            <div class="form-text">L'URI de redirection après l'authentification GitHub.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Enregistrer
+                            </button>
+                            <a href="https://github.com/settings/developers" target="_blank" class="btn btn-outline-secondary">
+                                <i class="fas fa-external-link-alt me-1"></i>Paramètres développeur GitHub
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body" id="githubAuthDisabled" style="<%= config.auth.methods.github.enabled ? 'display: none;' : '' %>">
+                    <p>L'authentification GitHub est actuellement désactivée. Activez-la pour permettre aux utilisateurs de se connecter avec leur compte GitHub.</p>
+                    <form action="/admin/auth-config/github" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-toggle-on me-1"></i>Activer GitHub
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Okta -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-shield-alt me-2 text-danger"></i>Okta
+                    </h5>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="oktaAuthToggle" <%= config.auth.methods.okta.enabled ? 'checked' : '' %> onchange="toggleAuthSection('okta')">
+                    </div>
+                </div>
+                <div class="card-body" id="oktaAuthSection" style="<%= config.auth.methods.okta.enabled ? '' : 'display: none;' %>">
+                    <form action="/admin/auth-config/okta" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="oktaClientId" class="form-label">Client ID</label>
+                                <input type="text" class="form-control" id="oktaClientId" name="clientId" value="<%= config.auth.methods.okta.clientId %>">
+                                <div class="form-text">L'identifiant client de votre application Okta.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="oktaClientSecret" class="form-label">Client Secret</label>
+                                <input type="password" class="form-control" id="oktaClientSecret" name="clientSecret" value="<%= config.auth.methods.okta.clientSecret %>">
+                                <div class="form-text">Le secret client de votre application Okta.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="oktaDomain" class="form-label">Domaine Okta</label>
+                            <input type="text" class="form-control" id="oktaDomain" name="domain" value="<%= config.auth.methods.okta.domain %>">
+                            <div class="form-text">Le domaine de votre organisation Okta (ex: votre-domaine.okta.com).</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="oktaRedirectUri" class="form-label">URI de redirection</label>
+                            <input type="text" class="form-control" id="oktaRedirectUri" name="redirectUri" value="<%= config.auth.methods.okta.redirectUri || 'http://localhost:3000/auth/okta/callback' %>">
+                            <div class="form-text">L'URI de redirection après l'authentification Okta.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Enregistrer
+                            </button>
+                            <a href="https://developer.okta.com/login/" target="_blank" class="btn btn-outline-secondary">
+                                <i class="fas fa-external-link-alt me-1"></i>Console développeur Okta
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body" id="oktaAuthDisabled" style="<%= config.auth.methods.okta.enabled ? 'display: none;' : '' %>">
+                    <p>L'authentification Okta est actuellement désactivée. Activez-la pour permettre aux utilisateurs de se connecter avec leur compte Okta.</p>
+                    <form action="/admin/auth-config/okta" method="POST">
+                        <input type="hidden" name="enabled" value="on">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-toggle-on me-1"></i>Activer Okta
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAuthSection(provider) {
+        const toggle = document.getElementById(`${provider}AuthToggle`);
+        const section = document.getElementById(`${provider}AuthSection`);
+        const disabled = document.getElementById(`${provider}AuthDisabled`);
+        
+        console.log(`Toggling ${provider} authentication: ${toggle.checked}`);
+        
+        if (toggle.checked) {
+            section.style.display = 'block';
+            disabled.style.display = 'none';
+            
+            // Soumettre le formulaire pour activer le fournisseur
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/auth-config/${provider}`;
+            form.style.display = 'none';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'enabled';
+            input.value = 'on';
+            
+            // Ajouter d'autres champs nécessaires
+            if (provider === 'discord' || provider === 'github' || provider === 'azure' || provider === 'okta') {
+                const nameInput = document.createElement('input');
+                nameInput.type = 'hidden';
+                nameInput.name = 'name';
+                nameInput.value = provider;
+                form.appendChild(nameInput);
+            }
+            
+            form.appendChild(input);
+            document.body.appendChild(form);
+            
+            console.log(`Submitting form to enable ${provider}`);
+            form.submit();
+        } else {
+            section.style.display = 'none';
+            disabled.style.display = 'block';
+            
+            // Soumettre le formulaire pour désactiver le fournisseur
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/auth-config/${provider}`;
+            form.style.display = 'none';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'enabled';
+            input.value = 'off';
+            
+            // Ajouter d'autres champs nécessaires
+            if (provider === 'discord' || provider === 'github' || provider === 'azure' || provider === 'okta') {
+                const nameInput = document.createElement('input');
+                nameInput.type = 'hidden';
+                nameInput.name = 'name';
+                nameInput.value = provider;
+                form.appendChild(nameInput);
+            }
+            
+            form.appendChild(input);
+            document.body.appendChild(form);
+            
+            console.log(`Submitting form to disable ${provider}`);
+            form.submit();
+        }
+    }
+</script>
+
+<%- include('../partials/footer') %> 

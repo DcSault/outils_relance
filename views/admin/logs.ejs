@@ -1,0 +1,218 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-file-alt me-2 text-primary"></i>Gestion des Logs
+                        </h2>
+                        <p class="card-text">Consultez et gérez les fichiers de logs de l'application.</p>
+                    </div>
+                    <a href="/admin/dashboard" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour au tableau de bord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onglets pour les types de logs -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link <%= logType === 'application' ? 'active' : '' %>" href="/admin/logs?type=application">
+                        <i class="fas fa-users me-1"></i>Logs d'Application
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= logType === 'server' ? 'active' : '' %>" href="/admin/logs?type=server">
+                        <i class="fas fa-server me-1"></i>Logs Serveur
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        <%= logType === 'application' ? 'Logs d\'Application' : 'Logs Serveur' %>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <% if (logFiles && logFiles.length > 0) { %>
+                        <div class="list-group">
+                            <% logFiles.forEach(file => { %>
+                                <a href="/admin/logs?type=<%= logType %>&file=<%= file %>" class="list-group-item list-group-item-action <%= file === selectedLogFile ? 'active' : '' %>">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1"><%= file %></h6>
+                                        <small>
+                                            <% 
+                                                const fileStats = logFilesStats[file];
+                                                const fileDate = new Date(fileStats.mtime);
+                                                const formattedDate = fileDate.toLocaleDateString('fr-FR') + ' ' + fileDate.toLocaleTimeString('fr-FR');
+                                            %>
+                                            <%= formattedDate %>
+                                        </small>
+                                    </div>
+                                    <small><%= (logFilesStats[file].size / 1024).toFixed(2) %> KB</small>
+                                </a>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Aucun fichier de log disponible.
+                        </div>
+                    <% } %>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <% if (selectedLogFile) { %>
+                            <div class="btn-group">
+                                <a href="/admin/logs/download/<%= selectedLogFile %>" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-download me-1"></i>Télécharger
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteLogModal">
+                                    <i class="fas fa-trash me-1"></i>Supprimer
+                                </button>
+                            </div>
+                        <% } %>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#clearAllLogsModal">
+                            <i class="fas fa-trash-alt me-1"></i>Vider les logs
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-file-code me-2"></i>
+                            <%= selectedLogFile ? selectedLogFile : 'Contenu du Log' %>
+                        </h5>
+                        <% if (logStats) { %>
+                            <span class="badge bg-secondary">
+                                <%= new Date(logStats.mtime).toLocaleString('fr-FR') %> | 
+                                <%= (logStats.size / 1024).toFixed(2) %> KB
+                            </span>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <% if (selectedLogFile && logContent) { %>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <span class="badge bg-primary me-2">
+                                        <i class="fas fa-info-circle me-1"></i>Info: <%= logAnalytics.infoCount %>
+                                    </span>
+                                    <span class="badge bg-warning me-2">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>Warn: <%= logAnalytics.warningCount %>
+                                    </span>
+                                    <span class="badge bg-danger me-2">
+                                        <i class="fas fa-times-circle me-1"></i>Error: <%= logAnalytics.errorCount %>
+                                    </span>
+                                    <% if (logType === 'application') { %>
+                                        <span class="badge bg-info">
+                                            <i class="fas fa-users me-1"></i>App: <%= logAnalytics.appCount %>
+                                        </span>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-server me-1"></i>Server: <%= logAnalytics.serverCount %>
+                                        </span>
+                                    <% } %>
+                                </div>
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-list me-1"></i><%= logAnalytics.totalLines %> lignes
+                                </span>
+                            </div>
+                        </div>
+                        <div class="log-container bg-dark text-light p-3 rounded" style="height: 500px; overflow-y: auto; font-family: monospace; font-size: 0.9rem;">
+                            <% 
+                                // Coloriser les différents niveaux de log
+                                let colorizedContent = logContent
+                                    .replace(/\[INFO\]/g, '<span class="text-info">[INFO]</span>')
+                                    .replace(/\[WARN\]/g, '<span class="text-warning">[WARN]</span>')
+                                    .replace(/\[ERROR\]/g, '<span class="text-danger">[ERROR]</span>')
+                                    .replace(/\[DEBUG\]/g, '<span class="text-secondary">[DEBUG]</span>')
+                                    .replace(/\[SERVER\]/g, '<span class="text-light bg-secondary">[SERVER]</span>')
+                                    .replace(/\[APP\]/g, '<span class="text-light bg-info">[APP]</span>');
+                            %>
+                            <%- colorizedContent.replace(/\n/g, '<br>') %>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Sélectionnez un fichier de log pour afficher son contenu.
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression d'un log -->
+<div class="modal fade" id="deleteLogModal" tabindex="-1" aria-labelledby="deleteLogModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteLogModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Attention :</strong> Vous êtes sur le point de supprimer le fichier de log "<%= selectedLogFile %>".
+                </div>
+                <p>Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form action="/admin/logs/delete/<%= selectedLogFile %>" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i>Supprimer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression de tous les logs -->
+<div class="modal fade" id="clearAllLogsModal" tabindex="-1" aria-labelledby="clearAllLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clearAllLogsModalLabel">Confirmer la suppression des logs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Attention :</strong> Vous êtes sur le point de supprimer tous les fichiers de logs <%= logType === 'application' ? 'd\'application' : 'serveur' %>.
+                </div>
+                <p>Cette action est irréversible et supprimera l'historique complet des logs. Êtes-vous sûr de vouloir continuer ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <form action="/admin/logs/clear-all?type=<%= logType %>" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-1"></i>Supprimer tous les logs
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 

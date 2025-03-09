@@ -1,0 +1,629 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="card-title">
+                            <i class="fas fa-globe me-2 text-success"></i>Configuration du Domaine
+                        </h2>
+                        <p class="card-text">Configurez le nom de domaine, le mode d'accès et la sécurité de votre application.</p>
+                    </div>
+                    <a href="/admin/dashboard" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Retour au tableau de bord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (locals.portChanged) { %>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Changement de Port Détecté</h4>
+                <p>Le port a été modifié de <strong><%= portChanged.oldPort %></strong> à <strong><%= portChanged.newPort %></strong>.</p>
+                <p>Pour appliquer ce changement, vous devez redémarrer le serveur. Après le redémarrage, l'application sera accessible à l'adresse:</p>
+                <div class="alert alert-info">
+                    <strong>
+                        <%= serverStatus.isHttps ? 'https://' : 'http://' %>
+                        <%= serverStatus.domainConfigured ? config.domain.domainName : 'localhost' %>
+                        :<%= portChanged.newPort %>
+                    </strong>
+                </div>
+                <p>Cliquez sur le bouton ci-dessous pour redémarrer le serveur:</p>
+                <form action="/admin/restart-server" method="POST">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-sync me-1"></i>Redémarrer le serveur maintenant
+                    </button>
+                </form>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>État Actuel du Serveur</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Protocole</span>
+                                    <% if (serverStatus.isHttps) { %>
+                                        <span class="badge bg-success">HTTPS</span>
+                                    <% } else { %>
+                                        <span class="badge bg-warning">HTTP</span>
+                                    <% } %>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Port</span>
+                                    <span class="badge bg-primary"><%= serverStatus.port %></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Mode d'accès</span>
+                                    <% if (config.domain.accessMode === 'domain' && serverStatus.domainConfigured) { %>
+                                        <span class="badge bg-success">Domaine: <%= config.domain.domainName %></span>
+                                    <% } else if (config.domain.accessMode === 'ip') { %>
+                                        <span class="badge bg-info">IP</span>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary">Localhost</span>
+                                    <% } %>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Sécurité</span>
+                                    <% if (!serverStatus.isHttps) { %>
+                                        <span class="badge bg-warning">Non sécurisé</span>
+                                    <% } else if (config.domain.securityMode === 'letsencrypt') { %>
+                                        <span class="badge bg-success">Let's Encrypt</span>
+                                    <% } else if (config.domain.securityMode === 'selfSigned') { %>
+                                        <span class="badge bg-info">Auto-signé</span>
+                                    <% } else { %>
+                                        <span class="badge bg-primary">Certificat manuel</span>
+                                    <% } %>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>URL actuelle :</strong> 
+                        <%= serverStatus.isHttps ? 'https://' : 'http://' %>
+                        <% if (config.domain.accessMode === 'domain' && serverStatus.domainConfigured) { %>
+                            <%= config.domain.domainName %>
+                        <% } else if (config.domain.accessMode === 'ip') { %>
+                            <%= config.domain.ipAddress || 'IP non configurée' %>
+                        <% } else { %>
+                            localhost
+                        <% } %>
+                        :<%= serverStatus.port %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-cog me-2"></i>Configuration de l'Accès</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/admin/domain-config" method="POST" id="domainConfigForm" onsubmit="return confirmSubmission()">
+                        <input type="hidden" name="formPort" id="formPort" value="<%= config.domain.port %>" data-original-value="<%= config.domain.port %>">
+                        
+                        <!-- Configuration du port -->
+                        <div class="mb-4">
+                            <h6 class="border-bottom pb-2 mb-3">Configuration du Port</h6>
+                            <div class="mb-3">
+                                <label for="port" class="form-label">Port du serveur</label>
+                                <input type="number" class="form-control" id="port" name="port" value="<%= config.domain.port %>" min="1" max="65535">
+                                <div class="form-text">Port sur lequel le serveur écoutera les connexions (1-65535).</div>
+                            </div>
+                            
+                            <!-- Bouton de test de la configuration -->
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-outline-info" onclick="testConfiguration()">
+                                    <i class="fas fa-vial me-1"></i>Tester la configuration
+                                </button>
+                                <div class="form-text">Cliquez pour vérifier comment votre application sera accessible avec cette configuration.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mode d'accès -->
+                        <div class="mb-4">
+                            <h6 class="border-bottom pb-2 mb-3">Mode d'Accès</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Comment accéder à l'application ?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="accessMode" id="accessModeLocalhost" value="localhost" <%= (!config.domain.accessMode || config.domain.accessMode === 'localhost') ? 'checked' : '' %> onchange="toggleAccessModeFields()" data-original-mode="<%= config.domain.accessMode || 'localhost' %>">
+                                    <label class="form-check-label" for="accessModeLocalhost">
+                                        <i class="fas fa-laptop me-1"></i> Localhost (développement local uniquement)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="accessMode" id="accessModeIP" value="ip" <%= config.domain.accessMode === 'ip' ? 'checked' : '' %> onchange="toggleAccessModeFields()">
+                                    <label class="form-check-label" for="accessModeIP">
+                                        <i class="fas fa-network-wired me-1"></i> Adresse IP (réseau local ou serveur avec IP fixe)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="accessMode" id="accessModeDomain" value="domain" <%= config.domain.accessMode === 'domain' ? 'checked' : '' %> onchange="toggleAccessModeFields()">
+                                    <label class="form-check-label" for="accessModeDomain">
+                                        <i class="fas fa-globe me-1"></i> Nom de domaine (production avec domaine personnalisé)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Champs spécifiques pour l'adresse IP -->
+                            <div id="ipFields" style="<%= config.domain.accessMode === 'ip' ? '' : 'display: none;' %>" class="mt-3">
+                                <div class="mb-3">
+                                    <label for="ipAddress" class="form-label">Adresse IP</label>
+                                    <input type="text" class="form-control" id="ipAddress" name="ipAddress" value="<%= config.domain.ipAddress || '' %>" placeholder="192.168.1.100">
+                                    <div class="form-text">Entrez l'adresse IP du serveur.</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Champs spécifiques pour le nom de domaine -->
+                            <div id="domainFields" style="<%= config.domain.accessMode === 'domain' ? '' : 'display: none;' %>" class="mt-3">
+                                <div class="mb-3">
+                                    <label for="domainName" class="form-label">Nom de domaine</label>
+                                    <input type="text" class="form-control" id="domainName" name="domainName" value="<%= config.domain.domainName || '' %>" placeholder="exemple.com">
+                                    <div class="form-text">Entrez le nom de domaine sans 'http://' ou 'https://'.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Configuration de la sécurité -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Mode de Sécurité</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio mb-2">
+                                        <input type="radio" id="securityModeNone" name="securityMode" value="none" class="custom-control-input toggle-fields" 
+                                            data-toggle-target=".security-fields" data-show-target="" data-original-mode="<%= config.domain.securityMode %>"
+                                            <%= config.domain.securityMode === 'none' ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="securityModeNone">
+                                            <strong>Non sécurisé (HTTP)</strong>
+                                            <div class="text-muted small">Utilise HTTP sans chiffrement. Recommandé uniquement pour le développement local.</div>
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio mb-2">
+                                        <input type="radio" id="securityModeManual" name="securityMode" value="manual" class="custom-control-input toggle-fields" 
+                                            data-toggle-target=".security-fields" data-show-target=".manual-fields" data-original-mode="<%= config.domain.securityMode %>"
+                                            <%= config.domain.securityMode === 'manual' ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="securityModeManual">
+                                            <strong>Certificat manuel (HTTPS)</strong>
+                                            <div class="text-muted small">Utilisez vos propres certificats SSL/TLS.</div>
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio mb-2">
+                                        <input type="radio" id="securityModeLetsencrypt" name="securityMode" value="letsencrypt" class="custom-control-input toggle-fields" 
+                                            data-toggle-target=".security-fields" data-show-target=".letsencrypt-fields" data-original-mode="<%= config.domain.securityMode %>"
+                                            <%= config.domain.securityMode === 'letsencrypt' ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="securityModeLetsencrypt">
+                                            <strong>Let's Encrypt (HTTPS automatique)</strong>
+                                            <div class="text-muted small">Obtenir et renouveler automatiquement des certificats SSL gratuits. Nécessite un nom de domaine public.</div>
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio mb-2">
+                                        <input type="radio" id="securityModeSelfSigned" name="securityMode" value="selfSigned" class="custom-control-input toggle-fields" 
+                                            data-toggle-target=".security-fields" data-show-target=".self-signed-fields" data-original-mode="<%= config.domain.securityMode %>"
+                                            <%= config.domain.securityMode === 'selfSigned' ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="securityModeSelfSigned">
+                                            <strong>Certificat auto-signé (HTTPS)</strong>
+                                            <div class="text-muted small">Générer un certificat auto-signé. Pratique pour les tests mais génère des avertissements dans les navigateurs.</div>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Champs pour le certificat manuel -->
+                                <div class="manual-fields security-fields mt-4" style="<%= config.domain.securityMode === 'manual' ? '' : 'display: none;' %>">
+                                    <h6 class="border-bottom pb-2 mb-3">Configuration du certificat manuel</h6>
+                                    
+                                    <div class="mb-3">
+                                        <label for="sslCertPath" class="form-label">Chemin du certificat SSL</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="sslCertPath" name="sslCertPath" value="<%= config.domain.sslCertPath || '' %>" placeholder="ssl/mon-certificat.crt">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('sslCertUpload').click()">
+                                                <i class="fas fa-upload"></i> Télécharger
+                                            </button>
+                                        </div>
+                                        <div class="form-text">Chemin relatif vers votre fichier de certificat SSL (.crt ou .pem)</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="sslKeyPath" class="form-label">Chemin de la clé privée SSL</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="sslKeyPath" name="sslKeyPath" value="<%= config.domain.sslKeyPath || '' %>" placeholder="ssl/ma-cle.key">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('sslKeyUpload').click()">
+                                                <i class="fas fa-upload"></i> Télécharger
+                                            </button>
+                                        </div>
+                                        <div class="form-text">Chemin relatif vers votre fichier de clé privée SSL (.key)</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Certificats disponibles :</strong>
+                                            <% if (availableCerts && availableCerts.length > 0) { %>
+                                                <ul class="mb-0 mt-2">
+                                                    <% availableCerts.forEach(cert => { %>
+                                                        <li><a href="#" onclick="updateCertPath('ssl/<%= cert %>'); return false;"><%= cert %></a></li>
+                                                    <% }); %>
+                                                </ul>
+                                            <% } else { %>
+                                                <p class="mb-0 mt-2">Aucun certificat disponible. Veuillez en télécharger un.</p>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Clés disponibles :</strong>
+                                            <% if (availableKeys && availableKeys.length > 0) { %>
+                                                <ul class="mb-0 mt-2">
+                                                    <% availableKeys.forEach(key => { %>
+                                                        <li><a href="#" onclick="updateKeyPath('ssl/<%= key %>'); return false;"><%= key %></a></li>
+                                                    <% }); %>
+                                                </ul>
+                                            <% } else { %>
+                                                <p class="mb-0 mt-2">Aucune clé disponible. Veuillez en télécharger une.</p>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Champs pour Let's Encrypt -->
+                                <div class="letsencrypt-fields security-fields mt-4" style="<%= config.domain.securityMode === 'letsencrypt' ? '' : 'display: none;' %>">
+                                    <h6 class="border-bottom pb-2 mb-3">Configuration Let's Encrypt</h6>
+                                    
+                                    <div class="mb-3">
+                                        <label for="letsencryptEmail" class="form-label">Adresse e-mail pour Let's Encrypt</label>
+                                        <input type="email" class="form-control" id="letsencryptEmail" name="letsencryptEmail" value="<%= config.domain.letsencryptEmail || '' %>" placeholder="admin@exemple.com">
+                                        <div class="form-text">Cette adresse e-mail sera utilisée pour les notifications de renouvellement de certificat.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            <strong>Important :</strong>
+                                            <ul class="mb-0 mt-2">
+                                                <li>Votre serveur doit être accessible depuis Internet sur le port 80.</li>
+                                                <li>Votre nom de domaine doit pointer vers l'adresse IP de ce serveur.</li>
+                                                <li>Le processus d'obtention du certificat peut prendre quelques minutes.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Champs pour le certificat auto-signé -->
+                                <div class="self-signed-fields security-fields mt-4" style="<%= config.domain.securityMode === 'selfSigned' ? '' : 'display: none;' %>">
+                                    <h6 class="border-bottom pb-2 mb-3">Configuration du certificat auto-signé</h6>
+                                    
+                                    <div class="mb-3">
+                                        <label for="selfSignedCommonName" class="form-label">Nom commun (CN)</label>
+                                        <input type="text" class="form-control" id="selfSignedCommonName" name="selfSignedCommonName" value="<%= config.domain.selfSignedCommonName || 'localhost' %>" placeholder="localhost">
+                                        <div class="form-text">Nom d'hôte pour lequel le certificat sera valide (généralement localhost ou votre nom de domaine).</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="selfSignedOrganization" class="form-label">Organisation (O)</label>
+                                        <input type="text" class="form-control" id="selfSignedOrganization" name="selfSignedOrganization" value="<%= config.domain.selfSignedOrganization || 'Sault' %>" placeholder="Mon Organisation">
+                                        <div class="form-text">Nom de votre organisation pour le certificat.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <button type="button" class="btn btn-primary" id="generateSelfSignedBtn">
+                                            <i class="fas fa-certificate me-1"></i> Générer un nouveau certificat
+                                        </button>
+                                        <div class="form-text">Cliquez pour générer un nouveau certificat auto-signé avec les informations ci-dessus.</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Certificat actuel :</strong>
+                                            <% if (config.domain.sslCertPath && config.domain.sslKeyPath) { %>
+                                                <p class="mb-0 mt-2">
+                                                    Certificat : <%= config.domain.sslCertPath %><br>
+                                                    Clé : <%= config.domain.sslKeyPath %>
+                                                </p>
+                                            <% } else { %>
+                                                <p class="mb-0 mt-2">Aucun certificat auto-signé n'a encore été généré.</p>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Boutons de soumission -->
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <a href="/admin/dashboard" class="btn btn-secondary ml-2">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Formulaires cachés pour le téléchargement de fichiers -->
+<form id="certUploadForm" action="/admin/upload-ssl-cert" method="POST" enctype="multipart/form-data" style="display: none;">
+    <input type="file" id="sslCertUpload" name="sslCert" accept=".crt,.pem" onchange="submitCertUpload()">
+</form>
+
+<form id="keyUploadForm" action="/admin/upload-ssl-key" method="POST" enctype="multipart/form-data" style="display: none;">
+    <input type="file" id="sslKeyUpload" name="sslKey" accept=".key" onchange="submitKeyUpload()">
+</form>
+
+<script>
+    // Fonction pour basculer l'affichage des champs en fonction du mode d'accès
+    function toggleAccessModeFields() {
+        const accessMode = document.querySelector('input[name="accessMode"]:checked').value;
+        
+        // Masquer tous les champs
+        document.getElementById('ipFields').style.display = 'none';
+        document.getElementById('domainFields').style.display = 'none';
+        
+        // Afficher les champs correspondants au mode sélectionné
+        if (accessMode === 'ip') {
+            document.getElementById('ipFields').style.display = 'block';
+        } else if (accessMode === 'domain') {
+            document.getElementById('domainFields').style.display = 'block';
+        }
+        
+        // Mettre à jour les options de sécurité disponibles
+        updateSecurityOptions();
+    }
+    
+    // Fonction pour basculer l'affichage des champs en fonction du mode de sécurité
+    function toggleFields() {
+        console.log('Fonction toggleFields appelée');
+        
+        // Récupérer tous les éléments avec la classe toggle-fields
+        const toggleElements = document.querySelectorAll('.toggle-fields');
+        
+        // Pour chaque élément
+        toggleElements.forEach(element => {
+            // Si l'élément est coché
+            if (element.checked) {
+                console.log('Élément coché:', element.id, 'valeur:', element.value);
+                
+                // Récupérer les cibles à masquer et à afficher
+                const toggleTarget = element.getAttribute('data-toggle-target');
+                const showTarget = element.getAttribute('data-show-target');
+                
+                console.log('Cible à masquer:', toggleTarget);
+                console.log('Cible à afficher:', showTarget);
+                
+                // Masquer toutes les cibles
+                if (toggleTarget) {
+                    document.querySelectorAll(toggleTarget).forEach(target => {
+                        target.style.display = 'none';
+                    });
+                }
+                
+                // Afficher les cibles spécifiques
+                if (showTarget) {
+                    document.querySelectorAll(showTarget).forEach(target => {
+                        target.style.display = 'block';
+                    });
+                }
+            }
+        });
+    }
+    
+    // Fonction pour mettre à jour les options de sécurité disponibles en fonction du mode d'accès
+    function updateSecurityOptions() {
+        const accessMode = document.querySelector('input[name="accessMode"]:checked').value;
+        const letsEncryptOption = document.getElementById('securityModeLetsencrypt');
+        
+        // Let's Encrypt n'est disponible que pour les domaines
+        if (accessMode !== 'domain') {
+            if (letsEncryptOption.checked) {
+                document.getElementById('securityModeNone').checked = true;
+                toggleFields();
+            }
+            letsEncryptOption.disabled = true;
+            letsEncryptOption.parentElement.classList.add('text-muted');
+        } else {
+            letsEncryptOption.disabled = false;
+            letsEncryptOption.parentElement.classList.remove('text-muted');
+        }
+    }
+    
+    // Fonction pour mettre à jour le chemin du certificat
+    function updateCertPath(path) {
+        if (path) {
+            document.getElementById('sslCertPath').value = path;
+        }
+    }
+    
+    // Fonction pour mettre à jour le chemin de la clé
+    function updateKeyPath(path) {
+        if (path) {
+            document.getElementById('sslKeyPath').value = path;
+        }
+    }
+    
+    // Fonction pour soumettre le formulaire de téléchargement de certificat
+    function submitCertUpload() {
+        document.getElementById('certUploadForm').submit();
+    }
+    
+    // Fonction pour soumettre le formulaire de téléchargement de clé
+    function submitKeyUpload() {
+        document.getElementById('keyUploadForm').submit();
+    }
+    
+    // Fonction pour générer un certificat auto-signé
+    function generateSelfSignedCertificate() {
+        // Récupérer les valeurs des champs
+        const commonName = document.getElementById('selfSignedCommonName').value || 'localhost';
+        const organization = document.getElementById('selfSignedOrganization').value || 'Sault';
+        
+        // Afficher un indicateur de chargement
+        const btn = document.getElementById('generateSelfSignedBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Génération en cours...';
+        btn.disabled = true;
+        
+        // Envoyer une requête AJAX pour générer le certificat
+        fetch('/admin/generate-ssl-cert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ commonName, organization }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Restaurer le bouton
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            if (data.success) {
+                // Mettre à jour les champs avec les nouveaux chemins
+                updateCertPath(data.certPath);
+                updateKeyPath(data.keyPath);
+                
+                // Afficher un message de succès
+                alert('Certificat auto-signé généré avec succès !');
+            } else {
+                // Afficher un message d'erreur
+                alert('Erreur lors de la génération du certificat : ' + data.error);
+            }
+        })
+        .catch(error => {
+            // Restaurer le bouton
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            // Afficher un message d'erreur
+            alert('Erreur lors de la génération du certificat : ' + error.message);
+        });
+    }
+    
+    // Fonction pour confirmer la soumission du formulaire
+    function confirmSubmission(event) {
+        // Empêcher la soumission par défaut
+        if (event) {
+            event.preventDefault();
+        }
+        
+        // Récupérer le formulaire
+        const form = document.getElementById('domainConfigForm');
+        
+        // Récupérer les valeurs du formulaire
+        const newPort = form.elements.port.value;
+        const newAccessMode = document.querySelector('input[name="accessMode"]:checked').value;
+        const newSecurityMode = document.querySelector('input[name="securityMode"]:checked').value;
+        
+        // Récupérer les valeurs originales
+        const originalPort = form.elements.port.getAttribute('data-original-value');
+        const originalAccessMode = document.querySelector('input[name="accessMode"]:checked').getAttribute('data-original-mode');
+        const originalSecurityMode = document.querySelector('input[name="securityMode"]:checked').getAttribute('data-original-mode');
+        
+        console.log('Nouvelles valeurs:', { newPort, newAccessMode, newSecurityMode });
+        console.log('Valeurs originales:', { originalPort, originalAccessMode, originalSecurityMode });
+        
+        // Vérifier si des changements importants ont été effectués
+        const portChanged = newPort !== originalPort;
+        const securityModeChanged = newSecurityMode !== originalSecurityMode;
+        
+        // Si des changements importants ont été effectués, demander confirmation
+        if (portChanged || securityModeChanged) {
+            let message = 'Attention : Les modifications suivantes nécessitent un redémarrage du serveur :\n\n';
+            
+            if (portChanged) {
+                message += `- Changement de port : ${originalPort} → ${newPort}\n`;
+            }
+            
+            if (securityModeChanged) {
+                message += `- Changement de mode de sécurité : ${originalSecurityMode} → ${newSecurityMode}\n`;
+                
+                if (newSecurityMode === 'none' && originalSecurityMode !== 'none') {
+                    message += '  ⚠️ Passage en mode non sécurisé (HTTP)\n';
+                } else if (newSecurityMode !== 'none' && originalSecurityMode === 'none') {
+                    message += '  ⚠️ Passage en mode sécurisé (HTTPS)\n';
+                }
+            }
+            
+            message += '\nVoulez-vous continuer ?';
+            
+            // Demander confirmation
+            if (confirm(message)) {
+                // Si confirmé, soumettre le formulaire
+                form.submit();
+            }
+        } else {
+            // Si aucun changement important, soumettre le formulaire directement
+            form.submit();
+        }
+        
+        return false;
+    }
+    
+    // Fonction pour tester la configuration
+    function testConfiguration() {
+        // Récupérer les valeurs du formulaire
+        const accessMode = document.querySelector('input[name="accessMode"]:checked').value;
+        const securityMode = document.querySelector('input[name="securityMode"]:checked').value;
+        const port = document.getElementById('port').value;
+        
+        let host = 'localhost';
+        if (accessMode === 'ip') {
+            host = document.getElementById('ipAddress').value || 'IP non configurée';
+        } else if (accessMode === 'domain') {
+            host = document.getElementById('domainName').value || 'Domaine non configuré';
+        }
+        
+        const protocol = securityMode === 'none' ? 'http' : 'https';
+        
+        // Afficher un message avec l'URL qui sera utilisée
+        alert(`Avec cette configuration, votre application sera accessible à l'adresse :\n\n${protocol}://${host}:${port}\n\nNote : Cette URL ne sera active qu'après avoir enregistré la configuration et redémarré le serveur.`);
+    }
+    
+    // Initialiser les champs au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM chargé');
+        
+        // Appliquer l'état initial
+        toggleFields();
+        
+        // Ajouter des écouteurs pour les changements de mode
+        document.querySelectorAll('.toggle-fields').forEach(element => {
+            element.addEventListener('change', toggleFields);
+        });
+        
+        // Ajouter un écouteur pour la soumission du formulaire
+        document.getElementById('domainConfigForm').addEventListener('submit', confirmSubmission);
+        
+        // Ajouter un écouteur pour le bouton de génération de certificat auto-signé
+        const generateBtn = document.getElementById('generateSelfSignedBtn');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', generateSelfSignedCertificate);
+        }
+    });
+</script>
+
+<%- include('../partials/footer') %> 

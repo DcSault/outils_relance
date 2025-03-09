@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\.c38483d6a9f9542146072c3a54ea589a114d1c76-audit.json",
+    "files": [
+        {
+            "date": 1741458179348,
+            "name": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\application-2025-03-08.log",
+            "hash": "4a1cb228c25f2d9f440fa9321557ded9e69c8fe42df81205868c201fe7696f7f"
+        }
+    ],
+    "hashType": "sha256"
+}

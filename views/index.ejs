@@ -29,7 +29,7 @@
                 <div class="alert alert-info">
                     <p class="mb-0">
                         <i class="fas fa-info-circle me-2"></i>
-                        Pour accéder à l'application, veuillez vous connecter en utilisant simplement votre nom d'utilisateur.
+                        Pour accéder à l'application, veuillez vous connecter en utilisant l'une des méthodes disponibles.
                     </p>
                 </div>
                 
@@ -40,6 +40,47 @@
                     </p>
                 </div>
                 
+                <% 
+                    // Vérifier si l'authentification locale est activée
+                    const localEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                        locals.config.auth.methods.local && locals.config.auth.methods.local.enabled;
+                    
+                    // Vérifier si des méthodes d'authentification externes sont activées
+                    const discordEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                          locals.config.auth.methods.discord && locals.config.auth.methods.discord.enabled;
+                    
+                    const githubEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                         locals.config.auth.methods.github && locals.config.auth.methods.github.enabled;
+                    
+                    const azureEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                        locals.config.auth.methods.azure && locals.config.auth.methods.azure.enabled;
+                    
+                    const oktaEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                       locals.config.auth.methods.okta && locals.config.auth.methods.okta.enabled;
+                    
+                    // Vérifier si au moins une méthode externe est activée
+                    const hasExternalMethods = discordEnabled || githubEnabled || azureEnabled || oktaEnabled;
+                    
+                    // Afficher les méthodes disponibles dans la console (visible dans les logs du serveur)
+                    console.log('Méthodes d\'authentification activées dans la vue:', {
+                        local: localEnabled,
+                        discord: discordEnabled,
+                        github: githubEnabled,
+                        azure: azureEnabled,
+                        okta: oktaEnabled
+                    });
+                    
+                    // Afficher la configuration complète pour le débogage
+                    if (locals.config && locals.config.auth && locals.config.auth.methods) {
+                        console.log('Configuration complète dans la vue:', {
+                            local: locals.config.auth.methods.local,
+                            github: locals.config.auth.methods.github,
+                            okta: locals.config.auth.methods.okta
+                        });
+                    }
+                %>
+                
+                <% if (localEnabled) { %>
                 <form action="/login" method="POST" class="mt-4">
                     <div class="mb-3">
                         <label for="username" class="form-label">Nom d'utilisateur</label>
@@ -55,6 +96,48 @@
                         </button>
                     </div>
                 </form>
+                <% } %>
+                
+                <% if (hasExternalMethods) { %>
+                    <% if (localEnabled) { %>
+                    <hr class="my-4">
+                    <h5 class="text-center mb-3">Ou se connecter avec</h5>
+                    <% } else { %>
+                    <h5 class="text-center mb-3 mt-4">Se connecter avec</h5>
+                    <% } %>
+                    <div class="d-grid gap-2">
+                        <% if (discordEnabled) { %>
+                            <a href="/auth/discord" class="btn btn-outline-primary">
+                                <i class="fab fa-discord me-2"></i>Discord
+                            </a>
+                        <% } %>
+                        
+                        <% if (githubEnabled) { %>
+                            <a href="/auth/github" class="btn btn-outline-dark">
+                                <i class="fab fa-github me-2"></i>GitHub
+                            </a>
+                        <% } %>
+                        
+                        <% if (azureEnabled) { %>
+                            <a href="/auth/azure" class="btn btn-outline-info">
+                                <i class="fab fa-microsoft me-2"></i>Microsoft Azure
+                            </a>
+                        <% } %>
+                        
+                        <% if (oktaEnabled) { %>
+                            <a href="/auth/okta" class="btn btn-outline-danger">
+                                <i class="fas fa-shield-alt me-2"></i>Okta
+                            </a>
+                        <% } %>
+                    </div>
+                <% } else if (!localEnabled) { %>
+                    <div class="alert alert-danger mt-4">
+                        <p class="mb-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Attention :</strong> Aucune méthode d'authentification n'est activée. Veuillez contacter l'administrateur.
+                        </p>
+                    </div>
+                <% } %>
                 <% } else { %>
                 <div class="alert alert-success">
                     <p class="mb-0">

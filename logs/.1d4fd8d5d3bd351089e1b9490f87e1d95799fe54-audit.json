@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\.1d4fd8d5d3bd351089e1b9490f87e1d95799fe54-audit.json",
+    "files": [
+        {
+            "date": 1741459190013,
+            "name": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\application-error-2025-03-08.log",
+            "hash": "42a828f5488e6a4bc44c865754cd3c4779c75efffbc62470ade47880bed79e13"
+        },
+        {
+            "date": 1741514247625,
+            "name": "C:\\Users\\victor.rosique\\Documents\\Dev\\Outils_Relance\\logs\\application-error-2025-03-09.log",
+            "hash": "35ab3800b4c5b9a02854122c63470fc316533fb9791e2c895e286f8e11b47058"
+        }
+    ],
+    "hashType": "sha256"
+}

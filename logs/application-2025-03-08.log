@@ -1,0 +1,967 @@
+2025-03-08 21:57:15 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 21:57:18 [WARN] [APP]: Accès refusé (non authentifié): GET /dashboard - IP: ::1
+2025-03-08 21:57:25 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 21:57:25 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:25 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:29 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 21:57:29 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 21:57:29 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:29 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:44 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:44 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:53 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 21:57:53 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 21:57:53 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:57:53 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:04 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 21:58:04 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 21:58:05 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:05 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:06 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 21:58:06 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 21:58:06 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:06 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:13 [INFO] [APP]: Accès authentifié: POST /auth-config/discord - Utilisateur: victor (admin)
+2025-03-08 21:58:13 [INFO] [APP]: Accès administrateur: POST /auth-config/discord - Utilisateur: victor
+2025-03-08 21:58:13 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 21:58:13 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 21:58:13 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:13 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:26 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 21:58:26 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 21:58:26 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 21:58:26 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 21:58:26 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:26 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:29 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 21:58:29 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 21:58:29 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 21:58:29 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 21:58:29 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:29 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:33 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 21:58:33 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 21:58:33 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:33 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:35 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 21:58:35 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 21:58:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:45 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 21:58:45 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 21:58:45 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:45 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:47 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 21:58:47 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 21:58:47 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:47 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:48 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 21:58:48 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 21:58:48 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:48 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:50 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 21:58:50 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 21:58:51 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:58:51 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:03 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: victor (admin)
+2025-03-08 21:59:04 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:04 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:04 [INFO] [APP]: Accès authentifié: GET /create - Utilisateur: victor (admin)
+2025-03-08 21:59:04 [INFO] [APP]: Accès technicien: GET /create - Utilisateur: victor (admin)
+2025-03-08 21:59:04 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:04 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:07 [INFO] [APP]: Accès authentifié: POST /create - Utilisateur: victor (admin)
+2025-03-08 21:59:07 [INFO] [APP]: Accès technicien: POST /create - Utilisateur: victor (admin)
+2025-03-08 21:59:07 [INFO] [APP]: Nouvel élément créé: "test" (e54e34e2-7fc6-4160-b287-a8a96b0e6bfd) - Statut: available - Par: victor
+2025-03-08 21:59:07 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: victor (admin)
+2025-03-08 21:59:07 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:07 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:11 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 21:59:11 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 21:59:11 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:11 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:13 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 21:59:13 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 21:59:13 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:13 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:23 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 21:59:23 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 21:59:23 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:23 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:45 [WARN] [APP]: Accès refusé (non authentifié): GET /dashboard - IP: ::1
+2025-03-08 21:59:48 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 21:59:48 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:48 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:51 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 21:59:51 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 21:59:51 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 21:59:51 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:00:06 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:00:06 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:00:19 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:00:19 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:00:20 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:00:20 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:00:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:00:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:05 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 22:14:07 [WARN] [APP]: Accès refusé (non authentifié): GET /domain-config - IP: ::1
+2025-03-08 22:14:11 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:14:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:14 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:14:14 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:14:14 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:14 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:20 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:14:20 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:14:20 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:20 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:50 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:50 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:55 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:14:55 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:14:55 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:14:55 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:10 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:10 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:10 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:15:10 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:15:10 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:10 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:12 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:15:12 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:15:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:27 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:27 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:42 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:42 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:15:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:27 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:27 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:47 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 22:16:47 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:47 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:49 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:16:49 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:16:50 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:50 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:52 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:16:52 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:16:52 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:16:52 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:01 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:17:01 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:17:01 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:01 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:04 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:17:04 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:17:04 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:04 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:10 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:17:10 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:17:10 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:17:10 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:17:11 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:11 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:26 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:26 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:41 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:41 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:45 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:17:45 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:17:45 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:45 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:47 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:17:47 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:17:47 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:47 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:57 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:17:57 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:17:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:17:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:01 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:18:01 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:18:01 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:18:01 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:18:01 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:01 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:18 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:18 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:20 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:20 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:22 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:18:22 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:18:22 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:22 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:25 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:18:25 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:18:25 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:25 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:31 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:18:31 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:18:31 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:18:31 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:18:31 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:31 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:39 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:18:39 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:18:39 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:39 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:42 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:18:42 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:18:42 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:18:42 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:18:42 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:42 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:18:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:27 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:27 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:42 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:42 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:19:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:40 [WARN] [APP]: Accès refusé (non authentifié): GET /dashboard - IP: ::1
+2025-03-08 22:21:43 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:21:43 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:43 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:45 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:21:45 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:21:45 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:45 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:47 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:21:47 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:21:48 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:48 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:56 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:21:56 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:21:56 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:21:56 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:21:56 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:56 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:59 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:21:59 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:21:59 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:21:59 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:02 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:22:02 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:22:02 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:22:02 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:22:02 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:02 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:13 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:22:13 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:22:13 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:13 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:15 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:22:15 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:22:15 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:15 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:16 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 22:22:16 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 22:22:16 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:16 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:23 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 22:22:23 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 22:22:23 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:23 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:38 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:22:38 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:03 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:25:03 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:03 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:07 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:25:07 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:25:07 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:07 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:08 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:25:08 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:25:08 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:08 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:16 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:25:16 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:25:17 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:17 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:21 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:25:21 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:25:21 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:25:21 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:25:21 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:21 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:36 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:36 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:45 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:25:45 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:25:45 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:45 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:52 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:25:52 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:25:52 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:25:52 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:25:52 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:52 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:59 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:25:59 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:25:59 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:25:59 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:02 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:26:02 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:26:02 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:26:02 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:26:02 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:02 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:10 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:26:10 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:26:10 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:10 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:15 [INFO] [APP]: Accès authentifié: POST /auth-config/discord - Utilisateur: victor (admin)
+2025-03-08 22:26:15 [INFO] [APP]: Accès administrateur: POST /auth-config/discord - Utilisateur: victor
+2025-03-08 22:26:15 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:26:15 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:26:15 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:15 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:30 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:30 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:46 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:26:46 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:01 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:01 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:13 [INFO] [APP]: Accès authentifié: POST /auth-config/discord - Utilisateur: victor (admin)
+2025-03-08 22:27:13 [INFO] [APP]: Accès administrateur: POST /auth-config/discord - Utilisateur: victor
+2025-03-08 22:27:13 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:27:13 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:27:13 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:13 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:17 [INFO] [APP]: Accès authentifié: POST /auth-config/local - Utilisateur: victor (admin)
+2025-03-08 22:27:17 [INFO] [APP]: Accès administrateur: POST /auth-config/local - Utilisateur: victor
+2025-03-08 22:27:17 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:27:17 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:27:18 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:18 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:33 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:33 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:38 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:27:46 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 22:27:47 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:47 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:49 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:27:49 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:27:49 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:49 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:50 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:27:50 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:27:50 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:50 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:55 [INFO] [APP]: Accès authentifié: POST /auth-config/local - Utilisateur: victor (admin)
+2025-03-08 22:27:55 [INFO] [APP]: Accès administrateur: POST /auth-config/local - Utilisateur: victor
+2025-03-08 22:27:55 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:27:55 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:27:55 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:55 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:59 [INFO] [APP]: Accès authentifié: POST /auth-config/discord - Utilisateur: victor (admin)
+2025-03-08 22:27:59 [INFO] [APP]: Accès administrateur: POST /auth-config/discord - Utilisateur: victor
+2025-03-08 22:27:59 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 22:27:59 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 22:27:59 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:27:59 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:28:14 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:30:02 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3002
+Error: listen EADDRINUSE: address already in use :::3002
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:725:18)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:805:10)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+2025-03-08 22:30:11 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3002
+Error: listen EADDRINUSE: address already in use :::3002
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:725:18)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:805:10)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+2025-03-08 22:31:14 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 22:31:14 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:14 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:17 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:31:17 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:31:17 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:17 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:19 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:31:19 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:31:19 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:19 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:25 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:31:25 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:31:25 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:31:25 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:31:25 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:25 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:27 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:31:27 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:31:27 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:31:27 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:31:28 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:31:28 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:28 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 22:34:35 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 22:34:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:37 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:34:37 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:34:37 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:37 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:40 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:34:40 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:34:40 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:40 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:47 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:34:47 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:34:47 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:34:47 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:34:47 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:47 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:50 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:34:50 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:34:51 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:34:51 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:34:51 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:34:51 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:35:06 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:35:06 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:35:21 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:35:21 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:39:49 [WARN] [APP]: Accès refusé (non authentifié): GET /dashboard - IP: ::1
+2025-03-08 22:39:52 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:39:53 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:39:53 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:39:56 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:39:56 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:39:56 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:39:56 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:39:58 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:39:58 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:39:58 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:39:58 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:04 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:40:04 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:40:04 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:40:04 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:40:04 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:04 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:19 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:19 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:22 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:40:22 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:40:22 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:22 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:27 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:40:27 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:40:27 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:40:27 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:40:27 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:27 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:42 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:40:42 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:42 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 22:42:49 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:42:49 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:49 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:52 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:42:52 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:42:52 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:52 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:53 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:42:53 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:42:53 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:53 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:59 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:42:59 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:42:59 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:42:59 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:42:59 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:42:59 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:14 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:14 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:23 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:43:23 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:43:23 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:23 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:27 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:43:27 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:43:27 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:43:27 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:43:27 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:27 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:42 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:43:42 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:53 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:45:53 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:53 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:56 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:45:56 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:45:56 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:56 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:58 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:45:58 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:45:58 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:45:58 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:46:02 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:46:02 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:46:02 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:46:02 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:46:02 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:46:02 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:46:05 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:46:05 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:46:05 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:46:05 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:46:05 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:46:05 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:12 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:49:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:14 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:49:14 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:49:14 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:14 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:17 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:49:17 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:49:18 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:18 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:22 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:49:22 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:49:22 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:49:22 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:49:23 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:23 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:29 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:49:29 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:49:29 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:29 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:32 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:49:32 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:49:33 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:49:33 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:49:33 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:33 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:48 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:49:48 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:19 [WARN] [APP]: Accès refusé (non authentifié): GET /domain-config - IP: ::1
+2025-03-08 22:50:22 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:50:22 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:22 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:25 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:50:25 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:50:25 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:25 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:26 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:50:26 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:50:26 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:26 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:32 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:50:32 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:50:32 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:50:32 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:50:32 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:32 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:36 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:50:36 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:50:36 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:36 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:39 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:50:39 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:50:39 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:50:39 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:50:40 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:50:40 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:10 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 22:53:13 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:53:13 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:13 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:15 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:53:15 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:53:15 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:15 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:17 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:53:17 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:53:17 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:17 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:22 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:53:22 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:53:22 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:53:22 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:53:22 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:22 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:24 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:53:24 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:53:24 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:24 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:25 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:25 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:38 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:53:38 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:53:38 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:53:38 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:53:38 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:38 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:40 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:53:40 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:24 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 22:56:28 [WARN] [APP]: Accès refusé (non authentifié): GET /dashboard - IP: ::1
+2025-03-08 22:56:32 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 22:56:32 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:32 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:34 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:56:34 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:56:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:37 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:56:37 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:56:37 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:37 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:43 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:56:43 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-08 22:56:43 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 22:56:43 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 22:56:43 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:43 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:46 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 22:56:46 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 22:56:46 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 22:56:46 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 22:56:46 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:56:46 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:57:02 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:57:02 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:57:17 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 22:57:17 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:03:03 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 23:04:54 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 23:09:54 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 23:10:54 [WARN] [APP]: Accès refusé (non authentifié): GET /unread - IP: ::1
+2025-03-08 23:11:24 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:24 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:35 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: notsault (technicien)
+2025-03-08 23:11:35 [INFO] [APP]: Accès technicien: GET / - Utilisateur: notsault (technicien)
+2025-03-08 23:11:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès technicien: GET / - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès technicien: GET / - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:37 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: notsault (technicien)
+2025-03-08 23:11:40 [INFO] [APP]: Déconnexion de l'utilisateur "notsault" (rôle: technicien) - IP: ::1
+2025-03-08 23:11:44 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:11:44 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:44 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:46 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:46 [INFO] [APP]: Accès technicien: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:46 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:46 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:49 [INFO] [APP]: Accès authentifié: GET /edit/1741471884276 - Utilisateur: victor (admin)
+2025-03-08 23:11:49 [INFO] [APP]: Accès administrateur: GET /edit/1741471884276 - Utilisateur: victor
+2025-03-08 23:11:49 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:49 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:54 [INFO] [APP]: Accès authentifié: POST /edit/1741471884276 - Utilisateur: victor (admin)
+2025-03-08 23:11:54 [INFO] [APP]: Accès administrateur: POST /edit/1741471884276 - Utilisateur: victor
+2025-03-08 23:11:54 [INFO] [APP]: Utilisateur mis à jour: "notsault" (1741471884276) - Par: victor - Modifications: Rôle: technicien -> admin, Agence: undefined -> null, Email: undefined -> , Téléphone: undefined -> 
+2025-03-08 23:11:54 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:54 [INFO] [APP]: Accès technicien: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:54 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:54 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:57 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:57 [INFO] [APP]: Accès technicien: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:58 [INFO] [APP]: Accès authentifié: GET / - Utilisateur: victor (admin)
+2025-03-08 23:11:58 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:11:58 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:00 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:12:00 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:12:00 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:00 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:04 [INFO] [APP]: Accès authentifié: GET /logs - Utilisateur: victor (admin)
+2025-03-08 23:12:04 [INFO] [APP]: Accès administrateur: GET /logs - Utilisateur: victor
+2025-03-08 23:12:04 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:04 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:12 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:12:12 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:12:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:13 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 23:12:13 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 23:12:14 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:14 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:29 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:29 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:40 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-08 23:12:40 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-08 23:12:40 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:40 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:47 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:12:47 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:12:48 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:48 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:12:59 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:12:59 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:13:00 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:00 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:07 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 23:13:07 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 23:13:07 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:13:07 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:13:07 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:07 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:09 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:13:17 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: notsault (admin)
+2025-03-08 23:13:17 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: notsault (admin)
+2025-03-08 23:13:20 [INFO] [APP]: Déconnexion de l'utilisateur "notsault" (rôle: admin) - IP: ::1
+2025-03-08 23:13:24 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:13:25 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:25 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:27 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:13:27 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:13:27 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:27 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:29 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:13:29 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:13:30 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:30 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:34 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 23:13:34 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 23:13:34 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:13:34 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:13:34 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:34 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:49 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:13:49 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:06 [WARN] [APP]: Accès refusé (non authentifié): GET /auth-config - IP: ::1
+2025-03-08 23:16:13 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:16:14 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:14 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:16 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:16:16 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:16:16 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:16 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:18 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:16:18 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:16:18 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:18 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:23 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 23:16:23 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 23:16:23 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:16:23 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:16:23 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:23 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:29 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:16:32 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:16:33 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:33 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:36 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:16:36 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:16:36 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:36 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:41 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:16:41 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:16:41 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:41 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:56 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:16:56 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:17:11 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:17:11 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:17:26 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:17:26 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:17:41 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:17:41 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:19:03 [ERROR] [APP]: uncaughtException: OAuth2Strategy requires a clientID option
+TypeError: OAuth2Strategy requires a clientID option
+    at new OAuth2Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-oauth2\lib\strategy.js:87:34)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:186:30)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:231:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
+2025-03-08 23:19:12 [ERROR] [APP]: uncaughtException: OAuth2Strategy requires a clientID option
+TypeError: OAuth2Strategy requires a clientID option
+    at new OAuth2Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-oauth2\lib\strategy.js:87:34)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:186:30)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:231:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
+2025-03-08 23:19:26 [ERROR] [APP]: uncaughtException: OAuth2Strategy requires a clientID option
+TypeError: OAuth2Strategy requires a clientID option
+    at new OAuth2Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-oauth2\lib\strategy.js:87:34)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:186:30)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:231:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
+2025-03-08 23:19:46 [ERROR] [APP]: uncaughtException: OAuth2Strategy requires a clientID option
+TypeError: OAuth2Strategy requires a clientID option
+    at new OAuth2Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-oauth2\lib\strategy.js:87:34)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:186:30)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:231:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
+2025-03-08 23:21:13 [ERROR] [APP]: uncaughtException: OAuth2Strategy requires a clientID option
+TypeError: OAuth2Strategy requires a clientID option
+    at new OAuth2Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-oauth2\lib\strategy.js:87:34)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:186:30)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:231:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
+2025-03-08 23:22:30 [ERROR] [APP]: uncaughtException: OAuth2Strategy requires a clientID option
+TypeError: OAuth2Strategy requires a clientID option
+    at new OAuth2Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-oauth2\lib\strategy.js:87:34)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:186:30)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:231:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
+2025-03-08 23:27:23 [WARN] [APP]: Accès refusé (non authentifié): GET /auth-config - IP: ::1
+2025-03-08 23:27:32 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 23:27:33 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:33 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:35 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:27:35 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:27:35 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:35 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:38 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:27:38 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:27:38 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:38 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:40 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 23:27:40 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 23:27:40 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:27:40 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:27:40 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:40 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:44 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 23:27:44 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 23:27:44 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:27:44 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:27:44 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:44 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:46 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:27:52 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 23:27:52 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:52 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:55 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:27:55 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:27:55 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:55 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:57 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:27:57 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:27:57 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:27:57 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:05 [INFO] [APP]: Accès authentifié: POST /auth-config/okta - Utilisateur: victor (admin)
+2025-03-08 23:28:05 [INFO] [APP]: Accès administrateur: POST /auth-config/okta - Utilisateur: victor
+2025-03-08 23:28:05 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:28:05 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:28:05 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:05 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:10 [INFO] [APP]: Accès authentifié: POST /auth-config/github - Utilisateur: victor (admin)
+2025-03-08 23:28:10 [INFO] [APP]: Accès administrateur: POST /auth-config/github - Utilisateur: victor
+2025-03-08 23:28:10 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:28:10 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:28:10 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:10 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:15 [INFO] [APP]: Accès authentifié: POST /auth-config/github - Utilisateur: victor (admin)
+2025-03-08 23:28:15 [INFO] [APP]: Accès administrateur: POST /auth-config/github - Utilisateur: victor
+2025-03-08 23:28:15 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:28:15 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:28:15 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:15 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:18 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:28:22 [INFO] [APP]: Connexion réussie pour l'utilisateur "Victor" (rôle: admin) - IP: ::1
+2025-03-08 23:28:22 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:22 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:26 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:28:26 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:28:26 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:26 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:29 [INFO] [APP]: Accès authentifié: POST /restart-server - Utilisateur: victor (admin)
+2025-03-08 23:28:29 [INFO] [APP]: Accès administrateur: POST /restart-server - Utilisateur: victor
+2025-03-08 23:28:29 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:28:29 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:28:30 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:30 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:30 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3004
+Error: listen EADDRINUSE: address already in use :::3004
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:764:18)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:841:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:805:28)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-08 23:28:32 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:28:38 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-08 23:28:38 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:38 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:41 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-08 23:28:41 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-08 23:28:41 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:41 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:44 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-08 23:28:44 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-08 23:28:44 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:44 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:59 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:28:59 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-08 23:29:01 [INFO] [APP]: Déconnexion de l'utilisateur "victor" (rôle: admin) - IP: ::1

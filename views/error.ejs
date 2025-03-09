@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <% if (error.status === 404) { %>
+                        <i class="fas fa-search fa-5x text-muted mb-4"></i>
+                        <h1 class="display-4 mb-3">404</h1>
+                        <h2 class="mb-4">Page non trouvée</h2>
+                    <% } else { %>
+                        <i class="fas fa-exclamation-triangle fa-5x text-danger mb-4"></i>
+                        <h1 class="display-4 mb-3">500</h1>
+                        <h2 class="mb-4">Erreur serveur</h2>
+                    <% } %>
+                    
+                    <p class="lead mb-4"><%= error.message %></p>
+                    
+                    <% if (error.stack && process.env.NODE_ENV === 'development') { %>
+                        <div class="alert alert-danger text-start">
+                            <pre class="mb-0"><%= error.stack %></pre>
+                        </div>
+                    <% } %>
+                    
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary me-2">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Retour
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4 text-muted">
+                <p>Si le problème persiste, veuillez contacter l'administrateur système.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %> 

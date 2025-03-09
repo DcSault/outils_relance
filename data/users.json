@@ -59,6 +59,19 @@
       "phone": "",
       "createdAt": "2025-03-08T09:48:53.646Z",
       "updatedAt": "2025-03-08T09:49:25.079Z"
+    },
+    {
+      "id": "1741471884276",
+      "username": "notsault",
+      "role": "admin",
+      "createdAt": "2025-03-08T22:11:24.276Z",
+      "providerIds": {
+        "discord": "314114260680572929"
+      },
+      "agency": null,
+      "email": "",
+      "phone": "",
+      "updatedAt": "2025-03-08T22:11:54.130Z"
     }
   ]
 }

@@ -1,0 +1,175 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin/dashboard">Administration</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Options d'exportation</li>
+                </ol>
+            </nav>
+            <h1 class="mb-4">
+                <i class="fas fa-file-export me-2"></i>Options d'exportation
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-database me-2"></i>Exporter les données
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Exportez toutes les données de l'application pour créer une sauvegarde ou pour migrer vers une autre instance.
+                    </p>
+                    <p>
+                        <strong>Données exportées :</strong> Agences, Inventaire, Relances (actives et archivées), Rôles, Modèles, Utilisateurs
+                    </p>
+                    
+                    <div class="alert alert-info">
+                        <p class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Vous pouvez choisir d'exporter les données en clair ou de les chiffrer avec un mot de passe.
+                        </p>
+                    </div>
+                    
+                    <form id="exportDataForm" action="/admin/export-data" method="GET">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="encryptData" name="encrypt" value="true">
+                            <label class="form-check-label" for="encryptData">
+                                Chiffrer les données avec un mot de passe
+                            </label>
+                        </div>
+                        
+                        <div id="dataPasswordGroup" class="mb-3 d-none">
+                            <label for="dataPassword" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="dataPassword" name="password">
+                            <div class="form-text">Ce mot de passe sera nécessaire pour importer les données ultérieurement.</div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-download me-2"></i>Exporter les données
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-cogs me-2"></i>Exporter la configuration
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Exportez la configuration de l'application, y compris les paramètres d'authentification, de domaine et de SSL.
+                    </p>
+                    <p>
+                        <strong>Données exportées :</strong> Méthodes d'authentification, Configuration du domaine, Paramètres SSL
+                    </p>
+                    
+                    <div class="alert alert-warning">
+                        <p class="mb-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Attention :</strong> La configuration contient des informations sensibles (clés API, secrets, etc.). 
+                            Elle est toujours chiffrée avec un mot de passe pour protéger ces données.
+                        </p>
+                    </div>
+                    
+                    <form id="exportConfigForm" action="/admin/export-config" method="GET">
+                        <div class="mb-3">
+                            <label for="configPassword" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="configPassword" name="password" required>
+                            <div class="form-text">Ce mot de passe sera nécessaire pour importer la configuration ultérieurement.</div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-download me-2"></i>Exporter la configuration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>Sécurité des exportations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Pourquoi chiffrer les exportations ?</strong>
+                    </p>
+                    <ul>
+                        <li>Les données exportées peuvent contenir des informations sensibles sur votre organisation.</li>
+                        <li>Le chiffrement protège vos données contre les accès non autorisés en cas de perte du fichier d'exportation.</li>
+                        <li>La configuration contient des secrets (clés API, mots de passe, etc.) qui doivent être protégés.</li>
+                    </ul>
+                    
+                    <p>
+                        <strong>Conseils pour les mots de passe :</strong>
+                    </p>
+                    <ul>
+                        <li>Utilisez un mot de passe fort et unique pour chaque exportation.</li>
+                        <li>Conservez le mot de passe dans un gestionnaire de mots de passe sécurisé.</li>
+                        <li>Sans le mot de passe, il sera impossible de récupérer les données chiffrées.</li>
+                    </ul>
+                    
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="/admin/dashboard" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Retour au tableau de bord
+                        </a>
+                        <a href="/admin/import-data" class="btn btn-outline-primary">
+                            <i class="fas fa-file-import me-2"></i>Importer des données
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const encryptDataCheckbox = document.getElementById('encryptData');
+        const dataPasswordGroup = document.getElementById('dataPasswordGroup');
+        const dataPassword = document.getElementById('dataPassword');
+        const exportDataForm = document.getElementById('exportDataForm');
+        
+        // Afficher/masquer le champ de mot de passe pour l'exportation des données
+        encryptDataCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                dataPasswordGroup.classList.remove('d-none');
+                dataPassword.setAttribute('required', 'required');
+            } else {
+                dataPasswordGroup.classList.add('d-none');
+                dataPassword.removeAttribute('required');
+            }
+        });
+        
+        // Vérifier que le mot de passe est fourni si le chiffrement est activé
+        exportDataForm.addEventListener('submit', function(event) {
+            if (encryptDataCheckbox.checked && !dataPassword.value) {
+                event.preventDefault();
+                alert('Veuillez entrer un mot de passe pour chiffrer les données.');
+            }
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %> 

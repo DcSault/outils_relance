@@ -1,0 +1,182 @@
+2025-03-09 11:05:03 [ERROR] [APP]: uncaughtException: Invalid value for clientID.The value cannot be empty
+TypeError: Invalid value for clientID.The value cannot be empty
+    at C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-azure-ad\lib\validator.js:33:13
+    at Array.forEach (<anonymous>)
+    at Validator.validate (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-azure-ad\lib\validator.js:19:28)
+    at new Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-azure-ad\lib\oidcstrategy.js:512:13)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:160:22)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:233:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+2025-03-09 11:05:45 [ERROR] [APP]: uncaughtException: Invalid value for clientID.The value cannot be empty
+TypeError: Invalid value for clientID.The value cannot be empty
+    at C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-azure-ad\lib\validator.js:33:13
+    at Array.forEach (<anonymous>)
+    at Validator.validate (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-azure-ad\lib\validator.js:19:28)
+    at new Strategy (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\passport-azure-ad\lib\oidcstrategy.js:512:13)
+    at module.exports (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\config\passport.js:160:22)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:233:29)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+2025-03-09 11:10:19 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3004
+Error: listen EADDRINUSE: address already in use :::3004
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:793:18)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:870:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:832:28)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:21:12 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:793:18)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:870:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:816:28)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:27:17 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:793:18)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:870:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:623:52)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:27:38 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:775:16)
+    at C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:861:9
+    at Server.close (node:net:2356:9)
+    at Object.onceWrapper (node:events:632:28)
+    at Server.emit (node:events:518:28)
+    at emitCloseNT (node:net:2416:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+2025-03-09 11:44:02 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:790:16)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:887:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:950:28)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:49:05 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:797:26)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:878:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:956:28)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:50:30 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:797:26)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:878:5)
+    at restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:953:24)
+    at Layer.handle [as handle_request] (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\router\route.js:119:3)
+2025-03-09 11:54:25 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:803:26)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:885:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:639:32)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:54:33 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:803:26)
+    at C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:876:9
+    at Server.close (node:net:2356:9)
+    at Object.onceWrapper (node:events:632:28)
+    at Server.emit (node:events:518:28)
+    at emitCloseNT (node:net:2416:8)
+2025-03-09 11:58:45 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:803:26)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:885:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:657:32)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 11:58:50 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at Function.listen (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\node_modules\express\lib\application.js:635:24)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:803:26)
+    at C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:876:9
+    at Server.close (node:net:2356:9)
+    at Object.onceWrapper (node:events:632:28)
+    at Server.emit (node:events:518:28)
+    at emitCloseNT (node:net:2416:8)
+2025-03-09 12:06:38 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:775:28)
+    at global.restartServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:885:5)
+    at Timeout._onTimeout (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\controllers\adminController.js:657:32)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-03-09 12:06:42 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3007
+Error: listen EADDRINUSE: address already in use :::3007
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:775:28)
+    at C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:876:9
+    at Server.close (node:net:2356:9)
+    at Object.onceWrapper (node:events:632:28)
+    at Server.emit (node:events:518:28)
+    at emitCloseNT (node:net:2416:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+2025-03-09 13:58:19 [ERROR] [APP]: uncaughtException: listen EADDRINUSE: address already in use :::3005
+Error: listen EADDRINUSE: address already in use :::3005
+    at Server.setupListenHandle [as _listen2] (node:net:1937:16)
+    at listenInCluster (node:net:1994:12)
+    at Server.listen (node:net:2099:7)
+    at startServer (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:796:31)
+    at Object.<anonymous> (C:\Users\victor.rosique\Documents\Dev\Outils_Relance\app.js:929:10)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

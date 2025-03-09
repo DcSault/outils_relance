@@ -1,6 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const winston = require('winston');
+
+// Référence aux loggers
+const serverLogger = global.serverLogger || winston.loggers.get('server') || winston.createLogger();
+const appLogger = global.appLogger || winston.loggers.get('app') || winston.createLogger();
 
 // Chemin vers les fichiers de données
 const inventoryFilePath = path.join(__dirname, '../data/inventory.json');
@@ -13,7 +18,7 @@ const getInventoryData = () => {
         const data = fs.readFileSync(inventoryFilePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        console.error('Erreur lors de la lecture du fichier inventory.json:', error);
+        serverLogger.error(`Erreur lors de la lecture du fichier inventory.json: ${error.message}`);
         return { items: [] };
     }
 };
@@ -189,6 +194,7 @@ const inventoryController = {
         
         // Validation de base
         if (!name || name.trim() === '') {
+            appLogger.warn(`Tentative de création d'élément échouée: nom vide - Utilisateur: ${req.session.user.username}`);
             return res.render('inventory/create', {
                 title: 'Ajouter un Élément',
                 error: 'Le nom de l\'élément est requis',
@@ -227,6 +233,7 @@ const inventoryController = {
         
         // Sauvegarde des données
         if (!saveInventoryData(inventoryData)) {
+            appLogger.error(`Erreur lors de la sauvegarde de l'élément "${name}" - Utilisateur: ${req.session.user.username}`);
             return res.render('inventory/create', {
                 title: 'Ajouter un Élément',
                 error: 'Erreur lors de la sauvegarde de l\'élément',
@@ -258,27 +265,10 @@ const inventoryController = {
             );
         }
         
-        // Si l'élément est prêté ou attribué, ajouter une entrée d'historique
-        if (isAssigned) {
-            const user = getUsersData().users.find(u => u.id === borrowedBy);
-            addHistoryEntry(
-                newItem.id,
-                'Attribution',
-                `Attribué à ${user ? user.username : 'un utilisateur'}`,
-                req.session.user.id
-            );
-        } else if (isBorrowed) {
-            const user = getUsersData().users.find(u => u.id === borrowedBy);
-            addHistoryEntry(
-                newItem.id,
-                'Prêt',
-                `Prêté à ${user ? user.username : 'un utilisateur'}${expectedReturnDate ? ` jusqu'au ${new Date(expectedReturnDate).toLocaleDateString('fr-FR')}` : ''}`,
-                req.session.user.id
-            );
-        }
+        appLogger.info(`Nouvel élément créé: "${name}" (${newItem.id}) - Statut: ${status} - Par: ${req.session.user.username}`);
         
         // Redirection avec message de succès
-        req.session.success = 'Élément ajouté avec succès';
+        req.session.success = 'Élément créé avec succès';
         res.redirect('/inventory');
     },
     
@@ -312,6 +302,7 @@ const inventoryController = {
         
         // Validation de base
         if (!name || name.trim() === '') {
+            appLogger.warn(`Tentative de mise à jour d'élément échouée: nom vide - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Le nom de l\'élément est requis';
             return res.redirect(`/inventory/edit/${id}`);
         }
@@ -321,9 +312,12 @@ const inventoryController = {
         const itemIndex = inventoryData.items.findIndex(i => i.id === id);
         
         if (itemIndex === -1) {
+            appLogger.warn(`Tentative de mise à jour d'élément échouée: élément non trouvé - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Élément non trouvé';
             return res.redirect('/inventory');
         }
+        
+        const originalItem = { ...inventoryData.items[itemIndex] };
         
         // Déterminer si l'élément est prêté ou attribué à un utilisateur
         const isAssigned = status === 'assigned' && borrowedBy && borrowedBy !== 'none';
@@ -364,6 +358,7 @@ const inventoryController = {
         
         // Sauvegarde des données
         if (!saveInventoryData(inventoryData)) {
+            appLogger.error(`Erreur lors de la mise à jour de l'élément "${name}" (${id}) - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Erreur lors de la sauvegarde de l\'élément';
             return res.redirect(`/inventory/edit/${id}`);
         }
@@ -376,8 +371,18 @@ const inventoryController = {
             req.session.user.id
         );
         
+        // Journaliser les modifications
+        const changes = [];
+        if (originalItem.name !== name) changes.push(`Nom: ${originalItem.name} -> ${name}`);
+        if (originalItem.status !== status) changes.push(`Statut: ${originalItem.status} -> ${status}`);
+        if (originalItem.agencyId !== itemAgencyId) changes.push(`Agence: ${originalItem.agencyId} -> ${itemAgencyId}`);
+        if (originalItem.borrowedBy !== ((isAssigned || isBorrowed) ? borrowedBy : null)) 
+            changes.push(`Emprunteur: ${originalItem.borrowedBy} -> ${(isAssigned || isBorrowed) ? borrowedBy : null}`);
+        
+        appLogger.info(`Élément mis à jour: "${name}" (${id}) - Par: ${req.session.user.username} - Modifications: ${changes.join(', ')}`);
+        
         // Si le statut a changé, ajouter une entrée d'historique spécifique
-        const oldStatus = inventoryData.items[itemIndex].status;
+        const oldStatus = originalItem.status;
         if (status !== oldStatus) {
             let statusAction = '';
             let statusDescription = '';
@@ -432,18 +437,24 @@ const inventoryController = {
         const itemIndex = inventoryData.items.findIndex(i => i.id === id);
         
         if (itemIndex === -1) {
+            appLogger.warn(`Tentative de suppression d'élément échouée: élément non trouvé - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Élément non trouvé';
             return res.redirect('/inventory');
         }
+        
+        const itemToDelete = inventoryData.items[itemIndex];
         
         // Suppression de l'élément
         inventoryData.items.splice(itemIndex, 1);
         
         // Sauvegarde des données
         if (!saveInventoryData(inventoryData)) {
+            appLogger.error(`Erreur lors de la suppression de l'élément "${itemToDelete.name}" (${id}) - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Erreur lors de la suppression de l\'élément';
             return res.redirect('/inventory');
         }
+        
+        appLogger.info(`Élément supprimé: "${itemToDelete.name}" (${id}) - Statut: ${itemToDelete.status} - Par: ${req.session.user.username}`);
         
         // Redirection avec message de succès
         req.session.success = 'Élément supprimé avec succès';
@@ -508,6 +519,7 @@ const inventoryController = {
         
         // Validation de base
         if (!userId || userId === 'none') {
+            appLogger.warn(`Tentative de prêt d'élément échouée: utilisateur non spécifié - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Veuillez sélectionner un utilisateur';
             return res.redirect(`/inventory/details/${id}`);
         }
@@ -518,15 +530,19 @@ const inventoryController = {
         const usersData = getUsersData();
         
         if (itemIndex === -1) {
+            appLogger.warn(`Tentative de prêt d'élément échouée: élément non trouvé - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Élément non trouvé';
             return res.redirect('/inventory');
         }
         
         // Vérification de la disponibilité
         if (inventoryData.items[itemIndex].status !== 'available') {
+            appLogger.warn(`Tentative de prêt d'élément échouée: élément non disponible - ID: ${id} - Statut: ${inventoryData.items[itemIndex].status} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Cet élément n\'est pas disponible pour le prêt';
             return res.redirect(`/inventory/details/${id}`);
         }
+        
+        const itemName = inventoryData.items[itemIndex].name;
         
         // Mise à jour de l'élément
         inventoryData.items[itemIndex] = {
@@ -540,6 +556,7 @@ const inventoryController = {
         
         // Sauvegarde des données
         if (!saveInventoryData(inventoryData)) {
+            appLogger.error(`Erreur lors du prêt de l'élément "${itemName}" (${id}) - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Erreur lors du prêt de l\'élément';
             return res.redirect(`/inventory/details/${id}`);
         }
@@ -552,6 +569,8 @@ const inventoryController = {
             `Prêté à ${user ? user.username : 'un utilisateur'}${expectedReturnDate ? ` jusqu'au ${new Date(expectedReturnDate).toLocaleDateString('fr-FR')}` : ''}`,
             req.session.user.id
         );
+        
+        appLogger.info(`Élément prêté: "${itemName}" (${id}) - Emprunteur: ${user ? user.username : 'Utilisateur inconnu'} - Par: ${req.session.user.username}`);
         
         // Redirection avec message de succès
         req.session.success = 'Élément prêté avec succès';
@@ -622,23 +641,25 @@ const inventoryController = {
         // Récupération des données
         const inventoryData = getInventoryData();
         const itemIndex = inventoryData.items.findIndex(i => i.id === id);
+        const usersData = getUsersData();
         
         if (itemIndex === -1) {
+            appLogger.warn(`Tentative de retour d'élément échouée: élément non trouvé - ID: ${id} - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Élément non trouvé';
             return res.redirect('/inventory');
         }
         
         // Vérification du statut
-        if (inventoryData.items[itemIndex].status !== 'borrowed' && inventoryData.items[itemIndex].status !== 'assigned') {
-            req.session.error = 'Cet élément n\'est pas actuellement prêté ou attribué';
+        const previousStatus = inventoryData.items[itemIndex].status;
+        if (previousStatus !== 'borrowed' && previousStatus !== 'assigned') {
+            appLogger.warn(`Tentative de retour d'élément échouée: élément non emprunté/attribué - ID: ${id} - Statut: ${previousStatus} - Utilisateur: ${req.session.user.username}`);
+            req.session.error = 'Cet élément n\'est pas emprunté ou attribué';
             return res.redirect(`/inventory/details/${id}`);
         }
         
-        // Récupérer les informations sur l'emprunteur pour l'historique
-        const usersData = getUsersData();
+        const itemName = inventoryData.items[itemIndex].name;
         const borrowerId = inventoryData.items[itemIndex].borrowedBy;
         const borrower = borrowerId ? usersData.users.find(u => u.id === borrowerId) : null;
-        const previousStatus = inventoryData.items[itemIndex].status;
         
         // Mise à jour de l'élément
         inventoryData.items[itemIndex] = {
@@ -653,9 +674,12 @@ const inventoryController = {
         
         // Sauvegarde des données
         if (!saveInventoryData(inventoryData)) {
+            appLogger.error(`Erreur lors du retour de l'élément "${itemName}" (${id}) - Utilisateur: ${req.session.user.username}`);
             req.session.error = 'Erreur lors du retour de l\'élément';
             return res.redirect(`/inventory/details/${id}`);
         }
+        
+        appLogger.info(`Élément retourné: "${itemName}" (${id}) - Précédemment ${previousStatus === 'borrowed' ? 'prêté à' : 'attribué à'} ${borrower ? borrower.username : 'Utilisateur inconnu'} - Par: ${req.session.user.username}`);
         
         // Ajouter une entrée d'historique pour le retour
         addHistoryEntry(

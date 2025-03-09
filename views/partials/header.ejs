@@ -87,16 +87,62 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="/profile"><i class="fas fa-id-card me-2"></i>Profil</a></li>
+                                    <% if (user.role === 'admin') { %>
+                                    <li><a class="dropdown-item" href="/admin/dashboard"><i class="fas fa-cogs me-2"></i>Administration</a></li>
+                                    <% } %>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
                                 </ul>
                             </div>
                         <% } else { %>
+                            <% 
+                            // Vérifier si l'authentification locale est activée
+                            const localEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                                locals.config.auth.methods.local && locals.config.auth.methods.local.enabled;
+                            
+                            // Vérifier si des méthodes d'authentification externes sont activées
+                            const discordEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                                  locals.config.auth.methods.discord && locals.config.auth.methods.discord.enabled;
+                            const githubEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                                 locals.config.auth.methods.github && locals.config.auth.methods.github.enabled;
+                            const azureEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                                locals.config.auth.methods.azure && locals.config.auth.methods.azure.enabled;
+                            const oktaEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                                               locals.config.auth.methods.okta && locals.config.auth.methods.okta.enabled;
+                            
+                            // Vérifier si au moins une méthode externe est activée
+                            const hasExternalMethods = discordEnabled || githubEnabled || azureEnabled || oktaEnabled;
+                            %>
+                            
+                            <% if (localEnabled !== false) { %>
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                                     <i class="fas fa-sign-in-alt me-1"></i>Connexion
                                 </a>
                             </li>
+                            <% } %>
+                            
+                            <% if (hasExternalMethods) { %>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-key me-1"></i>Autres méthodes
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="authDropdown">
+                                    <% if (discordEnabled) { %>
+                                    <li><a class="dropdown-item" href="/auth/discord"><i class="fab fa-discord me-2"></i>Discord</a></li>
+                                    <% } %>
+                                    <% if (githubEnabled) { %>
+                                    <li><a class="dropdown-item" href="/auth/github"><i class="fab fa-github me-2"></i>GitHub</a></li>
+                                    <% } %>
+                                    <% if (azureEnabled) { %>
+                                    <li><a class="dropdown-item" href="/auth/azure"><i class="fab fa-microsoft me-2"></i>Microsoft Azure</a></li>
+                                    <% } %>
+                                    <% if (oktaEnabled) { %>
+                                    <li><a class="dropdown-item" href="/auth/okta"><i class="fas fa-shield-alt me-2"></i>Okta</a></li>
+                                    <% } %>
+                                </ul>
+                            </li>
+                            <% } %>
                         <% } %>
                     </div>
                 </div>

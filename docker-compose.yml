@@ -1,0 +1,68 @@
+version: '3.8'
+
+# Services de l'application
+services:
+  # Service principal - Application Node.js
+  app:
+    image: node:18-alpine
+    container_name: outils_relance
+    command: |
+      sh -c '
+        # Installation des dépendances système
+        apk add --no-cache git openssl &&
+        
+        # Clonage du dépôt (à remplacer par votre dépôt)
+        mkdir -p /tmp/app &&
+        git clone https://github.com/DcSault/outils_relance.git /tmp/app &&
+        cp -R /tmp/app/* /app/ &&
+        rm -rf /tmp/app &&
+        
+        # Configuration de l'application
+        cd /app &&
+        mkdir -p data ssl logs temp &&
+        chmod -R 755 data ssl logs temp &&
+        
+        # Installation des dépendances Node.js
+        npm install &&
+        
+        # Démarrage de l'application
+        node app.js
+      '
+    ports:
+      - "3005:3005"  # Port HTTP/HTTPS
+    environment:
+      - PORT=3005                # Port d'écoute de l'application
+      - NODE_ENV=production      # Environnement de production
+      - TZ=Europe/Paris          # Fuseau horaire
+    volumes:
+      # Volumes persistants pour les données et configurations
+      - app_data:/app/data       # Données de l'application (JSON)
+      - app_ssl:/app/ssl         # Certificats SSL
+      - app_logs:/app/logs       # Journaux de l'application
+      - app_temp:/app/temp       # Fichiers temporaires
+    networks:
+      - app-network
+    restart: unless-stopped      # Redémarrage automatique
+    healthcheck:                 # Vérification de l'état de santé
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3005"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Volumes persistants
+volumes:
+  app_data:
+    name: outils_relance-data        # Données de l'application
+  app_ssl:
+    name: outils_relance-ssl         # Certificats SSL
+  app_logs:
+    name: outils_relance-logs        # Journaux
+  app_temp:
+    name: outils_relance-temp        # Fichiers temporaires
+
+# Réseau de l'application
+networks:
+  app-network:
+    name: outils_relance-network
+    driver: bridge 

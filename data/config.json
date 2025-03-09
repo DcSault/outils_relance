@@ -1,0 +1,54 @@
+{
+  "auth": {
+    "methods": {
+      "local": {
+        "enabled": true,
+        "name": "local"
+      },
+      "discord": {
+        "enabled": true,
+        "clientId": "1348043784667009224",
+        "clientSecret": "vqAYpA7GC3ncw6zCjCZTeGGYNOQluaDL",
+        "redirectUri": "http://localhost:3005/auth/discord/callback",
+        "name": "discord"
+      },
+      "azure": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "tenantId": "",
+        "redirectUri": "http://localhost:3005/auth/azure/callback",
+        "name": "azure"
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:3005/auth/github/callback",
+        "name": "github"
+      },
+      "okta": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "domain": "",
+        "redirectUri": "",
+        "name": "okta"
+      }
+    }
+  },
+  "domain": {
+    "useCustomDomain": true,
+    "domainName": "dsi.sault.fr",
+    "useSSL": true,
+    "sslMethod": "selfSigned",
+    "letsencryptEmail": "",
+    "port": 3005,
+    "accessMode": "domain",
+    "securityMode": "selfSigned",
+    "selfSignedCommonName": "dsi.sault.fr",
+    "selfSignedOrganization": "Sault",
+    "sslCertPath": "ssl/dsi.sault.fr.crt",
+    "sslKeyPath": "ssl/dsi.sault.fr.key"
+  }
+}

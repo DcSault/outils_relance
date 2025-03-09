@@ -1,12 +1,31 @@
     </main>
     <footer class="bg-light py-3 mt-5 border-top">
-        <div class="container text-center">
-            <p class="mb-0 text-muted">
-                &copy; <%= new Date().getFullYear() %> Outils DSI - Application de gestion du matériel informatique et des relances
-            </p>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-muted">
+                        &copy; <%= new Date().getFullYear() %> Outils DSI - Application de gestion du matériel informatique et des relances
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0 text-muted">
+                        Développé par <a href="https://github.com/DcSault" target="_blank" class="text-decoration-none">Sault</a> | 
+                        <a href="https://github.com/DcSault/outils_relance" target="_blank" class="text-decoration-none">
+                            <i class="fab fa-github me-1"></i>GitHub
+                        </a>
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <% 
+    // Vérifier si l'authentification locale est activée
+    const localEnabled = locals.config && locals.config.auth && locals.config.auth.methods && 
+                        locals.config.auth.methods.local && locals.config.auth.methods.local.enabled;
+    %>
+
+    <% if (localEnabled !== false) { %>
     <!-- Modal de connexion -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -30,6 +49,7 @@
             </div>
         </div>
     </div>
+    <% } %>
 
     <!-- Bootstrap 5 JS Bundle avec Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
