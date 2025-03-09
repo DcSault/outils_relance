@@ -43,7 +43,7 @@
     "useSSL": true,
     "sslMethod": "selfSigned",
     "letsencryptEmail": "",
-    "port": 3005,
+    "port": 443,
     "accessMode": "domain",
     "securityMode": "selfSigned",
     "selfSignedCommonName": "dsi.sault.fr",
