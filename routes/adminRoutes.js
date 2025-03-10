@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
-const { isAuthenticated, isAdmin, checkSsoConfiguration } = require('../middleware/authMiddleware');
+const { isAuthenticated, isAdmin } = require('../middleware/authMiddleware');
 
 // Toutes les routes d'administration nécessitent d'être authentifié et d'avoir le rôle d'administrateur
 router.use(isAuthenticated, isAdmin);
-
-// Ajouter le middleware de vérification des configurations SSO
-router.use(checkSsoConfiguration);
 
 // Tableau de bord d'administration
 router.get('/', adminController.showAdminDashboard);
@@ -45,12 +42,5 @@ router.get('/export-config', adminController.exportConfig);
 router.get('/import-data', adminController.showImportData);
 router.post('/import-data', adminController.importAllData);
 router.post('/import-config', adminController.importConfig);
-
-// Mise à jour du système via GitHub
-router.get('/update-system', adminController.showUpdatePage);
-router.post('/check-updates', adminController.checkForUpdates);
-router.post('/apply-updates', adminController.applyUpdates);
-router.post('/restore-backup', adminController.restoreBackup);
-router.get('/list-backups', adminController.listBackups);
 
 module.exports = router; 

@@ -63,29 +63,6 @@
     </div>
 
     <div class="row">
-        <!-- Carte Mise à jour du système -->
-        <div class="col-md-6 mb-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="icon-large bg-dark bg-opacity-10 rounded-circle p-3 me-3">
-                            <i class="fab fa-github text-dark fa-2x"></i>
-                        </div>
-                        <div>
-                            <h3 class="card-title">Mise à jour</h3>
-                            <p class="card-text text-muted">Mettez à jour l'application depuis GitHub</p>
-                        </div>
-                    </div>
-                    <p>Récupérez les dernières améliorations et corrections de bugs en mettant à jour l'application depuis le dépôt GitHub officiel.</p>
-                    <div class="mt-3">
-                        <a href="/admin/update-system" class="btn btn-outline-dark">
-                            <i class="fas fa-sync me-1"></i>Mettre à jour le système
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Carte Gestion des Logs -->
         <div class="col-md-6 mb-4">
             <div class="card border-0 shadow-sm h-100">
@@ -108,9 +85,7 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
         <!-- Carte Informations Système -->
         <div class="col-md-6 mb-4">
             <div class="card border-0 shadow-sm h-100">
@@ -131,14 +106,8 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span>Dernière mise à jour</span>
-                                    <span><%= systemInfo.lastUpdateDate ? systemInfo.lastUpdateDate.toLocaleDateString('fr-FR') : new Date().toLocaleDateString('fr-FR') %></span>
+                                    <span><%= new Date().toLocaleDateString('fr-FR') %></span>
                                 </li>
-                                <% if (systemInfo.updatedBy) { %>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>Mise à jour par</span>
-                                    <span><%= systemInfo.updatedBy %></span>
-                                </li>
-                                <% } %>
                             </ul>
                         </div>
                         <div class="col-md-6">

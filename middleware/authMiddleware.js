@@ -11,7 +11,6 @@ const appLogger = global.appLogger || winston.loggers.get('app') || winston.crea
 
 // Chemin vers le fichier des rôles
 const rolesFilePath = path.join(__dirname, '../data/roles.json');
-const configFilePath = path.join(__dirname, '../data/config.json');
 
 // Fonction utilitaire pour lire les données des rôles
 const getRolesData = () => {
@@ -22,18 +21,6 @@ const getRolesData = () => {
         console.error('Erreur lors de la lecture du fichier roles.json:', error);
         return { roles: [] };
     }
-};
-
-// Fonction utilitaire pour lire les données de configuration
-const getConfigData = () => {
-    try {
-        if (fs.existsSync(configFilePath)) {
-            return JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
-        }
-    } catch (error) {
-        console.error(`Erreur lors de la lecture du fichier config.json: ${error.message}`);
-    }
-    return { auth: { methods: { local: { enabled: true } } } };
 };
 
 // Fonction pour vérifier si un utilisateur a une permission spécifique
@@ -87,19 +74,6 @@ const isAdmin = (req, res, next) => {
     res.redirect('/dashboard');
 };
 
-// Middleware pour vérifier les problèmes de configuration SSO
-const checkSsoConfiguration = (req, res, next) => {
-    // Vérifier si des problèmes SSO ont été détectés au démarrage
-    if (global.ssoIssues && global.ssoIssues.length > 0) {
-        // Stocker les problèmes dans la session pour les afficher dans l'interface
-        req.session.ssoIssues = global.ssoIssues;
-        appLogger.warn(`Problèmes de configuration SSO détectés: ${JSON.stringify(global.ssoIssues)}`);
-    }
-    
-    // Continuer le traitement de la requête
-    next();
-};
-
 // Middleware pour vérifier si l'utilisateur a une permission spécifique
 const hasPermissionMiddleware = (permissionKey) => {
     return (req, res, next) => {
@@ -132,6 +106,5 @@ module.exports = {
     isAdmin,
     hasPermission,
     hasPermissionMiddleware,
-    isOwnerOrAdmin,
-    checkSsoConfiguration
+    isOwnerOrAdmin
 }; 

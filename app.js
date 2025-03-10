@@ -750,91 +750,188 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Importer les fonctions de validation SSO
-const { validateSsoConfigurations } = require('./controllers/adminController');
+// Démarrage du serveur
+let server;
 
 // Fonction pour démarrer le serveur
 const startServer = () => {
-  try {
-    // Lire la configuration
-    const configData = getConfigData();
-    const port = configData.domain.port || 3000;
-    
-    // Vérifier les configurations SSO
-    const ssoIssues = validateSsoConfigurations(configData);
-    if (ssoIssues.length > 0) {
-      serverLogger.warn(`Problèmes détectés dans la configuration SSO au démarrage: ${JSON.stringify(ssoIssues)}`);
-      // Stocker les problèmes pour les afficher dans l'interface
-      global.ssoIssues = ssoIssues;
-    }
-    
-    // Configurer le serveur en fonction du mode de sécurité
-    let server;
-    if (configData.domain.useSSL && configData.domain.sslCertPath && configData.domain.sslKeyPath) {
-      // Vérifier si les fichiers de certificat existent
-      const certPath = path.resolve(__dirname, configData.domain.sslCertPath);
-      const keyPath = path.resolve(__dirname, configData.domain.sslKeyPath);
-      
-      if (fs.existsSync(certPath) && fs.existsSync(keyPath)) {
-        // Lire les fichiers de certificat
-        const options = {
-          cert: fs.readFileSync(certPath),
-          key: fs.readFileSync(keyPath)
-        };
+    try {
+        // Récupérer le port depuis la configuration
+        const configData = loadConfig();
+        const PORT = configData.domain.port || 3000;
         
-        // Créer un serveur HTTPS
-        server = https.createServer(options, app);
-        serverLogger.info(`Serveur HTTPS démarré sur le port ${port}`);
-      } else {
-        // Si les fichiers de certificat n'existent pas, créer un serveur HTTP
-        server = app.listen(port);
-        serverLogger.warn(`Fichiers de certificat SSL introuvables, serveur HTTP démarré sur le port ${port}`);
-      }
-    } else {
-      // Créer un serveur HTTP
-      server = app.listen(port);
-      serverLogger.info(`Serveur HTTP démarré sur le port ${port}`);
-    }
-    
-    // Stocker le serveur et le port dans des variables globales
-    global.server = server;
-    global.currentPort = port;
-    
-    // Journaliser le démarrage du serveur
-    console.log(`Serveur démarré sur le port ${port}`);
-    
-    // Fonction pour redémarrer le serveur
-    global.restartServer = () => {
-      try {
-        // Fermer le serveur actuel
-        if (global.server) {
-          global.server.close(() => {
-            console.log('Serveur fermé, redémarrage...');
-            serverLogger.info('Serveur fermé, redémarrage...');
-            
-            // Redémarrer le serveur après un court délai
-            setTimeout(() => {
-              startServer();
-            }, 1000);
-          });
+        // Journaliser le port utilisé
+        serverLogger.info(`Port lu directement depuis le fichier config.json: ${PORT}`);
+        console.log(`Port lu directement depuis le fichier config.json: ${PORT}`);
+        
+        // Journaliser le démarrage du serveur
+        serverLogger.info(`Démarrage du serveur sur le port: ${PORT}`);
+        console.log(`Démarrage du serveur sur le port: ${PORT}`);
+        
+        let newServer;
+        
+        // Vérifier si SSL est activé
+        if (configData.domain && configData.domain.useSSL === true && configData.domain.sslCertPath && configData.domain.sslKeyPath) {
+            try {
+                // S'assurer que les chemins sont relatifs
+                const sslCertPath = path.isAbsolute(configData.domain.sslCertPath) 
+                    ? path.relative(__dirname, configData.domain.sslCertPath) 
+                    : configData.domain.sslCertPath;
+                
+                const sslKeyPath = path.isAbsolute(configData.domain.sslKeyPath) 
+                    ? path.relative(__dirname, configData.domain.sslKeyPath) 
+                    : configData.domain.sslKeyPath;
+                
+                // Convertir les chemins relatifs en chemins absolus pour la lecture des fichiers
+                const absoluteSslCertPath = path.join(__dirname, sslCertPath);
+                const absoluteSslKeyPath = path.join(__dirname, sslKeyPath);
+                
+                // Vérifier si les fichiers de certificat existent
+                if (fs.existsSync(absoluteSslCertPath) && fs.existsSync(absoluteSslKeyPath)) {
+                    const options = {
+                        cert: fs.readFileSync(absoluteSslCertPath),
+                        key: fs.readFileSync(absoluteSslKeyPath)
+                    };
+                    
+                    // Journaliser les chemins utilisés
+                    serverLogger.info(`Utilisation du certificat SSL: ${absoluteSslCertPath}`);
+                    serverLogger.info(`Utilisation de la clé privée SSL: ${absoluteSslKeyPath}`);
+                    console.log(`Utilisation du certificat SSL: ${absoluteSslCertPath}`);
+                    console.log(`Utilisation de la clé privée SSL: ${absoluteSslKeyPath}`);
+                    
+                    // Créer un serveur HTTPS
+                    newServer = https.createServer(options, app);
+                    newServer.listen(PORT, () => {
+                        serverLogger.info(`Serveur HTTPS démarré sur https://${configData.domain.useCustomDomain ? configData.domain.domainName : 'localhost'}:${PORT}`);
+                        console.log(`Serveur HTTPS démarré sur https://${configData.domain.useCustomDomain ? configData.domain.domainName : 'localhost'}:${PORT}`);
+                        
+                        // Exposer le port actuel globalement
+                        global.currentPort = PORT;
+                    });
+                } else {
+                    serverLogger.error(`Certificat SSL ou clé privée introuvable. Certificat: ${absoluteSslCertPath}, Clé: ${absoluteSslKeyPath}`);
+                    console.error(`Certificat SSL ou clé privée introuvable. Certificat: ${absoluteSslCertPath}, Clé: ${absoluteSslKeyPath}`);
+                    serverLogger.error('Démarrage en mode HTTP.');
+                    console.error('Démarrage en mode HTTP.');
+                    newServer = app.listen(PORT, () => {
+                        serverLogger.info(`Serveur HTTP démarré sur http://localhost:${PORT}`);
+                        console.log(`Serveur HTTP démarré sur http://localhost:${PORT}`);
+                        
+                        // Exposer le port actuel globalement
+                        global.currentPort = PORT;
+                    });
+                }
+            } catch (error) {
+                serverLogger.error(`Erreur lors du démarrage du serveur HTTPS: ${error.message}`);
+                console.error(`Erreur lors du démarrage du serveur HTTPS: ${error.message}`);
+                serverLogger.info('Démarrage en mode HTTP...');
+                console.log('Démarrage en mode HTTP...');
+                newServer = app.listen(PORT, () => {
+                    serverLogger.info(`Serveur HTTP démarré sur http://localhost:${PORT}`);
+                    console.log(`Serveur HTTP démarré sur http://localhost:${PORT}`);
+                    
+                    // Exposer le port actuel globalement
+                    global.currentPort = PORT;
+                });
+            }
         } else {
-          console.log('Aucun serveur en cours d\'exécution, démarrage...');
-          serverLogger.info('Aucun serveur en cours d\'exécution, démarrage...');
-          startServer();
+            // Démarrer en mode HTTP
+            serverLogger.info('Mode SSL désactivé, démarrage en HTTP');
+            console.log('Mode SSL désactivé, démarrage en HTTP');
+            newServer = app.listen(PORT, () => {
+                serverLogger.info(`Serveur HTTP démarré sur http://localhost:${PORT}`);
+                console.log(`Serveur HTTP démarré sur http://localhost:${PORT}`);
+                
+                // Exposer le port actuel globalement
+                global.currentPort = PORT;
+            });
         }
+        
+        // Exposer l'instance du serveur globalement
+        global.server = newServer;
+        
+        return newServer;
+    } catch (error) {
+        serverLogger.error(`Erreur lors du démarrage du serveur: ${error.message}`);
+        console.error(`Erreur lors du démarrage du serveur: ${error.message}`);
+        return null;
+    }
+};
+
+// Fonction pour redémarrer le serveur
+global.restartServer = () => {
+  if (server) {
+    serverLogger.info('Arrêt du serveur en cours...');
+    console.log('Arrêt du serveur en cours...');
+    server.close(() => {
+      serverLogger.info('Serveur arrêté. Redémarrage...');
+      console.log('Serveur arrêté. Redémarrage...');
+      
+      try {
+        // Lire directement le fichier de configuration pour obtenir la valeur la plus récente du port
+        const configPath = path.join(__dirname, 'data/config.json');
+        
+        // Vérifier si le fichier existe
+        if (!fs.existsSync(configPath)) {
+          serverLogger.error(`Fichier de configuration non trouvé: ${configPath}`);
+          console.error(`Fichier de configuration non trouvé: ${configPath}`);
+          return;
+        }
+        
+        // Lire le contenu du fichier
+        const fileContent = fs.readFileSync(configPath, { encoding: 'utf8', flag: 'r' });
+        serverLogger.info(`Contenu du fichier config.json: ${fileContent}`);
+        console.log(`Contenu du fichier config.json: ${fileContent}`);
+        
+        // Parser le contenu JSON
+        const configFileData = JSON.parse(fileContent);
+        
+        // Extraire le port de la configuration
+        let portFromFile = 3005; // Valeur par défaut
+        if (configFileData.domain && configFileData.domain.port !== undefined) {
+          const portValue = parseInt(configFileData.domain.port);
+          if (!isNaN(portValue) && portValue > 0 && portValue < 65536) {
+            portFromFile = portValue;
+            serverLogger.info(`Port lu depuis la configuration lors du redémarrage: ${portFromFile}`);
+            console.log(`Port lu depuis la configuration lors du redémarrage: ${portFromFile}`);
+          } else {
+            serverLogger.warn(`Port invalide dans la configuration: ${configFileData.domain.port}, utilisation du port par défaut ${portFromFile}`);
+            console.log(`Port invalide dans la configuration: ${configFileData.domain.port}, utilisation du port par défaut ${portFromFile}`);
+          }
+        } else {
+          serverLogger.warn(`Port non défini dans la configuration, utilisation du port par défaut ${portFromFile}`);
+          console.log(`Port non défini dans la configuration, utilisation du port par défaut ${portFromFile}`);
+        }
+        
+        // Mettre à jour la configuration globale
+        config = configFileData;
+        
+        // Redémarrer le serveur avec le nouveau port
+        server = startServer();
+        
+        // Exposer la fonction de redémarrage globalement
+        global.restartServer = restartServer;
+        global.startServer = startServer;
+        
       } catch (error) {
-        console.error('Erreur lors du redémarrage du serveur:', error);
         serverLogger.error(`Erreur lors du redémarrage du serveur: ${error.message}`);
+        console.error(`Erreur lors du redémarrage du serveur: ${error.message}`);
       }
-    };
+    });
+  } else {
+    serverLogger.warn('Aucun serveur en cours d\'exécution à redémarrer');
+    console.warn('Aucun serveur en cours d\'exécution à redémarrer');
+    server = startServer();
     
-    return server;
-  } catch (error) {
-    console.error('Erreur lors du démarrage du serveur:', error);
-    serverLogger.error(`Erreur lors du démarrage du serveur: ${error.message}`);
-    process.exit(1);
+    // Exposer la fonction de redémarrage globalement
+    global.restartServer = restartServer;
+    global.startServer = startServer;
   }
 };
 
+// Exposer les fonctions globalement
+global.restartServer = global.restartServer || restartServer;
+global.startServer = global.startServer || startServer;
+
 // Démarrer le serveur
-startServer(); 
+server = startServer(); 
