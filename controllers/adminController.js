@@ -439,17 +439,8 @@ const adminController = {
             // Récupérer les données de configuration pour obtenir le port
             const configData = getConfigData();
             
-            // Récupérer le port depuis différentes sources pour s'assurer de la cohérence
-            const configPort = parseInt(configData.domain.port) || 3000;
-            const globalPort = global.PORT || 3000;
-            
-            // Utiliser le port du fichier de configuration comme référence
-            const port = configPort;
-            
-            // Vérifier la cohérence des ports
-            if (configPort !== globalPort) {
-                serverLogger.warn(`Incohérence détectée dans les ports pour le tableau de bord: configPort=${configPort}, globalPort=${globalPort}`);
-            }
+            // Récupérer le port depuis la configuration
+            const port = parseInt(configData.domain.port) || 3000;
             
             // Journaliser le port utilisé pour le tableau de bord
             serverLogger.info(`Port utilisé pour le tableau de bord: ${port}`);
@@ -457,9 +448,7 @@ const adminController = {
             // Déterminer l'état du SSL
             const sslStatus = configData.domain.useSSL && 
                               configData.domain.sslCertPath && 
-                              configData.domain.sslKeyPath && 
-                              fs.existsSync(configData.domain.sslCertPath) && 
-                              fs.existsSync(configData.domain.sslKeyPath) ? 'Configuré' : 'Non configuré';
+                              configData.domain.sslKeyPath ? 'Configuré' : 'Non configuré';
             
             // Récupérer la version depuis package.json
             let version = '1.0.0'; // Valeur par défaut
@@ -473,70 +462,23 @@ const adminController = {
                 serverLogger.error(`Erreur lors de la lecture de la version depuis package.json: ${error.message}`);
             }
             
-            // Récupérer la date de dernière mise à jour depuis update_info.json si disponible
-            let lastUpdateDate = null;
+            // Informations sur la dernière mise à jour
+            let lastUpdateDate = new Date();
             let updatedBy = null;
-            try {
-                const updateInfoPath = path.join(__dirname, '../data/update_info.json');
-                if (fs.existsSync(updateInfoPath)) {
-                    const updateInfo = JSON.parse(fs.readFileSync(updateInfoPath, 'utf8'));
-                    if (updateInfo.lastUpdate) {
-                        lastUpdateDate = new Date(updateInfo.lastUpdate);
-                        updatedBy = updateInfo.updatedBy;
-                        serverLogger.info(`Date de dernière mise à jour récupérée depuis update_info.json: ${lastUpdateDate}`);
-                    }
+            
+            // Rendre la vue avec les informations récupérées
+            res.render('admin/dashboard', {
+                title: 'Administration',
+                user: req.session.user,
+                systemInfo: {
+                    port: port,
+                    ssl: sslStatus,
+                    environment: process.env.NODE_ENV || 'Production',
+                    version: version,
+                    lastUpdateDate: lastUpdateDate,
+                    updatedBy: updatedBy
                 }
-            } catch (error) {
-                serverLogger.error(`Erreur lors de la lecture de update_info.json: ${error.message}`);
-            }
-            
-            // Si la date n'est pas disponible dans update_info.json, essayer de la récupérer depuis git
-            if (!lastUpdateDate) {
-                // Exécuter la commande git pour obtenir la date du dernier commit
-                exec('git log -1 --format=%cd', (error, stdout, stderr) => {
-                    if (error) {
-                        serverLogger.error(`Erreur lors de la récupération de la date du dernier commit: ${error.message}`);
-                    } else {
-                        try {
-                            if (stdout.trim()) {
-                                lastUpdateDate = new Date(stdout);
-                                serverLogger.info(`Date du dernier commit récupérée: ${lastUpdateDate}`);
-                            }
-                        } catch (parseError) {
-                            serverLogger.error(`Erreur lors du parsing de la date du dernier commit: ${parseError.message}`);
-                        }
-                    }
-                    
-                    // Rendre la vue avec les informations récupérées
-                    renderDashboard();
-                });
-            } else {
-                // Si la date est déjà disponible, rendre directement la vue
-                renderDashboard();
-            }
-            
-            // Fonction pour rendre la vue du tableau de bord
-            const renderDashboard = () => {
-                res.render('admin/dashboard', {
-                    title: 'Administration',
-                    user: req.session.user,
-                    systemInfo: {
-                        port: port,
-                        ssl: sslStatus,
-                        environment: process.env.NODE_ENV || 'Production',
-                        version: version,
-                        lastUpdateDate: lastUpdateDate || new Date(),
-                        updatedBy: updatedBy
-                    }
-                });
-            };
-            
-            // Si la commande git échoue ou prend trop de temps, on rend quand même la vue après un délai
-            setTimeout(() => {
-                if (!res.headersSent) {
-                    renderDashboard();
-                }
-            }, 500);
+            });
             
         } catch (error) {
             serverLogger.error(`Erreur lors de l'affichage du tableau de bord d'administration: ${error.message}`);
@@ -2109,37 +2051,37 @@ const adminController = {
             // Exécuter la commande git fetch pour récupérer les dernières modifications
             const { exec } = require('child_process');
             
-            exec('git fetch origin && git status -uno', (error, stdout, stderr) => {
-                if (error) {
-                    serverLogger.error(`Erreur lors de la vérification des mises à jour: ${error.message}`);
+            // Exécuter git fetch pour récupérer les dernières informations du dépôt distant
+            exec('git fetch origin', (fetchError, fetchStdout, fetchStderr) => {
+                if (fetchError) {
+                    serverLogger.error(`Erreur lors de la récupération des informations du dépôt distant: ${fetchError.message}`);
                     req.session.updateStatus = {
                         success: false,
-                        message: `Erreur lors de la vérification des mises à jour: ${error.message}`,
-                        details: stderr
+                        message: `Erreur lors de la récupération des informations du dépôt distant: ${fetchError.message}`,
+                        details: fetchStderr
                     };
                     return res.redirect('/admin/update-system');
                 }
                 
                 // Vérifier si des mises à jour sont disponibles
-                if (stdout.includes('Your branch is behind')) {
-                    // Extraire le nombre de commits de retard
-                    const behindMatch = stdout.match(/Your branch is behind .* by (\d+) commit/);
-                    const commitsCount = behindMatch ? behindMatch[1] : 'plusieurs';
+                exec('git rev-list HEAD..origin/main --count', (revError, revStdout, revStderr) => {
+                    if (revError) {
+                        serverLogger.error(`Erreur lors de la vérification des mises à jour: ${revError.message}`);
+                        req.session.updateStatus = {
+                            success: false,
+                            message: `Erreur lors de la vérification des mises à jour: ${revError.message}`,
+                            details: revStderr
+                        };
+                        return res.redirect('/admin/update-system');
+                    }
                     
-                    // Récupérer les informations sur les commits disponibles
-                    exec('git log ..origin/main --pretty=format:"%h - %s (%an)" --reverse', (error, commitLog, stderr) => {
-                        if (error) {
-                            serverLogger.error(`Erreur lors de la récupération des commits: ${error.message}`);
-                            req.session.updateStatus = {
-                                success: true,
-                                updatesAvailable: true,
-                                commitsCount: commitsCount,
-                                message: `Des mises à jour sont disponibles (${commitsCount} commit(s) de retard)`,
-                                details: stderr,
-                                commits: []
-                            };
-                        } else {
-                            const commits = commitLog.split('\n').filter(line => line.trim() !== '');
+                    const commitsCount = parseInt(revStdout.trim());
+                    
+                    if (commitsCount > 0) {
+                        // Des mises à jour sont disponibles
+                        exec('git log HEAD..origin/main --pretty=format:"%h - %s (%an)" --reverse', (logError, logStdout, logStderr) => {
+                            const commits = logError ? [] : logStdout.split('\n').filter(line => line.trim() !== '');
+                            
                             req.session.updateStatus = {
                                 success: true,
                                 updatesAvailable: true,
@@ -2147,20 +2089,20 @@ const adminController = {
                                 message: `Des mises à jour sont disponibles (${commitsCount} commit(s) de retard)`,
                                 commits: commits
                             };
-                        }
-                        
+                            
+                            return res.redirect('/admin/update-system');
+                        });
+                    } else {
+                        // Aucune mise à jour disponible
+                        req.session.updateStatus = {
+                            success: true,
+                            updatesAvailable: false,
+                            message: 'Le système est à jour',
+                            details: 'Aucune mise à jour disponible'
+                        };
                         return res.redirect('/admin/update-system');
-                    });
-                } else {
-                    // Aucune mise à jour disponible
-                    req.session.updateStatus = {
-                        success: true,
-                        updatesAvailable: false,
-                        message: 'Le système est à jour',
-                        details: stdout
-                    };
-                    return res.redirect('/admin/update-system');
-                }
+                    }
+                });
             });
         } catch (error) {
             serverLogger.error(`Erreur lors de la vérification des mises à jour: ${error.message}`);
@@ -2196,11 +2138,13 @@ const adminController = {
             fs.mkdirSync(backupDir, { recursive: true });
             
             // Copier les fichiers de données dans le répertoire de backup
-            fs.readdirSync(dataDir).forEach(file => {
-                if (file.endsWith('.json')) {
-                    fs.copyFileSync(path.join(dataDir, file), path.join(backupDir, file));
-                }
-            });
+            if (fs.existsSync(dataDir)) {
+                fs.readdirSync(dataDir).forEach(file => {
+                    if (file.endsWith('.json')) {
+                        fs.copyFileSync(path.join(dataDir, file), path.join(backupDir, file));
+                    }
+                });
+            }
             
             // Exécuter la commande git pull
             exec('git pull origin main', (error, stdout, stderr) => {
@@ -2239,17 +2183,6 @@ const adminController = {
                             fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
                             
                             serverLogger.info(`Version mise à jour: ${packageJson.version}`);
-                            
-                            // Enregistrer la date de mise à jour
-                            const updateInfoPath = path.join(__dirname, '../data/update_info.json');
-                            const updateInfo = {
-                                lastUpdate: new Date().toISOString(),
-                                version: packageJson.version,
-                                updatedBy: req.session.user.username
-                            };
-                            
-                            fs.writeFileSync(updateInfoPath, JSON.stringify(updateInfo, null, 2));
-                            serverLogger.info(`Informations de mise à jour enregistrées: ${JSON.stringify(updateInfo)}`);
                         }
                     } catch (error) {
                         serverLogger.error(`Erreur lors de la mise à jour de la version: ${error.message}`);

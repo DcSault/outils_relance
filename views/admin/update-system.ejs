@@ -121,6 +121,18 @@
                         <strong>Version actuelle :</strong> <%= locals.version || '1.0.0' %>
                     </div>
                     
+                    <% /* Commenté pour éviter les erreurs
+                    <% if (locals.updateInfo) { %>
+                    <div class="alert alert-info">
+                        <i class="fas fa-history me-2"></i>
+                        <strong>Dernière mise à jour :</strong> <%= new Date(updateInfo.lastUpdate).toLocaleDateString('fr-FR') %>
+                        <% if (updateInfo.updatedBy) { %>
+                        <br><strong>Mise à jour par :</strong> <%= updateInfo.updatedBy %>
+                        <% } %>
+                    </div>
+                    <% } %>
+                    */ %>
+                    
                     <div class="alert alert-warning">
                         <i class="fas fa-exclamation-triangle me-2"></i>
                         <strong>Attention :</strong> Avant d'appliquer une mise à jour, assurez-vous que :

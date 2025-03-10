@@ -1,0 +1,36 @@
+2025-03-10 20:33:12 [ERROR] [APP]: uncaughtException: showAdminDashboard is not defined
+ReferenceError: showAdminDashboard is not defined
+    at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\controllers\adminController.js:2393:5)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\routes\adminRoutes.js:3:25)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+2025-03-10 20:35:05 [ERROR] [APP]: uncaughtException: showAdminDashboard is not defined
+ReferenceError: showAdminDashboard is not defined
+    at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\controllers\adminController.js:2379:5)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\routes\adminRoutes.js:3:25)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+2025-03-10 20:37:40 [ERROR] [APP]: uncaughtException: showAdminDashboard is not defined
+ReferenceError: showAdminDashboard is not defined
+    at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\controllers\adminController.js:2326:5)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\routes\adminRoutes.js:3:25)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
