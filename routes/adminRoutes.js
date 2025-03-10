@@ -46,4 +46,11 @@ router.get('/import-data', adminController.showImportData);
 router.post('/import-data', adminController.importAllData);
 router.post('/import-config', adminController.importConfig);
 
+// Mise à jour du système via GitHub
+router.get('/update-system', adminController.showUpdatePage);
+router.post('/check-updates', adminController.checkForUpdates);
+router.post('/apply-updates', adminController.applyUpdates);
+router.post('/restore-backup', adminController.restoreBackup);
+router.get('/list-backups', adminController.listBackups);
+
 module.exports = router; 

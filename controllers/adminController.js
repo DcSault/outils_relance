@@ -461,6 +461,31 @@ const adminController = {
                               fs.existsSync(configData.domain.sslCertPath) && 
                               fs.existsSync(configData.domain.sslKeyPath) ? 'Configuré' : 'Non configuré';
             
+            // Récupérer la version depuis package.json
+            let version = '1.0.0'; // Valeur par défaut
+            try {
+                const packageJsonPath = path.join(__dirname, '../package.json');
+                if (fs.existsSync(packageJsonPath)) {
+                    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+                    version = packageJson.version || version;
+                }
+            } catch (error) {
+                serverLogger.error(`Erreur lors de la lecture de la version depuis package.json: ${error.message}`);
+            }
+            
+            // Récupérer la date de la dernière mise à jour
+            let lastUpdateDate = new Date();
+            try {
+                // Essayer de récupérer la date du dernier commit
+                exec('git log -1 --format=%cd', (error, stdout, stderr) => {
+                    if (!error && stdout) {
+                        lastUpdateDate = new Date(stdout);
+                    }
+                });
+            } catch (error) {
+                serverLogger.error(`Erreur lors de la récupération de la date de dernière mise à jour: ${error.message}`);
+            }
+            
             res.render('admin/dashboard', {
                 title: 'Administration',
                 user: req.session.user,
@@ -468,7 +493,8 @@ const adminController = {
                     port: port,
                     ssl: sslStatus,
                     environment: process.env.NODE_ENV || 'Production',
-                    version: '1.0.0'
+                    version: version,
+                    lastUpdateDate: lastUpdateDate
                 }
             });
         } catch (error) {
@@ -1993,6 +2019,307 @@ const adminController = {
             req.session.error = "Erreur lors de l'importation de la configuration";
             res.redirect('/admin/import-data');
         }
+    },
+    
+    // Fonction pour afficher la page de mise à jour
+    showUpdatePage: (req, res) => {
+        try {
+            // Récupérer les données de configuration
+            const configData = getConfigData();
+            
+            // Journaliser l'accès à la page de mise à jour
+            appLogger.info(`Accès à la page de mise à jour par ${req.session.user.username}`);
+            
+            // Récupérer la version depuis package.json
+            let version = '1.0.0'; // Valeur par défaut
+            try {
+                const packageJsonPath = path.join(__dirname, '../package.json');
+                if (fs.existsSync(packageJsonPath)) {
+                    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+                    version = packageJson.version || version;
+                }
+            } catch (error) {
+                serverLogger.error(`Erreur lors de la lecture de la version depuis package.json: ${error.message}`);
+            }
+            
+            res.render('admin/update-system', {
+                title: 'Mise à jour du système',
+                user: req.session.user,
+                config: configData,
+                updateStatus: req.session.updateStatus || null,
+                version: version
+            });
+            
+            // Nettoyer le statut de mise à jour de la session
+            delete req.session.updateStatus;
+        } catch (error) {
+            serverLogger.error(`Erreur lors de l'affichage de la page de mise à jour: ${error.message}`);
+            req.session.error = 'Erreur lors de l\'affichage de la page de mise à jour';
+            res.redirect('/admin/dashboard');
+        }
+    },
+    
+    // Fonction pour vérifier les mises à jour disponibles
+    checkForUpdates: async (req, res) => {
+        try {
+            // Journaliser la vérification des mises à jour
+            appLogger.info(`Vérification des mises à jour par ${req.session.user.username}`);
+            
+            // Exécuter la commande git fetch pour récupérer les dernières modifications
+            const { exec } = require('child_process');
+            
+            exec('git fetch origin && git status -uno', (error, stdout, stderr) => {
+                if (error) {
+                    serverLogger.error(`Erreur lors de la vérification des mises à jour: ${error.message}`);
+                    req.session.updateStatus = {
+                        success: false,
+                        message: `Erreur lors de la vérification des mises à jour: ${error.message}`,
+                        details: stderr
+                    };
+                    return res.redirect('/admin/update-system');
+                }
+                
+                // Vérifier si des mises à jour sont disponibles
+                if (stdout.includes('Your branch is behind')) {
+                    // Extraire le nombre de commits de retard
+                    const behindMatch = stdout.match(/Your branch is behind .* by (\d+) commit/);
+                    const commitsCount = behindMatch ? behindMatch[1] : 'plusieurs';
+                    
+                    // Récupérer les informations sur les commits disponibles
+                    exec('git log ..origin/main --pretty=format:"%h - %s (%an)" --reverse', (error, commitLog, stderr) => {
+                        if (error) {
+                            serverLogger.error(`Erreur lors de la récupération des commits: ${error.message}`);
+                            req.session.updateStatus = {
+                                success: true,
+                                updatesAvailable: true,
+                                commitsCount: commitsCount,
+                                message: `Des mises à jour sont disponibles (${commitsCount} commit(s) de retard)`,
+                                details: stderr,
+                                commits: []
+                            };
+                        } else {
+                            const commits = commitLog.split('\n').filter(line => line.trim() !== '');
+                            req.session.updateStatus = {
+                                success: true,
+                                updatesAvailable: true,
+                                commitsCount: commitsCount,
+                                message: `Des mises à jour sont disponibles (${commitsCount} commit(s) de retard)`,
+                                commits: commits
+                            };
+                        }
+                        
+                        return res.redirect('/admin/update-system');
+                    });
+                } else {
+                    // Aucune mise à jour disponible
+                    req.session.updateStatus = {
+                        success: true,
+                        updatesAvailable: false,
+                        message: 'Le système est à jour',
+                        details: stdout
+                    };
+                    return res.redirect('/admin/update-system');
+                }
+            });
+        } catch (error) {
+            serverLogger.error(`Erreur lors de la vérification des mises à jour: ${error.message}`);
+            req.session.updateStatus = {
+                success: false,
+                message: `Erreur lors de la vérification des mises à jour: ${error.message}`
+            };
+            res.redirect('/admin/update-system');
+        }
+    },
+    
+    // Fonction pour appliquer les mises à jour
+    applyUpdates: (req, res) => {
+        try {
+            // Journaliser l'application des mises à jour
+            appLogger.info(`Application des mises à jour par ${req.session.user.username}`);
+            
+            // Exécuter la commande git pull pour récupérer les dernières modifications
+            const { exec } = require('child_process');
+            
+            // Créer un backup des fichiers de données avant la mise à jour
+            const fs = require('fs');
+            const path = require('path');
+            const dataDir = path.join(__dirname, '../data');
+            const backupDir = path.join(__dirname, '../backup', `update-${Date.now()}`);
+            
+            // Créer le répertoire de backup s'il n'existe pas
+            if (!fs.existsSync(path.join(__dirname, '../backup'))) {
+                fs.mkdirSync(path.join(__dirname, '../backup'), { recursive: true });
+            }
+            
+            // Créer le répertoire de backup pour cette mise à jour
+            fs.mkdirSync(backupDir, { recursive: true });
+            
+            // Copier les fichiers de données dans le répertoire de backup
+            fs.readdirSync(dataDir).forEach(file => {
+                if (file.endsWith('.json')) {
+                    fs.copyFileSync(path.join(dataDir, file), path.join(backupDir, file));
+                }
+            });
+            
+            // Exécuter la commande git pull
+            exec('git pull origin main', (error, stdout, stderr) => {
+                if (error) {
+                    serverLogger.error(`Erreur lors de l'application des mises à jour: ${error.message}`);
+                    req.session.updateStatus = {
+                        success: false,
+                        message: `Erreur lors de l'application des mises à jour: ${error.message}`,
+                        details: stderr
+                    };
+                    return res.redirect('/admin/update-system');
+                }
+                
+                // Vérifier si des mises à jour ont été appliquées
+                if (stdout.includes('Already up to date')) {
+                    req.session.updateStatus = {
+                        success: true,
+                        updated: false,
+                        message: 'Le système est déjà à jour',
+                        details: stdout
+                    };
+                    return res.redirect('/admin/update-system');
+                } else {
+                    // Mettre à jour la version dans package.json
+                    try {
+                        const packageJsonPath = path.join(__dirname, '../package.json');
+                        if (fs.existsSync(packageJsonPath)) {
+                            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+                            
+                            // Incrémenter la version (format x.y.z)
+                            const versionParts = packageJson.version.split('.');
+                            versionParts[2] = parseInt(versionParts[2]) + 1; // Incrémenter la version de patch
+                            packageJson.version = versionParts.join('.');
+                            
+                            // Sauvegarder le fichier package.json mis à jour
+                            fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+                            
+                            serverLogger.info(`Version mise à jour: ${packageJson.version}`);
+                        }
+                    } catch (error) {
+                        serverLogger.error(`Erreur lors de la mise à jour de la version: ${error.message}`);
+                    }
+                    
+                    // Installer les nouvelles dépendances si nécessaire
+                    exec('npm install', (error, npmStdout, npmStderr) => {
+                        if (error) {
+                            serverLogger.error(`Erreur lors de l'installation des dépendances: ${error.message}`);
+                            req.session.updateStatus = {
+                                success: false,
+                                message: `Erreur lors de l'installation des dépendances: ${error.message}`,
+                                details: npmStderr,
+                                gitOutput: stdout
+                            };
+                        } else {
+                            req.session.updateStatus = {
+                                success: true,
+                                updated: true,
+                                message: 'Mise à jour appliquée avec succès',
+                                details: stdout,
+                                npmOutput: npmStdout,
+                                backupDir: backupDir
+                            };
+                            
+                            // Journaliser la mise à jour réussie
+                            serverLogger.info(`Mise à jour appliquée avec succès par ${req.session.user.username}`);
+                            
+                            // Redémarrer le serveur après un court délai
+                            setTimeout(() => {
+                                try {
+                                    global.restartServer();
+                                    serverLogger.info('Redémarrage du serveur après mise à jour');
+                                } catch (error) {
+                                    serverLogger.error(`Erreur lors du redémarrage du serveur après mise à jour: ${error.message}`);
+                                }
+                            }, 2000);
+                        }
+                        
+                        return res.redirect('/admin/update-system');
+                    });
+                    
+                    return;
+                }
+            });
+        } catch (error) {
+            serverLogger.error(`Erreur lors de l'application des mises à jour: ${error.message}`);
+            req.session.updateStatus = {
+                success: false,
+                message: `Erreur lors de l'application des mises à jour: ${error.message}`
+            };
+            res.redirect('/admin/update-system');
+        }
+    },
+    
+    // Fonction pour restaurer une sauvegarde après une mise à jour
+    restoreBackup: (req, res) => {
+        try {
+            const { backupDir } = req.body;
+            
+            // Vérifier si le répertoire de backup existe
+            const fs = require('fs');
+            const path = require('path');
+            
+            if (!backupDir || !fs.existsSync(backupDir)) {
+                req.session.error = 'Le répertoire de backup spécifié n\'existe pas';
+                return res.redirect('/admin/update-system');
+            }
+            
+            // Journaliser la restauration de la sauvegarde
+            appLogger.info(`Restauration de la sauvegarde ${backupDir} par ${req.session.user.username}`);
+            
+            // Restaurer les fichiers de données
+            const dataDir = path.join(__dirname, '../data');
+            
+            fs.readdirSync(backupDir).forEach(file => {
+                if (file.endsWith('.json')) {
+                    fs.copyFileSync(path.join(backupDir, file), path.join(dataDir, file));
+                }
+            });
+            
+            req.session.success = 'Sauvegarde restaurée avec succès';
+            res.redirect('/admin/update-system');
+        } catch (error) {
+            serverLogger.error(`Erreur lors de la restauration de la sauvegarde: ${error.message}`);
+            req.session.error = `Erreur lors de la restauration de la sauvegarde: ${error.message}`;
+            res.redirect('/admin/update-system');
+        }
+    },
+    
+    // Fonction pour lister les sauvegardes disponibles
+    listBackups: (req, res) => {
+        try {
+            const fs = require('fs');
+            const path = require('path');
+            const backupDir = path.join(__dirname, '../backup');
+            
+            // Vérifier si le répertoire de backup existe
+            if (!fs.existsSync(backupDir)) {
+                return res.json({ success: true, backups: [] });
+            }
+            
+            // Lister les répertoires de backup
+            const backups = fs.readdirSync(backupDir)
+                .filter(dir => fs.statSync(path.join(backupDir, dir)).isDirectory())
+                .map(dir => {
+                    const fullPath = path.join(backupDir, dir);
+                    const stats = fs.statSync(fullPath);
+                    return {
+                        name: dir,
+                        path: fullPath,
+                        date: stats.mtime,
+                        files: fs.readdirSync(fullPath).filter(file => file.endsWith('.json'))
+                    };
+                })
+                .sort((a, b) => b.date - a.date); // Trier par date décroissante
+            
+            res.json({ success: true, backups });
+        } catch (error) {
+            serverLogger.error(`Erreur lors de la récupération des sauvegardes: ${error.message}`);
+            res.json({ success: false, message: error.message });
+        }
     }
 };
 
@@ -2019,5 +2346,10 @@ module.exports = {
     importAllData,
     importConfig,
     validateSsoConfigurations,
-    updateSsoRedirectUris
+    updateSsoRedirectUris,
+    showUpdatePage,
+    checkForUpdates,
+    applyUpdates,
+    restoreBackup,
+    listBackups
 }; 
