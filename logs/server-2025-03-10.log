@@ -433,3 +433,312 @@
 2025-03-10 20:44:29 [INFO] [SERVER]: Port chargé depuis la configuration: 443 (type: number)
 2025-03-10 20:44:29 [INFO] [SERVER]: Port lu depuis la configuration: 443 (type: number)
 2025-03-10 20:44:29 [INFO] [SERVER]: Port configuré: 443 (type: number)
+2025-03-10 20:51:03 [INFO] [SERVER]: Contenu du fichier config.json: {
+  "auth": {
+    "methods": {
+      "local": {
+        "enabled": true,
+        "name": "local"
+      },
+      "discord": {
+        "enabled": true,
+        "clientId": "1348043784667009224",
+        "clientSecret": "vqAYpA7GC3ncw6zCjCZTeGGYNOQluaDL",
+        "redirectUri": "http://localhost:3005/auth/discord/callback",
+        "name": "discord"
+      },
+      "azure": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "tenantId": "",
+        "redirectUri": "http://localhost:3005/auth/azure/callback",
+        "name": "azure"
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:3005/auth/github/callback",
+        "name": "github"
+      },
+      "okta": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "domain": "",
+        "redirectUri": "",
+        "name": "okta"
+      }
+    }
+  },
+  "domain": {
+    "useCustomDomain": false,
+    "domainName": "dsi.sault.fr",
+    "useSSL": false,
+    "sslMethod": "",
+    "letsencryptEmail": "",
+    "port": 443,
+    "accessMode": "domain",
+    "securityMode": "selfSigned",
+    "selfSignedCommonName": "dsi.sault.fr",
+    "selfSignedOrganization": "Sault",
+    "sslCertPath": "",
+    "sslKeyPath": ""
+  }
+}
+2025-03-10 20:51:03 [INFO] [SERVER]: Port chargé depuis la configuration: 443 (type: number)
+2025-03-10 20:51:03 [INFO] [SERVER]: Port lu depuis la configuration: 443 (type: number)
+2025-03-10 20:51:03 [INFO] [SERVER]: Port configuré: 443 (type: number)
+2025-03-10 20:51:03 [INFO] [SERVER]: Contenu du fichier config.json: {
+  "auth": {
+    "methods": {
+      "local": {
+        "enabled": true,
+        "name": "local"
+      },
+      "discord": {
+        "enabled": true,
+        "clientId": "1348043784667009224",
+        "clientSecret": "vqAYpA7GC3ncw6zCjCZTeGGYNOQluaDL",
+        "redirectUri": "http://localhost:3005/auth/discord/callback",
+        "name": "discord"
+      },
+      "azure": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "tenantId": "",
+        "redirectUri": "http://localhost:3005/auth/azure/callback",
+        "name": "azure"
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:3005/auth/github/callback",
+        "name": "github"
+      },
+      "okta": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "domain": "",
+        "redirectUri": "",
+        "name": "okta"
+      }
+    }
+  },
+  "domain": {
+    "useCustomDomain": false,
+    "domainName": "dsi.sault.fr",
+    "useSSL": false,
+    "sslMethod": "",
+    "letsencryptEmail": "",
+    "port": 443,
+    "accessMode": "domain",
+    "securityMode": "selfSigned",
+    "selfSignedCommonName": "dsi.sault.fr",
+    "selfSignedOrganization": "Sault",
+    "sslCertPath": "",
+    "sslKeyPath": ""
+  }
+}
+2025-03-10 20:51:03 [INFO] [SERVER]: Port chargé depuis la configuration: 443 (type: number)
+2025-03-10 20:51:03 [INFO] [SERVER]: Port lu directement depuis le fichier config.json: 443
+2025-03-10 20:51:03 [INFO] [SERVER]: Démarrage du serveur sur le port: 443
+2025-03-10 20:51:03 [INFO] [SERVER]: Mode SSL désactivé, démarrage en HTTP
+2025-03-10 20:51:03 [INFO] [SERVER]: Serveur HTTP démarré sur http://localhost:443
+2025-03-10 20:51:07 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:07 [INFO] [SERVER]: Configuration passée à la vue: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:08 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:08 [WARN] [SERVER]: 404 - Page non trouvée: /favicon.ico - Utilisateur: Anonyme - IP: ::1
+2025-03-10 20:51:10 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:10 [INFO] [SERVER]: Contenu du fichier config.json: {
+  "auth": {
+    "methods": {
+      "local": {
+        "enabled": true,
+        "name": "local"
+      },
+      "discord": {
+        "enabled": true,
+        "clientId": "1348043784667009224",
+        "clientSecret": "vqAYpA7GC3ncw6zCjCZTeGGYNOQluaDL",
+        "redirectUri": "http://localhost:3005/auth/discord/callback",
+        "name": "discord"
+      },
+      "azure": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "tenantId": "",
+        "redirectUri": "http://localhost:3005/auth/azure/callback",
+        "name": "azure"
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:3005/auth/github/callback",
+        "name": "github"
+      },
+      "okta": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "domain": "",
+        "redirectUri": "",
+        "name": "okta"
+      }
+    }
+  },
+  "domain": {
+    "useCustomDomain": false,
+    "domainName": "dsi.sault.fr",
+    "useSSL": false,
+    "sslMethod": "",
+    "letsencryptEmail": "",
+    "port": 443,
+    "accessMode": "domain",
+    "securityMode": "selfSigned",
+    "selfSignedCommonName": "dsi.sault.fr",
+    "selfSignedOrganization": "Sault",
+    "sslCertPath": "",
+    "sslKeyPath": ""
+  }
+}
+2025-03-10 20:51:10 [INFO] [SERVER]: Port chargé depuis la configuration: 443 (type: number)
+2025-03-10 20:51:10 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:10 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:12 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:12 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:15 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:15 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:30 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:30 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:30 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:31 [INFO] [SERVER]: Arrêt du serveur en cours...
+2025-03-10 20:51:31 [INFO] [SERVER]: Serveur arrêté. Redémarrage...
+2025-03-10 20:51:31 [INFO] [SERVER]: Contenu du fichier config.json: {
+  "auth": {
+    "methods": {
+      "local": {
+        "enabled": true,
+        "name": "local"
+      },
+      "discord": {
+        "enabled": true,
+        "clientId": "1348043784667009224",
+        "clientSecret": "vqAYpA7GC3ncw6zCjCZTeGGYNOQluaDL",
+        "redirectUri": "http://localhost:3005/auth/discord/callback",
+        "name": "discord"
+      },
+      "azure": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "tenantId": "",
+        "redirectUri": "http://localhost:3005/auth/azure/callback",
+        "name": "azure"
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:3005/auth/github/callback",
+        "name": "github"
+      },
+      "okta": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "domain": "",
+        "redirectUri": "http://localhost:3005/auth/okta/callback",
+        "name": "okta"
+      }
+    }
+  },
+  "domain": {
+    "useCustomDomain": false,
+    "domainName": "dsi.sault.fr",
+    "useSSL": false,
+    "sslMethod": "",
+    "letsencryptEmail": "",
+    "port": 3005,
+    "accessMode": "localhost",
+    "securityMode": "none",
+    "selfSignedCommonName": "dsi.sault.fr",
+    "selfSignedOrganization": "Sault",
+    "sslCertPath": "",
+    "sslKeyPath": ""
+  }
+}
+2025-03-10 20:51:31 [INFO] [SERVER]: Port lu depuis la configuration lors du redémarrage: 3005
+2025-03-10 20:51:31 [INFO] [SERVER]: Contenu du fichier config.json: {
+  "auth": {
+    "methods": {
+      "local": {
+        "enabled": true,
+        "name": "local"
+      },
+      "discord": {
+        "enabled": true,
+        "clientId": "1348043784667009224",
+        "clientSecret": "vqAYpA7GC3ncw6zCjCZTeGGYNOQluaDL",
+        "redirectUri": "http://localhost:3005/auth/discord/callback",
+        "name": "discord"
+      },
+      "azure": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "tenantId": "",
+        "redirectUri": "http://localhost:3005/auth/azure/callback",
+        "name": "azure"
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "redirectUri": "http://localhost:3005/auth/github/callback",
+        "name": "github"
+      },
+      "okta": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": "",
+        "domain": "",
+        "redirectUri": "http://localhost:3005/auth/okta/callback",
+        "name": "okta"
+      }
+    }
+  },
+  "domain": {
+    "useCustomDomain": false,
+    "domainName": "dsi.sault.fr",
+    "useSSL": false,
+    "sslMethod": "",
+    "letsencryptEmail": "",
+    "port": 3005,
+    "accessMode": "localhost",
+    "securityMode": "none",
+    "selfSignedCommonName": "dsi.sault.fr",
+    "selfSignedOrganization": "Sault",
+    "sslCertPath": "",
+    "sslKeyPath": ""
+  }
+}
+2025-03-10 20:51:31 [INFO] [SERVER]: Port chargé depuis la configuration: 3005 (type: number)
+2025-03-10 20:51:31 [INFO] [SERVER]: Port lu directement depuis le fichier config.json: 3005
+2025-03-10 20:51:31 [INFO] [SERVER]: Démarrage du serveur sur le port: 3005
+2025-03-10 20:51:31 [INFO] [SERVER]: Mode SSL désactivé, démarrage en HTTP
+2025-03-10 20:51:31 [INFO] [SERVER]: Serveur HTTP démarré sur http://localhost:3005
+2025-03-10 20:51:38 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:38 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:38 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:38 [WARN] [SERVER]: 404 - Page non trouvée: /favicon.ico - Utilisateur: victor (admin) - IP: ::1
+2025-03-10 20:51:40 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:40 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:41 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}
+2025-03-10 20:51:41 [INFO] [SERVER]: Configuration d'authentification: {"discord":true,"github":false,"azure":false,"okta":false}

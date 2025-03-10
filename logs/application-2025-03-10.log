@@ -97,3 +97,32 @@ ReferenceError: showAdminDashboard is not defined
     at Object.<anonymous> (C:\Users\rosiq\Documents\Dev\Twitter\outils_relance\routes\adminRoutes.js:3:25)
     at Module._compile (node:internal/modules/cjs/loader:1469:14)
     at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+2025-03-10 20:51:10 [INFO] [APP]: Connexion réussie pour l'utilisateur "victor" (rôle: admin) - IP: ::1
+2025-03-10 20:51:10 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:10 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:12 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-10 20:51:12 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-10 20:51:12 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:12 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:15 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-10 20:51:15 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-10 20:51:15 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:15 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:30 [INFO] [APP]: Accès authentifié: POST /domain-config - Utilisateur: victor (admin)
+2025-03-10 20:51:30 [INFO] [APP]: Accès administrateur: POST /domain-config - Utilisateur: victor
+2025-03-10 20:51:30 [INFO] [APP]: Accès authentifié: GET /domain-config - Utilisateur: victor (admin)
+2025-03-10 20:51:30 [INFO] [APP]: Accès administrateur: GET /domain-config - Utilisateur: victor
+2025-03-10 20:51:30 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:30 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:38 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-10 20:51:38 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-10 20:51:38 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:38 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:40 [INFO] [APP]: Accès authentifié: GET /dashboard - Utilisateur: victor (admin)
+2025-03-10 20:51:40 [INFO] [APP]: Accès administrateur: GET /dashboard - Utilisateur: victor
+2025-03-10 20:51:40 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:40 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:41 [INFO] [APP]: Accès authentifié: GET /auth-config - Utilisateur: victor (admin)
+2025-03-10 20:51:41 [INFO] [APP]: Accès administrateur: GET /auth-config - Utilisateur: victor
+2025-03-10 20:51:41 [INFO] [APP]: Accès authentifié: GET /unread - Utilisateur: victor (admin)
+2025-03-10 20:51:41 [INFO] [APP]: Accès technicien: GET /unread - Utilisateur: victor (admin)

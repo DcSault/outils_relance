@@ -32,7 +32,7 @@
         "clientId": "",
         "clientSecret": "",
         "domain": "",
-        "redirectUri": "",
+        "redirectUri": "http://localhost:3005/auth/okta/callback",
         "name": "okta"
       }
     }
@@ -43,9 +43,9 @@
     "useSSL": false,
     "sslMethod": "",
     "letsencryptEmail": "",
-    "port": 443,
-    "accessMode": "domain",
-    "securityMode": "selfSigned",
+    "port": 3005,
+    "accessMode": "localhost",
+    "securityMode": "none",
     "selfSignedCommonName": "dsi.sault.fr",
     "selfSignedOrganization": "Sault",
     "sslCertPath": "",
