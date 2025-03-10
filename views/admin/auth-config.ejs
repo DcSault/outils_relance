@@ -19,6 +19,119 @@
         </div>
     </div>
 
+    <% if (locals.ssoIssues && ssoIssues.length > 0) { %>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Problèmes de configuration SSO détectés</h5>
+                </div>
+                <div class="card-body">
+                    <p>Des problèmes ont été détectés dans la configuration de vos méthodes d'authentification externes. Ces problèmes pourraient empêcher le fonctionnement correct de l'authentification.</p>
+                    
+                    <div class="list-group mt-3">
+                        <% ssoIssues.forEach(issue => { %>
+                            <div class="list-group-item list-group-item-warning">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">
+                                        <% if (issue.method === 'discord') { %>
+                                            <i class="fab fa-discord me-2"></i>
+                                        <% } else if (issue.method === 'github') { %>
+                                            <i class="fab fa-github me-2"></i>
+                                        <% } else if (issue.method === 'azure') { %>
+                                            <i class="fab fa-microsoft me-2"></i>
+                                        <% } else if (issue.method === 'okta') { %>
+                                            <i class="fas fa-shield-alt me-2"></i>
+                                        <% } %>
+                                        Problème avec <%= issue.method %>
+                                    </h5>
+                                    <small>
+                                        <% if (issue.type === 'missing_uri') { %>
+                                            URI manquante
+                                        <% } else if (issue.type === 'invalid_uri') { %>
+                                            URI incorrecte
+                                        <% } else if (issue.type === 'invalid_uri_format') { %>
+                                            Format d'URI invalide
+                                        <% } else if (issue.type === 'missing_credentials') { %>
+                                            Identifiants manquants
+                                        <% } %>
+                                    </small>
+                                </div>
+                                <p class="mb-1"><%= issue.message %></p>
+                                
+                                <% if (issue.type === 'invalid_uri') { %>
+                                    <div class="mt-2">
+                                        <p class="mb-1"><strong>URI actuelle:</strong> <code><%= issue.current %></code></p>
+                                        <p class="mb-1"><strong>URI attendue:</strong> <code><%= issue.expected %></code></p>
+                                        <form action="/admin/auth-config/<%= issue.method %>" method="POST" class="mt-2">
+                                            <input type="hidden" name="enabled" value="on">
+                                            <% if (issue.method === 'discord' || issue.method === 'github') { %>
+                                                <input type="hidden" name="clientId" value="<%= config.auth.methods[issue.method].clientId %>">
+                                                <input type="hidden" name="clientSecret" value="<%= config.auth.methods[issue.method].clientSecret %>">
+                                            <% } else if (issue.method === 'azure') { %>
+                                                <input type="hidden" name="clientId" value="<%= config.auth.methods[issue.method].clientId %>">
+                                                <input type="hidden" name="clientSecret" value="<%= config.auth.methods[issue.method].clientSecret %>">
+                                                <input type="hidden" name="tenantId" value="<%= config.auth.methods[issue.method].tenantId %>">
+                                            <% } else if (issue.method === 'okta') { %>
+                                                <input type="hidden" name="clientId" value="<%= config.auth.methods[issue.method].clientId %>">
+                                                <input type="hidden" name="clientSecret" value="<%= config.auth.methods[issue.method].clientSecret %>">
+                                                <input type="hidden" name="domain" value="<%= config.auth.methods[issue.method].domain %>">
+                                            <% } %>
+                                            <input type="hidden" name="redirectUri" value="<%= issue.expected %>">
+                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-sync-alt me-1"></i>Mettre à jour l'URI de redirection
+                                            </button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                            </div>
+                        <% }); %>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> Lorsque vous modifiez la configuration du domaine (nom de domaine, port, protocole), les URI de redirection des méthodes d'authentification externes doivent être mises à jour en conséquence. Assurez-vous également de mettre à jour ces URI dans les portails développeurs des services externes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <% if (locals.ssoIssue) { %>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>URI de redirection incorrecte</h5>
+                <p>L'URI de redirection pour <%= ssoIssue.method %> ne correspond pas à la configuration actuelle du domaine.</p>
+                <p><strong>URI actuelle:</strong> <code><%= ssoIssue.current %></code></p>
+                <p><strong>URI attendue:</strong> <code><%= ssoIssue.expected %></code></p>
+                <p>Cela pourrait empêcher le fonctionnement correct de l'authentification <%= ssoIssue.method %>.</p>
+                <form action="/admin/auth-config/<%= ssoIssue.method %>" method="POST" class="mt-2">
+                    <input type="hidden" name="enabled" value="on">
+                    <% if (ssoIssue.method === 'discord' || ssoIssue.method === 'github') { %>
+                        <input type="hidden" name="clientId" value="<%= config.auth.methods[ssoIssue.method].clientId %>">
+                        <input type="hidden" name="clientSecret" value="<%= config.auth.methods[ssoIssue.method].clientSecret %>">
+                    <% } else if (ssoIssue.method === 'azure') { %>
+                        <input type="hidden" name="clientId" value="<%= config.auth.methods[ssoIssue.method].clientId %>">
+                        <input type="hidden" name="clientSecret" value="<%= config.auth.methods[ssoIssue.method].clientSecret %>">
+                        <input type="hidden" name="tenantId" value="<%= config.auth.methods[ssoIssue.method].tenantId %>">
+                    <% } else if (ssoIssue.method === 'okta') { %>
+                        <input type="hidden" name="clientId" value="<%= config.auth.methods[ssoIssue.method].clientId %>">
+                        <input type="hidden" name="clientSecret" value="<%= config.auth.methods[ssoIssue.method].clientSecret %>">
+                        <input type="hidden" name="domain" value="<%= config.auth.methods[ssoIssue.method].domain %>">
+                    <% } %>
+                    <input type="hidden" name="redirectUri" value="<%= ssoIssue.expected %>">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-sync-alt me-1"></i>Mettre à jour l'URI de redirection
+                    </button>
+                </form>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
     <div class="row mb-4">
         <div class="col-12">
             <div class="card border-0 shadow-sm">

@@ -258,6 +258,176 @@ const generateSelfSignedCertificate = (commonName, organization) => {
     }
 };
 
+// Fonction pour vérifier la validité des configurations SSO
+const validateSsoConfigurations = (configData) => {
+    const issues = [];
+    const { domain, auth } = configData;
+    
+    // Déterminer l'URL de base actuelle
+    let baseUrl = '';
+    if (domain.accessMode === 'domain' && domain.domainName) {
+        baseUrl = `${domain.useSSL ? 'https' : 'http'}://${domain.domainName}`;
+        if (domain.port !== 80 && domain.port !== 443) {
+            baseUrl += `:${domain.port}`;
+        }
+    } else if (domain.accessMode === 'ip') {
+        // Pour l'accès par IP, nous utilisons localhost comme placeholder
+        baseUrl = `${domain.useSSL ? 'https' : 'http'}://localhost:${domain.port}`;
+    } else {
+        baseUrl = `${domain.useSSL ? 'https' : 'http'}://localhost:${domain.port}`;
+    }
+    
+    // Vérifier chaque méthode d'authentification activée
+    Object.keys(auth.methods).forEach(method => {
+        if (method !== 'local' && auth.methods[method] && auth.methods[method].enabled) {
+            const methodConfig = auth.methods[method];
+            
+            // Vérifier si l'URI de redirection est définie
+            if (!methodConfig.redirectUri) {
+                issues.push({
+                    method,
+                    type: 'missing_uri',
+                    message: `L'URI de redirection pour ${method} n'est pas définie.`
+                });
+            } else {
+                // Extraire les composants de l'URI de redirection
+                try {
+                    const redirectUrl = new URL(methodConfig.redirectUri);
+                    const expectedCallback = `${baseUrl}/auth/${method}/callback`;
+                    const expectedUrl = new URL(expectedCallback);
+                    
+                    // Vérifier si le domaine ou le port ne correspond pas
+                    if (redirectUrl.hostname !== expectedUrl.hostname || 
+                        redirectUrl.port !== expectedUrl.port || 
+                        redirectUrl.protocol !== expectedUrl.protocol) {
+                        issues.push({
+                            method,
+                            type: 'invalid_uri',
+                            message: `L'URI de redirection pour ${method} (${methodConfig.redirectUri}) ne correspond pas à la configuration actuelle du domaine.`,
+                            expected: expectedCallback,
+                            current: methodConfig.redirectUri
+                        });
+                    }
+                } catch (error) {
+                    issues.push({
+                        method,
+                        type: 'invalid_uri_format',
+                        message: `L'URI de redirection pour ${method} n'est pas une URL valide: ${error.message}`
+                    });
+                }
+            }
+            
+            // Vérifier les autres paramètres requis selon la méthode
+            switch (method) {
+                case 'discord':
+                case 'github':
+                    if (!methodConfig.clientId || !methodConfig.clientSecret) {
+                        issues.push({
+                            method,
+                            type: 'missing_credentials',
+                            message: `Les identifiants Client ID ou Client Secret pour ${method} ne sont pas définis.`
+                        });
+                    }
+                    break;
+                case 'azure':
+                    if (!methodConfig.clientId || !methodConfig.clientSecret || !methodConfig.tenantId) {
+                        issues.push({
+                            method,
+                            type: 'missing_credentials',
+                            message: `Les identifiants Client ID, Client Secret ou Tenant ID pour ${method} ne sont pas définis.`
+                        });
+                    }
+                    break;
+                case 'okta':
+                    if (!methodConfig.clientId || !methodConfig.clientSecret || !methodConfig.domain) {
+                        issues.push({
+                            method,
+                            type: 'missing_credentials',
+                            message: `Les identifiants Client ID, Client Secret ou Domain pour ${method} ne sont pas définis.`
+                        });
+                    }
+                    break;
+            }
+        }
+    });
+    
+    return issues;
+};
+
+// Fonction pour mettre à jour les URI de redirection des services SSO
+const updateSsoRedirectUris = (configData) => {
+    const { domain, auth } = configData;
+    const updates = [];
+    
+    // Déterminer l'URL de base actuelle
+    let baseUrl = '';
+    if (domain.accessMode === 'domain' && domain.domainName) {
+        baseUrl = `${domain.useSSL ? 'https' : 'http'}://${domain.domainName}`;
+        if (domain.port !== 80 && domain.port !== 443) {
+            baseUrl += `:${domain.port}`;
+        }
+    } else if (domain.accessMode === 'ip') {
+        // Pour l'accès par IP, nous utilisons localhost comme placeholder
+        baseUrl = `${domain.useSSL ? 'https' : 'http'}://localhost:${domain.port}`;
+    } else {
+        baseUrl = `${domain.useSSL ? 'https' : 'http'}://localhost:${domain.port}`;
+    }
+    
+    // Mettre à jour chaque méthode d'authentification
+    Object.keys(auth.methods).forEach(method => {
+        if (method !== 'local' && auth.methods[method]) {
+            const methodConfig = auth.methods[method];
+            const expectedCallback = `${baseUrl}/auth/${method}/callback`;
+            
+            // Si l'URI de redirection est définie, vérifier si elle doit être mise à jour
+            if (methodConfig.redirectUri) {
+                try {
+                    const redirectUrl = new URL(methodConfig.redirectUri);
+                    const expectedUrl = new URL(expectedCallback);
+                    
+                    // Vérifier si le domaine ou le port ne correspond pas
+                    if (redirectUrl.hostname !== expectedUrl.hostname || 
+                        redirectUrl.port !== expectedUrl.port || 
+                        redirectUrl.protocol !== expectedUrl.protocol) {
+                        
+                        // Sauvegarder l'ancienne valeur pour le journal
+                        const oldRedirectUri = methodConfig.redirectUri;
+                        
+                        // Mettre à jour l'URI de redirection
+                        methodConfig.redirectUri = expectedCallback;
+                        
+                        updates.push({
+                            method,
+                            oldUri: oldRedirectUri,
+                            newUri: expectedCallback
+                        });
+                    }
+                } catch (error) {
+                    // Si l'URI n'est pas valide, la définir à la valeur attendue
+                    methodConfig.redirectUri = expectedCallback;
+                    
+                    updates.push({
+                        method,
+                        oldUri: 'Invalid URI',
+                        newUri: expectedCallback
+                    });
+                }
+            } else {
+                // Si l'URI n'est pas définie, la définir à la valeur attendue
+                methodConfig.redirectUri = expectedCallback;
+                
+                updates.push({
+                    method,
+                    oldUri: 'Not set',
+                    newUri: expectedCallback
+                });
+            }
+        }
+    });
+    
+    return updates;
+};
+
 // Contrôleur pour l'administration
 const adminController = {
     // Afficher le tableau de bord d'administration
@@ -313,14 +483,22 @@ const adminController = {
         try {
             const configData = getConfigData();
             
+            // Vérifier la validité des configurations SSO
+            const ssoIssues = validateSsoConfigurations(configData);
+            
             // Journaliser l'accès à la configuration d'authentification
             appLogger.info(`Accès à la configuration d'authentification par ${req.session.user.username}`);
+            
+            if (ssoIssues.length > 0) {
+                appLogger.warn(`Problèmes détectés dans la configuration SSO: ${JSON.stringify(ssoIssues)}`);
+            }
             
             res.render('admin/auth-config', {
                 title: 'Configuration de l\'authentification',
                 user: req.session.user,
                 config: configData,
-                configSection: 'auth'
+                configSection: 'auth',
+                ssoIssues: ssoIssues
             });
         } catch (error) {
             serverLogger.error(`Erreur lors de l'affichage de la configuration d'authentification: ${error.message}`);
@@ -345,6 +523,9 @@ const adminController = {
                 req.session.error = `Méthode d'authentification "${method}" non reconnue`;
                 return res.redirect('/admin/auth-config');
             }
+            
+            // Sauvegarder l'ancienne configuration pour comparaison
+            const oldConfig = JSON.parse(JSON.stringify(configData.auth.methods[method]));
             
             // Mettre à jour la configuration en fonction de la méthode
             switch (method) {
@@ -390,6 +571,66 @@ const adminController = {
                 default:
                     req.session.error = `Méthode d'authentification "${method}" non prise en charge`;
                     return res.redirect('/admin/auth-config');
+            }
+            
+            // Vérifier si la configuration a été modifiée
+            const configChanged = JSON.stringify(oldConfig) !== JSON.stringify(configData.auth.methods[method]);
+            
+            // Si la méthode est activée, vérifier la validité de la configuration
+            if (configData.auth.methods[method].enabled && method !== 'local') {
+                // Vérifier la validité de l'URI de redirection
+                if (configData.auth.methods[method].redirectUri) {
+                    try {
+                        new URL(configData.auth.methods[method].redirectUri);
+                    } catch (error) {
+                        req.session.error = `L'URI de redirection pour ${method} n'est pas une URL valide: ${error.message}`;
+                        return res.redirect('/admin/auth-config');
+                    }
+                }
+                
+                // Vérifier les autres paramètres requis selon la méthode
+                let missingParams = [];
+                switch (method) {
+                    case 'discord':
+                    case 'github':
+                        if (!configData.auth.methods[method].clientId) missingParams.push('Client ID');
+                        if (!configData.auth.methods[method].clientSecret) missingParams.push('Client Secret');
+                        break;
+                    case 'azure':
+                        if (!configData.auth.methods[method].clientId) missingParams.push('Client ID');
+                        if (!configData.auth.methods[method].clientSecret) missingParams.push('Client Secret');
+                        if (!configData.auth.methods[method].tenantId) missingParams.push('Tenant ID');
+                        break;
+                    case 'okta':
+                        if (!configData.auth.methods[method].clientId) missingParams.push('Client ID');
+                        if (!configData.auth.methods[method].clientSecret) missingParams.push('Client Secret');
+                        if (!configData.auth.methods[method].domain) missingParams.push('Domain');
+                        break;
+                }
+                
+                if (missingParams.length > 0) {
+                    req.session.warning = `La méthode ${method} a été activée mais les paramètres suivants sont manquants: ${missingParams.join(', ')}. La configuration pourrait ne pas fonctionner correctement.`;
+                }
+            }
+            
+            // Vérifier si l'URI de redirection correspond à la configuration du domaine
+            if (configData.auth.methods[method].enabled && method !== 'local' && configData.auth.methods[method].redirectUri) {
+                const issues = validateSsoConfigurations(configData).filter(issue => issue.method === method);
+                
+                if (issues.length > 0) {
+                    const uriIssues = issues.filter(issue => issue.type === 'invalid_uri');
+                    
+                    if (uriIssues.length > 0) {
+                        req.session.warning = `L'URI de redirection pour ${method} ne correspond pas à la configuration actuelle du domaine. Cela pourrait empêcher le fonctionnement correct de l'authentification ${method}.`;
+                        
+                        // Proposer une mise à jour automatique
+                        req.session.ssoIssue = {
+                            method,
+                            current: configData.auth.methods[method].redirectUri,
+                            expected: uriIssues[0].expected
+                        };
+                    }
+                }
             }
             
             // Journaliser la nouvelle configuration
@@ -532,8 +773,18 @@ const adminController = {
             const accessMode = req.body.accessMode || 'localhost';
             const securityMode = req.body.securityMode || 'none';
             
-            // Vérifier si le mode de sécurité a changé
+            // Vérifier si le mode d'accès ou le domaine a changé
+            const accessModeChanged = configData.domain.accessMode !== accessMode;
+            const domainNameChanged = configData.domain.domainName !== domainName;
             const securityModeChanged = configData.domain.securityMode !== securityMode;
+            
+            // Sauvegarder les anciennes valeurs pour les messages d'alerte
+            const oldConfig = {
+                port: configData.domain.port,
+                accessMode: configData.domain.accessMode,
+                domainName: configData.domain.domainName,
+                useSSL: configData.domain.useSSL
+            };
             
             // Mettre à jour la configuration
             configData.domain.port = port;
@@ -587,6 +838,30 @@ const adminController = {
                 }
             }
             
+            // Vérifier si des changements affectant les URI de redirection SSO ont été effectués
+            const ssoAffectingChanges = portChanged || accessModeChanged || domainNameChanged || 
+                                       (configData.domain.useSSL !== oldConfig.useSSL);
+            
+            // Si des changements affectant les SSO ont été effectués, mettre à jour les URI de redirection
+            let ssoUpdates = [];
+            if (ssoAffectingChanges) {
+                ssoUpdates = updateSsoRedirectUris(configData);
+                
+                if (ssoUpdates.length > 0) {
+                    serverLogger.info(`Mise à jour des URI de redirection SSO suite aux changements de domaine: ${JSON.stringify(ssoUpdates)}`);
+                    req.session.ssoUpdated = {
+                        updates: ssoUpdates,
+                        oldConfig,
+                        newConfig: {
+                            port: configData.domain.port,
+                            accessMode: configData.domain.accessMode,
+                            domainName: configData.domain.domainName,
+                            useSSL: configData.domain.useSSL
+                        }
+                    };
+                }
+            }
+            
             // Journaliser la configuration mise à jour
             console.log('Configuration à sauvegarder (après modification):', configData);
             serverLogger.info(`Configuration à sauvegarder: ${JSON.stringify(configData)}`);
@@ -621,6 +896,11 @@ const adminController = {
             
             // Ajouter un message de succès à la session
             req.session.success = 'Configuration du domaine mise à jour avec succès';
+            
+            // Si des changements SSO ont été effectués, ajouter un message d'alerte
+            if (ssoUpdates.length > 0) {
+                req.session.warning = 'Les URI de redirection des services SSO ont été automatiquement mises à jour. Veuillez vérifier la configuration de vos applications externes.';
+            }
             
             // Redémarrer le serveur si nécessaire
             if (portChanged || securityModeChanged) {
@@ -1716,4 +1996,28 @@ const adminController = {
     }
 };
 
-module.exports = adminController; 
+// Exporter les fonctions du contrôleur
+module.exports = {
+    showAdminDashboard,
+    showAuthConfig,
+    updateAuthConfig,
+    showDomainConfig,
+    updateDomainConfig,
+    generateSslCert,
+    uploadSslCert,
+    uploadSslKey,
+    restartServer,
+    generateCertificate,
+    showLogs,
+    downloadLog,
+    deleteLog,
+    clearAllLogs,
+    exportAllData,
+    showExportOptions,
+    exportConfig,
+    showImportData,
+    importAllData,
+    importConfig,
+    validateSsoConfigurations,
+    updateSsoRedirectUris
+}; 

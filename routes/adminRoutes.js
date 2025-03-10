@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
-const { isAuthenticated, isAdmin } = require('../middleware/authMiddleware');
+const { isAuthenticated, isAdmin, checkSsoConfiguration } = require('../middleware/authMiddleware');
 
 // Toutes les routes d'administration nécessitent d'être authentifié et d'avoir le rôle d'administrateur
 router.use(isAuthenticated, isAdmin);
+
+// Ajouter le middleware de vérification des configurations SSO
+router.use(checkSsoConfiguration);
 
 // Tableau de bord d'administration
 router.get('/', adminController.showAdminDashboard);
