@@ -133,6 +133,12 @@
                                     <span>Dernière mise à jour</span>
                                     <span><%= systemInfo.lastUpdateDate ? systemInfo.lastUpdateDate.toLocaleDateString('fr-FR') : new Date().toLocaleDateString('fr-FR') %></span>
                                 </li>
+                                <% if (systemInfo.updatedBy) { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Mise à jour par</span>
+                                    <span><%= systemInfo.updatedBy %></span>
+                                </li>
+                                <% } %>
                             </ul>
                         </div>
                         <div class="col-md-6">

@@ -473,30 +473,71 @@ const adminController = {
                 serverLogger.error(`Erreur lors de la lecture de la version depuis package.json: ${error.message}`);
             }
             
-            // Récupérer la date de la dernière mise à jour
-            let lastUpdateDate = new Date();
+            // Récupérer la date de dernière mise à jour depuis update_info.json si disponible
+            let lastUpdateDate = null;
+            let updatedBy = null;
             try {
-                // Essayer de récupérer la date du dernier commit
-                exec('git log -1 --format=%cd', (error, stdout, stderr) => {
-                    if (!error && stdout) {
-                        lastUpdateDate = new Date(stdout);
+                const updateInfoPath = path.join(__dirname, '../data/update_info.json');
+                if (fs.existsSync(updateInfoPath)) {
+                    const updateInfo = JSON.parse(fs.readFileSync(updateInfoPath, 'utf8'));
+                    if (updateInfo.lastUpdate) {
+                        lastUpdateDate = new Date(updateInfo.lastUpdate);
+                        updatedBy = updateInfo.updatedBy;
+                        serverLogger.info(`Date de dernière mise à jour récupérée depuis update_info.json: ${lastUpdateDate}`);
                     }
-                });
+                }
             } catch (error) {
-                serverLogger.error(`Erreur lors de la récupération de la date de dernière mise à jour: ${error.message}`);
+                serverLogger.error(`Erreur lors de la lecture de update_info.json: ${error.message}`);
             }
             
-            res.render('admin/dashboard', {
-                title: 'Administration',
-                user: req.session.user,
-                systemInfo: {
-                    port: port,
-                    ssl: sslStatus,
-                    environment: process.env.NODE_ENV || 'Production',
-                    version: version,
-                    lastUpdateDate: lastUpdateDate
+            // Si la date n'est pas disponible dans update_info.json, essayer de la récupérer depuis git
+            if (!lastUpdateDate) {
+                // Exécuter la commande git pour obtenir la date du dernier commit
+                exec('git log -1 --format=%cd', (error, stdout, stderr) => {
+                    if (error) {
+                        serverLogger.error(`Erreur lors de la récupération de la date du dernier commit: ${error.message}`);
+                    } else {
+                        try {
+                            if (stdout.trim()) {
+                                lastUpdateDate = new Date(stdout);
+                                serverLogger.info(`Date du dernier commit récupérée: ${lastUpdateDate}`);
+                            }
+                        } catch (parseError) {
+                            serverLogger.error(`Erreur lors du parsing de la date du dernier commit: ${parseError.message}`);
+                        }
+                    }
+                    
+                    // Rendre la vue avec les informations récupérées
+                    renderDashboard();
+                });
+            } else {
+                // Si la date est déjà disponible, rendre directement la vue
+                renderDashboard();
+            }
+            
+            // Fonction pour rendre la vue du tableau de bord
+            const renderDashboard = () => {
+                res.render('admin/dashboard', {
+                    title: 'Administration',
+                    user: req.session.user,
+                    systemInfo: {
+                        port: port,
+                        ssl: sslStatus,
+                        environment: process.env.NODE_ENV || 'Production',
+                        version: version,
+                        lastUpdateDate: lastUpdateDate || new Date(),
+                        updatedBy: updatedBy
+                    }
+                });
+            };
+            
+            // Si la commande git échoue ou prend trop de temps, on rend quand même la vue après un délai
+            setTimeout(() => {
+                if (!res.headersSent) {
+                    renderDashboard();
                 }
-            });
+            }, 500);
+            
         } catch (error) {
             serverLogger.error(`Erreur lors de l'affichage du tableau de bord d'administration: ${error.message}`);
             req.session.error = 'Erreur lors de l\'affichage du tableau de bord d\'administration';
@@ -2198,6 +2239,17 @@ const adminController = {
                             fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
                             
                             serverLogger.info(`Version mise à jour: ${packageJson.version}`);
+                            
+                            // Enregistrer la date de mise à jour
+                            const updateInfoPath = path.join(__dirname, '../data/update_info.json');
+                            const updateInfo = {
+                                lastUpdate: new Date().toISOString(),
+                                version: packageJson.version,
+                                updatedBy: req.session.user.username
+                            };
+                            
+                            fs.writeFileSync(updateInfoPath, JSON.stringify(updateInfo, null, 2));
+                            serverLogger.info(`Informations de mise à jour enregistrées: ${JSON.stringify(updateInfo)}`);
                         }
                     } catch (error) {
                         serverLogger.error(`Erreur lors de la mise à jour de la version: ${error.message}`);
@@ -2214,17 +2266,30 @@ const adminController = {
                                 gitOutput: stdout
                             };
                         } else {
+                            // Récupérer la version mise à jour
+                            let updatedVersion = '1.0.0';
+                            try {
+                                const packageJsonPath = path.join(__dirname, '../package.json');
+                                if (fs.existsSync(packageJsonPath)) {
+                                    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+                                    updatedVersion = packageJson.version;
+                                }
+                            } catch (error) {
+                                serverLogger.error(`Erreur lors de la lecture de la version mise à jour: ${error.message}`);
+                            }
+                            
                             req.session.updateStatus = {
                                 success: true,
                                 updated: true,
-                                message: 'Mise à jour appliquée avec succès',
+                                message: `Mise à jour appliquée avec succès (version ${updatedVersion})`,
                                 details: stdout,
                                 npmOutput: npmStdout,
-                                backupDir: backupDir
+                                backupDir: backupDir,
+                                version: updatedVersion
                             };
                             
                             // Journaliser la mise à jour réussie
-                            serverLogger.info(`Mise à jour appliquée avec succès par ${req.session.user.username}`);
+                            serverLogger.info(`Mise à jour appliquée avec succès par ${req.session.user.username} (version ${updatedVersion})`);
                             
                             // Redémarrer le serveur après un court délai
                             setTimeout(() => {
